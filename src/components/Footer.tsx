@@ -1,0 +1,130 @@
+import React from 'react';
+import { NavTab } from '../types';
+import { GraduationCap, Mail, Phone, MapPin, ArrowRight, ShieldCheck } from 'lucide-react';
+
+interface FooterProps {
+  setActiveTab: (tab: NavTab) => void;
+  onOpenQuickApply: () => void;
+}
+
+export const Footer: React.FC<FooterProps> = ({ setActiveTab, onOpenQuickApply }) => {
+  return (
+    <footer className="bg-[#4A000E] text-white border-t border-white/10">
+      
+      {/* Upper Newsletter & Action Bar */}
+      <div className="bg-[#38000A] py-10 px-4 sm:px-8 border-b border-white/10">
+        <div className="max-w-7xl mx-auto flex flex-col md:flex-row items-center justify-between gap-6">
+          <div className="space-y-1 text-center md:text-left">
+            <h3 className="text-xl sm:text-2xl font-bold font-serif text-white">
+              Stay Updated on Fall 2026 Deadlines
+            </h3>
+            <p className="text-xs text-red-100/80">
+              Subscribe to receive instant scholarship alerts, open house dates, and admissions webinars.
+            </p>
+          </div>
+
+          <div className="flex w-full md:w-auto max-w-md gap-2">
+            <input
+              type="email"
+              placeholder="Enter your student email..."
+              className="w-full bg-white/10 border border-white/20 rounded-xl px-4 py-2.5 text-xs text-white placeholder-red-200/60 focus:outline-none focus:ring-2 focus:ring-amber-300"
+            />
+            <button className="px-5 py-2.5 bg-white text-[#7A0016] hover:bg-red-50 font-bold text-xs rounded-xl shrink-0 transition-colors cursor-pointer">
+              Subscribe
+            </button>
+          </div>
+        </div>
+      </div>
+
+      {/* Main Footer Directory */}
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12 grid grid-cols-1 md:grid-cols-12 gap-8">
+        
+        {/* Brand & Mission */}
+        <div className="md:col-span-4 space-y-4">
+          <div className="flex items-center gap-3">
+            <div className="w-10 h-10 rounded-xl bg-white p-0.5 shadow-md flex items-center justify-center">
+              <GraduationCap className="w-6 h-6 text-[#7A0016]" />
+            </div>
+            <div>
+              <span className="text-xl font-black font-serif tracking-tight text-white">
+                IRPS
+              </span>
+            </div>
+          </div>
+
+          <p className="text-xs text-red-100/80 leading-relaxed">
+            The premier university admissions portal providing direct access to world-class degree programs, merit scholarship grants, and real-time application processing.
+          </p>
+
+          <div className="flex items-center gap-2 text-xs text-amber-200 font-semibold">
+            <ShieldCheck className="w-4 h-4 text-amber-300" />
+            <span>100% Accredited Partner Universities</span>
+          </div>
+        </div>
+
+        {/* Navigation Links */}
+        <div className="md:col-span-2 space-y-3">
+          <h4 className="text-xs font-bold text-amber-200 uppercase tracking-widest">Navigation</h4>
+          <ul className="space-y-2 text-xs text-red-100/80">
+            {['home', 'universities', 'programs', 'admissions', 'about', 'contact'].map((tab) => (
+              <li key={tab}>
+                <button
+                  onClick={() => {
+                    setActiveTab(tab as NavTab);
+                    window.scrollTo({ top: 0, behavior: 'smooth' });
+                  }}
+                  className="hover:text-white capitalize transition-colors cursor-pointer"
+                >
+                  {tab === 'admissions' ? 'Admissions Portal' : tab === 'about' ? 'About Us' : tab === 'contact' ? 'Contact Us' : tab}
+                </button>
+              </li>
+            ))}
+          </ul>
+        </div>
+
+        {/* Campuses */}
+        <div className="md:col-span-3 space-y-3">
+          <h4 className="text-xs font-bold text-amber-200 uppercase tracking-widest">Featured Campuses</h4>
+          <ul className="space-y-2 text-xs text-red-100/80">
+            <li>Heritage State University</li>
+            <li>Veritas Institute of Technology</li>
+            <li>St. Jude College of Health Sciences</li>
+            <li>Global Business & Economics Academy</li>
+            <li>Veritas School of Law & Public Policy</li>
+          </ul>
+        </div>
+
+        {/* Direct Contact */}
+        <div className="md:col-span-3 space-y-3 text-xs text-red-100/80">
+          <h4 className="text-xs font-bold text-amber-200 uppercase tracking-widest">Admissions Contact</h4>
+          <p className="flex items-center gap-2">
+            <MapPin className="w-4 h-4 text-red-300 shrink-0" />
+            <span>100 University Blvd, Cambridge, MA</span>
+          </p>
+          <p className="flex items-center gap-2">
+            <Phone className="w-4 h-4 text-red-300 shrink-0" />
+            <span>+1 (800) 555-UNIV</span>
+          </p>
+          <p className="flex items-center gap-2">
+            <Mail className="w-4 h-4 text-red-300 shrink-0" />
+            <span>admissions@veritasportal.edu</span>
+          </p>
+
+          <button
+            onClick={onOpenQuickApply}
+            className="mt-2 w-full py-2.5 bg-white text-[#7A0016] font-bold text-xs rounded-xl hover:bg-red-50 shadow-md transition-colors"
+          >
+            Start Application Online
+          </button>
+        </div>
+
+      </div>
+
+      {/* Bottom Copyright */}
+      <div className="border-t border-white/10 py-4 px-4 text-center text-[11px] text-red-200/60">
+        © 2026 Veritas University Network. All rights reserved. Designed with maroon & white visual consistency for academic excellence.
+      </div>
+
+    </footer>
+  );
+};

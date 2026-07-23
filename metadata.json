@@ -1,0 +1,6 @@
+{
+  "name": "Excellence University - Admissions Portal",
+  "description": "Maroon and white university admissions portal for exploring campus, degree programs, tuition & aid, and submitting online applications.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}
