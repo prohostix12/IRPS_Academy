@@ -1,3 +1,5 @@
+"use client";
+
 import React, { useState } from 'react';
 import { HERO_CAMPUS_IMAGE } from '../data/universityData';
 import { NavTab } from '../types';
@@ -34,7 +36,7 @@ export const Hero: React.FC<HeroProps> = ({ setActiveTab, onSearchSubmit, onOpen
   };
 
   return (
-    <div className="relative min-h-[92vh] flex flex-col justify-between bg-[#4A000E] text-white overflow-hidden">
+    <div className="relative min-h-[92vh] flex flex-col justify-between bg-[#001b48] text-white overflow-hidden">
       
       {/* High-Quality Campus Background Image with referrerPolicy */}
       <div className="absolute inset-0 z-0">
@@ -45,10 +47,10 @@ export const Hero: React.FC<HeroProps> = ({ setActiveTab, onSearchSubmit, onOpen
           className="w-full h-full object-cover object-center transform scale-105 transition-transform duration-10000 ease-out"
         />
         
-        {/* Rich Maroon Gradient Overlay Layers */}
-        <div className="absolute inset-0 bg-gradient-to-r from-[#4A000E]/95 via-[#7A0016]/85 to-black/75" />
-        <div className="absolute inset-0 bg-gradient-to-t from-[#4A000E] via-transparent to-black/50" />
-        <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_top_left,rgba(122,0,22,0.6)_0%,transparent_70%)]" />
+        {/* Rich Blue Gradient Overlay Layers */}
+        <div className="absolute inset-0 bg-gradient-to-r from-[#001b48]/95 via-[#00296b]/85 to-black/75" />
+        <div className="absolute inset-0 bg-gradient-to-t from-[#001b48] via-transparent to-black/50" />
+        <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_top_left,rgba(0,41,107,0.6)_0%,transparent_70%)]" />
       </div>
 
       {/* Decorative Subtle Geometric Grid Pattern Overlay */}
@@ -65,39 +67,39 @@ export const Hero: React.FC<HeroProps> = ({ setActiveTab, onSearchSubmit, onOpen
         
         <div className="max-w-3xl space-y-6">
           
-          {/* Eyebrow Badge in Maroon & Gold Accent */}
-          <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-white/10 backdrop-blur-md border border-white/20 text-xs sm:text-sm font-medium text-red-100 shadow-lg animate-fadeIn">
-            <span className="w-2 h-2 rounded-full bg-red-400 animate-pulse" />
-            <Sparkles className="w-4 h-4 text-amber-300" />
+          {/* Eyebrow Badge in Blue & Gold Accent */}
+          <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-white/10 backdrop-blur-md border border-white/20 text-xs sm:text-sm font-medium text-blue-100 shadow-lg animate-fadeIn">
+            <span className="w-2 h-2 rounded-full bg-[#e8c47a] animate-pulse" />
+            <Sparkles className="w-4 h-4 text-[#e8c47a]" />
             <span>Fall 2026 Admissions Now Open Across Premier Universities</span>
           </div>
 
           {/* Main Headline */}
           <h1 className="text-4xl sm:text-6xl lg:text-7xl font-black font-serif tracking-tight leading-[1.08] text-white drop-shadow-md">
-            Begin Your <span className="text-transparent bg-clip-text bg-gradient-to-r from-amber-200 via-red-100 to-white">Academic Legacy</span>
+            Begin Your <span className="text-transparent bg-clip-text bg-gradient-to-r from-[#e8c47a] via-amber-100 to-white">Academic Legacy</span>
           </h1>
 
           {/* Subtitle */}
-          <p className="text-base sm:text-xl text-red-100/90 font-normal leading-relaxed max-w-2xl">
+          <p className="text-base sm:text-xl text-blue-100/90 font-normal leading-relaxed max-w-2xl">
             Explore world-renowned university campuses, discover accredited degree programs, calculate scholarship grants, and submit your official application through our unified admissions portal.
           </p>
 
           {/* Call to Action Buttons */}
           <div className="pt-2 flex flex-wrap items-center gap-4">
-            <button
+            {/* <button
               onClick={onOpenQuickApply}
-              className="px-7 py-4 rounded-xl text-base font-bold text-[#7A0016] bg-white hover:bg-red-50 shadow-2xl hover:shadow-white/20 hover:-translate-y-0.5 transition-all flex items-center gap-3 cursor-pointer group"
+              className="px-7 py-4 rounded-xl text-base font-bold text-[#00296b] bg-white hover:bg-blue-50/50 shadow-2xl hover:shadow-white/20 hover:-translate-y-0.5 transition-all flex items-center gap-3 cursor-pointer group"
             >
-              <GraduationCap className="w-5 h-5 text-[#7A0016]" />
+              <GraduationCap className="w-5 h-5 text-[#00296b]" />
               <span>Apply Through Admissions Portal</span>
-              <ArrowRight className="w-5 h-5 text-[#7A0016] group-hover:translate-x-1 transition-transform" />
-            </button>
+              <ArrowRight className="w-5 h-5 text-[#00296b] group-hover:translate-x-1 transition-transform" />
+            </button> */}
 
             <button
               onClick={() => setActiveTab('universities')}
               className="px-6 py-4 rounded-xl text-base font-semibold text-white bg-white/10 backdrop-blur-md hover:bg-white/20 border border-white/25 shadow-lg transition-all flex items-center gap-2 cursor-pointer"
             >
-              <Compass className="w-5 h-5 text-red-200" />
+              <Compass className="w-5 h-5 text-[#e8c47a]" />
               <span>Explore Campuses</span>
             </button>
           </div>
@@ -108,11 +110,11 @@ export const Hero: React.FC<HeroProps> = ({ setActiveTab, onSearchSubmit, onOpen
         <div className="mt-12 w-full max-w-5xl bg-white/95 backdrop-blur-xl rounded-2xl p-4 sm:p-6 shadow-2xl border border-white/20 text-neutral-900">
           
           <div className="flex items-center gap-2 mb-4 pb-3 border-b border-neutral-200/80">
-            <Search className="w-5 h-5 text-[#7A0016]" />
-            <h2 className="text-base font-bold text-[#7A0016] uppercase tracking-wider font-serif">
+            <Search className="w-5 h-5 text-[#00296b]" />
+            <h2 className="text-base font-bold text-[#00296b] uppercase tracking-wider font-serif">
               Quick University & Program Finder
             </h2>
-            <span className="text-xs bg-[#7A0016]/10 text-[#7A0016] px-2 py-0.5 rounded-full font-semibold ml-auto">
+            <span className="text-xs bg-[#00296b]/10 text-[#00296b] px-2 py-0.5 rounded-full font-semibold ml-auto">
               Real-time Directory
             </span>
           </div>
@@ -128,12 +130,15 @@ export const Hero: React.FC<HeroProps> = ({ setActiveTab, onSearchSubmit, onOpen
                 <select
                   value={degreeLevel}
                   onChange={(e) => setDegreeLevel(e.target.value)}
-                  className="w-full bg-neutral-50 border border-neutral-300 rounded-xl px-3.5 py-3 text-sm font-medium text-neutral-800 focus:ring-2 focus:ring-[#7A0016] focus:border-[#7A0016] outline-none transition-all appearance-none cursor-pointer"
+                  className="w-full bg-neutral-50 border border-neutral-300 rounded-xl px-3.5 py-3 text-sm font-medium text-neutral-800 focus:ring-2 focus:ring-[#00296b] focus:border-[#00296b] outline-none transition-all appearance-none cursor-pointer"
                 >
-                  <option value="All">All Degrees</option>
-                  <option value="Undergraduate">Undergraduate (B.S. / B.A.)</option>
-                  <option value="Postgraduate">Postgraduate (M.S. / MBA)</option>
-                  <option value="Doctorate">Doctorate (Ph.D. / M.D. / J.D.)</option>
+                  <option value="All">All Doctoral Degrees</option>
+                  <option value="PhD">PhD</option>
+                  <option value="EdD">EdD</option>
+                  <option value="DBA">DBA</option>
+                  <option value="EngD">EngD</option>
+                  <option value="DSc / ScD">DSc / ScD</option>
+                  <option value="DPhil">DPhil</option>
                 </select>
                 <div className="absolute right-3 top-3.5 pointer-events-none text-neutral-400 text-xs">▼</div>
               </div>
@@ -148,7 +153,7 @@ export const Hero: React.FC<HeroProps> = ({ setActiveTab, onSearchSubmit, onOpen
                 <select
                   value={fieldCategory}
                   onChange={(e) => setFieldCategory(e.target.value)}
-                  className="w-full bg-neutral-50 border border-neutral-300 rounded-xl px-3.5 py-3 text-sm font-medium text-neutral-800 focus:ring-2 focus:ring-[#7A0016] focus:border-[#7A0016] outline-none transition-all appearance-none cursor-pointer"
+                  className="w-full bg-neutral-50 border border-neutral-300 rounded-xl px-3.5 py-3 text-sm font-medium text-neutral-800 focus:ring-2 focus:ring-[#00296b] focus:border-[#00296b] outline-none transition-all appearance-none cursor-pointer"
                 >
                   <option value="All">All Fields & Faculties</option>
                   <option value="Engineering & Tech">Engineering & Computer Science</option>
@@ -171,7 +176,7 @@ export const Hero: React.FC<HeroProps> = ({ setActiveTab, onSearchSubmit, onOpen
                 placeholder="e.g. AI, Heritage, Law..."
                 value={searchQuery}
                 onChange={(e) => setSearchQuery(e.target.value)}
-                className="w-full bg-neutral-50 border border-neutral-300 rounded-xl px-3.5 py-3 text-sm font-medium text-neutral-800 focus:ring-2 focus:ring-[#7A0016] focus:border-[#7A0016] outline-none transition-all"
+                className="w-full bg-neutral-50 border border-neutral-300 rounded-xl px-3.5 py-3 text-sm font-medium text-neutral-800 focus:ring-2 focus:ring-[#00296b] focus:border-[#00296b] outline-none transition-all"
               />
             </div>
 
@@ -179,7 +184,7 @@ export const Hero: React.FC<HeroProps> = ({ setActiveTab, onSearchSubmit, onOpen
             <div className="md:col-span-2">
               <button
                 type="submit"
-                className="w-full py-3 px-4 bg-[#7A0016] hover:bg-[#600010] text-white font-bold text-sm rounded-xl shadow-md transition-all flex items-center justify-center gap-2 cursor-pointer"
+                className="w-full py-3 px-4 bg-[#00296b] hover:bg-[#002054] text-white font-bold text-sm rounded-xl shadow-md transition-all flex items-center justify-center gap-2 cursor-pointer"
               >
                 <Search className="w-4 h-4 text-white" />
                 <span>Find</span>
@@ -191,7 +196,7 @@ export const Hero: React.FC<HeroProps> = ({ setActiveTab, onSearchSubmit, onOpen
           {/* Quick Tags underneath */}
           <div className="mt-3.5 pt-2 flex flex-wrap items-center gap-2 text-xs text-neutral-600">
             <span className="font-semibold text-neutral-700">Popular Searches:</span>
-            {['Computer Science', 'Executive MBA', 'Doctor of Medicine', 'Law J.D.', 'FinTech'].map((tag) => (
+            {['Ph.D. Computer Science', 'DBA Global Strategy', 'DSc Artificial Intelligence', 'DPhil Law', 'EngD Bioengineering'].map((tag) => (
               <button
                 key={tag}
                 type="button"
@@ -200,7 +205,7 @@ export const Hero: React.FC<HeroProps> = ({ setActiveTab, onSearchSubmit, onOpen
                   onSearchSubmit('All', 'All', tag);
                   setActiveTab('programs');
                 }}
-                className="px-2.5 py-1 rounded-md bg-neutral-100 hover:bg-[#7A0016]/10 hover:text-[#7A0016] transition-colors border border-neutral-200/60 font-medium"
+                className="px-2.5 py-1 rounded-md bg-neutral-100 hover:bg-[#00296b]/10 hover:text-[#00296b] transition-colors border border-neutral-200/60 font-medium"
               >
                 {tag}
               </button>
@@ -211,40 +216,40 @@ export const Hero: React.FC<HeroProps> = ({ setActiveTab, onSearchSubmit, onOpen
 
       </div>
 
-      {/* Hero Statistics Strip in Deep Maroon Footer */}
-      <div className="relative z-10 bg-[#38000A]/90 backdrop-blur-md border-t border-white/10 py-6 px-4 sm:px-8">
+      {/* Hero Statistics Strip in Deep Blue Footer */}
+      <div className="relative z-10 bg-[#001233]/90 backdrop-blur-md border-t border-white/10 py-6 px-4 sm:px-8">
         <div className="max-w-7xl mx-auto grid grid-cols-2 md:grid-cols-4 gap-6 text-center">
           
           <div className="space-y-1">
-            <div className="text-2xl sm:text-3xl font-black text-amber-200 font-serif flex items-center justify-center gap-1.5">
-              <Building2 className="w-5 h-5 text-red-300" />
+            <div className="text-2xl sm:text-3xl font-black text-[#e8c47a] font-serif flex items-center justify-center gap-1.5">
+              <Building2 className="w-5 h-5 text-[#e8c47a]/80" />
               <span>150+</span>
             </div>
-            <p className="text-xs text-red-100/80 font-medium uppercase tracking-wider">Partner Universities</p>
+            <p className="text-xs text-blue-100/80 font-medium uppercase tracking-wider">Partner Universities</p>
           </div>
 
           <div className="space-y-1 border-l border-white/10">
             <div className="text-2xl sm:text-3xl font-black text-white font-serif flex items-center justify-center gap-1.5">
-              <BookOpen className="w-5 h-5 text-red-300" />
+              <BookOpen className="w-5 h-5 text-[#e8c47a]/80" />
               <span>1,200+</span>
             </div>
-            <p className="text-xs text-red-100/80 font-medium uppercase tracking-wider">Accredited Programs</p>
+            <p className="text-xs text-blue-100/80 font-medium uppercase tracking-wider">Accredited Programs</p>
           </div>
 
           <div className="space-y-1 border-l border-white/10">
-            <div className="text-2xl sm:text-3xl font-black text-amber-200 font-serif flex items-center justify-center gap-1.5">
-              <Award className="w-5 h-5 text-red-300" />
-              <span>$45M+</span>
+            <div className="text-2xl sm:text-3xl font-black text-[#e8c47a] font-serif flex items-center justify-center gap-1.5">
+              <Award className="w-5 h-5 text-[#e8c47a]/80" />
+              <span>$45+</span>
             </div>
-            <p className="text-xs text-red-100/80 font-medium uppercase tracking-wider">Scholarships Awarded</p>
+            <p className="text-xs text-blue-100/80 font-medium uppercase tracking-wider">Scholarships Awarded</p>
           </div>
 
           <div className="space-y-1 border-l border-white/10">
             <div className="text-2xl sm:text-3xl font-black text-white font-serif flex items-center justify-center gap-1.5">
-              <ShieldCheck className="w-5 h-5 text-red-300" />
+              <ShieldCheck className="w-5 h-5 text-[#e8c47a]/80" />
               <span>98.4%</span>
             </div>
-            <p className="text-xs text-red-100/80 font-medium uppercase tracking-wider">Placement Success Rate</p>
+            <p className="text-xs text-blue-100/80 font-medium uppercase tracking-wider">Placement Success Rate</p>
           </div>
 
         </div>

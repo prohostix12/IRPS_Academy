@@ -1,6 +1,7 @@
 import React from 'react';
 import { NavTab } from '../types';
 import { GraduationCap, Mail, Phone, MapPin, ArrowRight, ShieldCheck } from 'lucide-react';
+import { Logo } from './Logo';
 
 interface FooterProps {
   setActiveTab: (tab: NavTab) => void;
@@ -9,16 +10,16 @@ interface FooterProps {
 
 export const Footer: React.FC<FooterProps> = ({ setActiveTab, onOpenQuickApply }) => {
   return (
-    <footer className="bg-[#4A000E] text-white border-t border-white/10">
+    <footer className="bg-[#001b48] text-white border-t border-white/10">
       
       {/* Upper Newsletter & Action Bar */}
-      <div className="bg-[#38000A] py-10 px-4 sm:px-8 border-b border-white/10">
+      <div className="bg-[#001233] py-10 px-4 sm:px-8 border-b border-white/10">
         <div className="max-w-7xl mx-auto flex flex-col md:flex-row items-center justify-between gap-6">
           <div className="space-y-1 text-center md:text-left">
             <h3 className="text-xl sm:text-2xl font-bold font-serif text-white">
               Stay Updated on Fall 2026 Deadlines
             </h3>
-            <p className="text-xs text-red-100/80">
+            <p className="text-xs text-blue-100/80">
               Subscribe to receive instant scholarship alerts, open house dates, and admissions webinars.
             </p>
           </div>
@@ -27,9 +28,9 @@ export const Footer: React.FC<FooterProps> = ({ setActiveTab, onOpenQuickApply }
             <input
               type="email"
               placeholder="Enter your student email..."
-              className="w-full bg-white/10 border border-white/20 rounded-xl px-4 py-2.5 text-xs text-white placeholder-red-200/60 focus:outline-none focus:ring-2 focus:ring-amber-300"
+              className="w-full bg-white/10 border border-white/20 rounded-xl px-4 py-2.5 text-xs text-white placeholder-blue-200/60 focus:outline-none focus:ring-2 focus:ring-[#e8c47a]"
             />
-            <button className="px-5 py-2.5 bg-white text-[#7A0016] hover:bg-red-50 font-bold text-xs rounded-xl shrink-0 transition-colors cursor-pointer">
+            <button className="px-5 py-2.5 bg-white text-[#00296b] hover:bg-slate-100 font-bold text-xs rounded-xl shrink-0 transition-colors cursor-pointer">
               Subscribe
             </button>
           </div>
@@ -42,31 +43,24 @@ export const Footer: React.FC<FooterProps> = ({ setActiveTab, onOpenQuickApply }
         {/* Brand & Mission */}
         <div className="md:col-span-4 space-y-4">
           <div className="flex items-center gap-3">
-            <div className="w-10 h-10 rounded-xl bg-white p-0.5 shadow-md flex items-center justify-center">
-              <GraduationCap className="w-6 h-6 text-[#7A0016]" />
-            </div>
-            <div>
-              <span className="text-xl font-black font-serif tracking-tight text-white">
-                IRPS
-              </span>
-            </div>
+            <Logo variant="full" theme="dark" className="h-10 sm:h-12 w-auto" />
           </div>
 
-          <p className="text-xs text-red-100/80 leading-relaxed">
+          <p className="text-xs text-blue-100/80 leading-relaxed">
             The premier university admissions portal providing direct access to world-class degree programs, merit scholarship grants, and real-time application processing.
           </p>
 
-          <div className="flex items-center gap-2 text-xs text-amber-200 font-semibold">
-            <ShieldCheck className="w-4 h-4 text-amber-300" />
+          <div className="flex items-center gap-2 text-xs text-[#e8c47a] font-semibold">
+            <ShieldCheck className="w-4 h-4 text-[#e8c47a]" />
             <span>100% Accredited Partner Universities</span>
           </div>
         </div>
 
         {/* Navigation Links */}
         <div className="md:col-span-2 space-y-3">
-          <h4 className="text-xs font-bold text-amber-200 uppercase tracking-widest">Navigation</h4>
-          <ul className="space-y-2 text-xs text-red-100/80">
-            {['home', 'universities', 'programs', 'admissions', 'about', 'contact'].map((tab) => (
+          <h4 className="text-xs font-bold text-[#e8c47a] uppercase tracking-widest">Navigation</h4>
+          <ul className="space-y-2 text-xs text-blue-100/80">
+            {['home', 'universities', 'programs', 'admissions', 'about', 'contact'].filter((tab) => tab !== 'admissions').map((tab) => (
               <li key={tab}>
                 <button
                   onClick={() => {
@@ -84,8 +78,8 @@ export const Footer: React.FC<FooterProps> = ({ setActiveTab, onOpenQuickApply }
 
         {/* Campuses */}
         <div className="md:col-span-3 space-y-3">
-          <h4 className="text-xs font-bold text-amber-200 uppercase tracking-widest">Featured Campuses</h4>
-          <ul className="space-y-2 text-xs text-red-100/80">
+          <h4 className="text-xs font-bold text-[#e8c47a] uppercase tracking-widest">Featured Campuses</h4>
+          <ul className="space-y-2 text-xs text-blue-100/80">
             <li>Heritage State University</li>
             <li>Veritas Institute of Technology</li>
             <li>St. Jude College of Health Sciences</li>
@@ -95,24 +89,24 @@ export const Footer: React.FC<FooterProps> = ({ setActiveTab, onOpenQuickApply }
         </div>
 
         {/* Direct Contact */}
-        <div className="md:col-span-3 space-y-3 text-xs text-red-100/80">
-          <h4 className="text-xs font-bold text-amber-200 uppercase tracking-widest">Admissions Contact</h4>
+        <div className="md:col-span-3 space-y-3 text-xs text-blue-100/80">
+          <h4 className="text-xs font-bold text-[#e8c47a] uppercase tracking-widest">Admissions Contact</h4>
           <p className="flex items-center gap-2">
-            <MapPin className="w-4 h-4 text-red-300 shrink-0" />
+            <MapPin className="w-4 h-4 text-[#e8c47a]/80 shrink-0" />
             <span>100 University Blvd, Cambridge, MA</span>
           </p>
           <p className="flex items-center gap-2">
-            <Phone className="w-4 h-4 text-red-300 shrink-0" />
+            <Phone className="w-4 h-4 text-[#e8c47a]/80 shrink-0" />
             <span>+1 (800) 555-UNIV</span>
           </p>
           <p className="flex items-center gap-2">
-            <Mail className="w-4 h-4 text-red-300 shrink-0" />
+            <Mail className="w-4 h-4 text-[#e8c47a]/80 shrink-0" />
             <span>admissions@veritasportal.edu</span>
           </p>
 
           <button
             onClick={onOpenQuickApply}
-            className="mt-2 w-full py-2.5 bg-white text-[#7A0016] font-bold text-xs rounded-xl hover:bg-red-50 shadow-md transition-colors"
+            className="mt-2 w-full py-2.5 bg-white text-[#00296b] font-bold text-xs rounded-xl hover:bg-slate-100 shadow-md transition-colors"
           >
             Start Application Online
           </button>
@@ -121,8 +115,11 @@ export const Footer: React.FC<FooterProps> = ({ setActiveTab, onOpenQuickApply }
       </div>
 
       {/* Bottom Copyright */}
-      <div className="border-t border-white/10 py-4 px-4 text-center text-[11px] text-red-200/60">
-        © 2026 Veritas University Network. All rights reserved. Designed with maroon & white visual consistency for academic excellence.
+      <div className="border-t border-white/10 py-4 px-4 text-center text-[11px] text-blue-200/60">
+        <div className="max-w-7xl mx-auto flex flex-col sm:flex-row justify-between items-center gap-2">
+          <span>© 2026 Veritas University Network. All rights reserved. Designed with deep royal blue & sand gold visual consistency for academic excellence.</span>
+          <a href="/admin" className="text-[#e8c47a] hover:underline font-bold transition-all shrink-0">Admin Portal</a>
+        </div>
       </div>
 
     </footer>

@@ -1,5 +1,7 @@
+"use client";
+
 import React, { useState } from 'react';
-import { PROGRAMS } from '../data/universityData';
+import { useData } from '../context/DataContext';
 import { Program, NavTab } from '../types';
 import { 
   BookOpen, 
@@ -28,6 +30,7 @@ export const ProgramsSection: React.FC<ProgramsSectionProps> = ({
   selectedUniversityFilter = '',
   onApplyToProgram
 }) => {
+  const { programs: PROGRAMS, loading } = useData();
   const [degreeFilter, setDegreeFilter] = useState<string>('All');
   const [categoryFilter, setCategoryFilter] = useState<string>('All');
   const [uniFilter, setUniFilter] = useState<string>(selectedUniversityFilter || 'All');
@@ -52,7 +55,18 @@ export const ProgramsSection: React.FC<ProgramsSectionProps> = ({
     }
   };
 
-  const filteredPrograms = PROGRAMS.filter((prog) => {
+  if (loading) {
+    return (
+      <div className="py-16 bg-[#f4f7fa] min-h-screen flex items-center justify-center">
+        <div className="space-y-4 text-center">
+          <div className="w-12 h-12 border-4 border-[#00296b] border-t-transparent rounded-full animate-spin mx-auto"></div>
+          <p className="text-sm font-semibold text-neutral-600 font-sans">Loading degree programs...</p>
+        </div>
+      </div>
+    );
+  }
+
+  const filteredPrograms = (PROGRAMS || []).filter((prog) => {
     const matchesDegree = degreeFilter === 'All' || prog.degreeLevel === degreeFilter;
     const matchesCategory = categoryFilter === 'All' || prog.category === categoryFilter;
     const matchesUni = uniFilter === 'All' || prog.universityName.toLowerCase().includes(uniFilter.toLowerCase());
@@ -65,25 +79,25 @@ export const ProgramsSection: React.FC<ProgramsSectionProps> = ({
   });
 
   return (
-    <div className="py-16 bg-[#FAF6F6] min-h-screen">
+    <div className="py-16 bg-[#f4f7fa] min-h-screen">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         
         {/* Section Header */}
         <div className="text-center max-w-3xl mx-auto mb-10">
-          <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-[#7A0016]/10 text-[#7A0016] text-xs font-bold uppercase tracking-wider mb-3">
-            <BookOpen className="w-3.5 h-3.5 text-[#7A0016]" />
+          <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-[#00296b]/10 text-[#00296b] text-xs font-bold uppercase tracking-wider mb-3">
+            <BookOpen className="w-3.5 h-3.5 text-[#00296b]" />
             <span>Academic Degree Catalog</span>
           </div>
-          <h2 className="text-3xl sm:text-5xl font-black font-serif text-[#4A000E] tracking-tight">
+          <h2 className="text-3xl sm:text-5xl font-black font-serif text-[#001b48] tracking-tight">
             Explore Degree Programs
           </h2>
           <p className="mt-4 text-base sm:text-lg text-neutral-600 leading-relaxed">
-            Choose from accredited Bachelor's, Master's, Doctoral, and Executive degrees offered across top-ranked partner universities.
+            Choose from accredited Doctoral and PhD programs offered across top-ranked partner universities.
           </p>
         </div>
 
         {/* Filter Toolbar */}
-        <div className="bg-white rounded-2xl p-5 shadow-md border border-[#7A0016]/10 mb-8 space-y-4">
+        <div className="bg-white rounded-2xl p-5 shadow-md border border-[#00296b]/10 mb-8 space-y-4">
           
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3">
             
@@ -95,7 +109,7 @@ export const ProgramsSection: React.FC<ProgramsSectionProps> = ({
                 placeholder="e.g. Artificial Intelligence, Law, MBA..."
                 value={searchQuery}
                 onChange={(e) => setSearchQuery(e.target.value)}
-                className="w-full bg-neutral-50 border border-neutral-300 rounded-xl px-3.5 py-2.5 text-sm text-neutral-800 focus:ring-2 focus:ring-[#7A0016] focus:border-[#7A0016] outline-none"
+                className="w-full bg-neutral-50 border border-neutral-300 rounded-xl px-3.5 py-2.5 text-sm text-neutral-800 focus:ring-2 focus:ring-[#00296b] focus:border-[#00296b] outline-none"
               />
             </div>
 
@@ -105,12 +119,15 @@ export const ProgramsSection: React.FC<ProgramsSectionProps> = ({
               <select
                 value={degreeFilter}
                 onChange={(e) => setDegreeFilter(e.target.value)}
-                className="w-full bg-neutral-50 border border-neutral-300 rounded-xl px-3.5 py-2.5 text-sm text-neutral-800 focus:ring-2 focus:ring-[#7A0016] outline-none cursor-pointer"
+                className="w-full bg-neutral-50 border border-neutral-300 rounded-xl px-3.5 py-2.5 text-sm text-neutral-800 focus:ring-2 focus:ring-[#00296b] outline-none cursor-pointer"
               >
-                <option value="All">All Degrees</option>
-                <option value="Undergraduate">Undergraduate</option>
-                <option value="Postgraduate">Postgraduate</option>
-                <option value="Doctorate">Doctorate</option>
+                <option value="All">All Doctoral Degrees</option>
+                <option value="PhD">PhD</option>
+                <option value="EdD">EdD</option>
+                <option value="DBA">DBA</option>
+                <option value="EngD">EngD</option>
+                <option value="DSc / ScD">DSc / ScD</option>
+                <option value="DPhil">DPhil</option>
               </select>
             </div>
 
@@ -120,7 +137,7 @@ export const ProgramsSection: React.FC<ProgramsSectionProps> = ({
               <select
                 value={categoryFilter}
                 onChange={(e) => setCategoryFilter(e.target.value)}
-                className="w-full bg-neutral-50 border border-neutral-300 rounded-xl px-3.5 py-2.5 text-sm text-neutral-800 focus:ring-2 focus:ring-[#7A0016] outline-none cursor-pointer"
+                className="w-full bg-neutral-50 border border-neutral-300 rounded-xl px-3.5 py-2.5 text-sm text-neutral-800 focus:ring-2 focus:ring-[#00296b] outline-none cursor-pointer"
               >
                 <option value="All">All Disciplines</option>
                 <option value="Engineering & Tech">Engineering & Tech</option>
@@ -138,7 +155,7 @@ export const ProgramsSection: React.FC<ProgramsSectionProps> = ({
               <select
                 value={uniFilter}
                 onChange={(e) => setUniFilter(e.target.value)}
-                className="w-full bg-neutral-50 border border-neutral-300 rounded-xl px-3.5 py-2.5 text-sm text-neutral-800 focus:ring-2 focus:ring-[#7A0016] outline-none cursor-pointer"
+                className="w-full bg-neutral-50 border border-neutral-300 rounded-xl px-3.5 py-2.5 text-sm text-neutral-800 focus:ring-2 focus:ring-[#00296b] outline-none cursor-pointer"
               >
                 <option value="All">All Campuses</option>
                 <option value="Heritage State University">Heritage State University</option>
@@ -161,7 +178,7 @@ export const ProgramsSection: React.FC<ProgramsSectionProps> = ({
             {comparisonList.length > 0 && (
               <button
                 onClick={() => setShowComparisonModal(true)}
-                className="px-4 py-2 bg-[#7A0016] text-white font-bold rounded-xl shadow-md hover:bg-[#600010] transition-colors flex items-center gap-2 cursor-pointer"
+                className="px-4 py-2 bg-[#00296b] text-white font-bold rounded-xl shadow-md hover:bg-[#002054] transition-colors flex items-center gap-2 cursor-pointer"
               >
                 <Layers className="w-4 h-4 text-white" />
                 <span>Compare Selected Programs ({comparisonList.length}/3)</span>
@@ -185,7 +202,7 @@ export const ProgramsSection: React.FC<ProgramsSectionProps> = ({
                 {/* Header Badges */}
                 <div className="space-y-2">
                   <div className="flex items-center justify-between gap-2">
-                    <span className="text-xs font-bold text-[#7A0016] bg-[#7A0016]/10 px-2.5 py-1 rounded-md uppercase tracking-wider">
+                    <span className="text-xs font-bold text-[#00296b] bg-[#00296b]/10 px-2.5 py-1 rounded-md uppercase tracking-wider">
                       {prog.degreeLevel} • {prog.category}
                     </span>
 
@@ -194,20 +211,20 @@ export const ProgramsSection: React.FC<ProgramsSectionProps> = ({
                       onClick={() => toggleCompare(prog)}
                       className={`text-xs font-semibold px-2.5 py-1 rounded-md transition-colors border ${
                         isCompared 
-                          ? 'bg-[#7A0016] text-white border-[#7A0016]' 
-                          : 'bg-neutral-100 text-neutral-700 border-neutral-200 hover:border-[#7A0016]'
+                          ? 'bg-[#00296b] text-white border-[#00296b]' 
+                          : 'bg-neutral-100 text-neutral-700 border-neutral-200 hover:border-[#00296b]'
                       }`}
                     >
                       {isCompared ? '✓ Comparing' : '+ Compare'}
                     </button>
                   </div>
 
-                  <h3 className="text-xl font-bold font-serif text-[#4A000E] leading-snug">
+                  <h3 className="text-xl font-bold font-serif text-[#001b48] leading-snug">
                     {prog.title}
                   </h3>
 
                   <p className="text-xs font-bold text-neutral-600 flex items-center gap-1">
-                    <GraduationCap className="w-4 h-4 text-[#7A0016]" />
+                    <GraduationCap className="w-4 h-4 text-[#00296b]" />
                     <span>{prog.universityName}</span>
                   </p>
                 </div>
@@ -218,14 +235,14 @@ export const ProgramsSection: React.FC<ProgramsSectionProps> = ({
                 </p>
 
                 {/* Program Details Strip */}
-                <div className="grid grid-cols-3 gap-2 bg-[#FAF6F6] p-3 rounded-xl border border-[#7A0016]/10 text-xs">
+                <div className="grid grid-cols-3 gap-2 bg-[#f4f7fa] p-3 rounded-xl border border-[#00296b]/10 text-xs">
                   <div>
                     <span className="text-neutral-500 font-medium block">Duration</span>
                     <span className="font-bold text-neutral-800">{prog.duration}</span>
                   </div>
                   <div>
                     <span className="text-neutral-500 font-medium block">Annual Tuition</span>
-                    <span className="font-bold text-[#7A0016]">${prog.tuitionPerYear.toLocaleString()}</span>
+                    <span className="font-bold text-[#00296b]">${prog.tuitionPerYear.toLocaleString()}</span>
                   </div>
                   <div>
                     <span className="text-neutral-500 font-medium block">Format</span>
@@ -251,18 +268,18 @@ export const ProgramsSection: React.FC<ProgramsSectionProps> = ({
                 <div className="pt-2 flex items-center gap-2">
                   <button
                     onClick={() => setActiveProgramModal(prog)}
-                    className="flex-1 py-2.5 px-3 bg-neutral-100 hover:bg-[#7A0016]/10 text-[#7A0016] font-semibold text-xs rounded-xl transition-colors border border-[#7A0016]/20 text-center cursor-pointer"
+                    className="flex-1 py-2.5 px-3 bg-neutral-100 hover:bg-[#00296b]/10 text-[#00296b] font-semibold text-xs rounded-xl transition-colors border border-[#00296b]/20 text-center cursor-pointer"
                   >
                     Curriculum & Criteria
                   </button>
 
-                  <button
+                  {/* <button
                     onClick={() => onApplyToProgram(prog)}
-                    className="flex-1 py-2.5 px-3 bg-[#7A0016] hover:bg-[#600010] text-white font-bold text-xs rounded-xl shadow-sm transition-colors flex items-center justify-center gap-1 cursor-pointer"
+                    className="flex-1 py-2.5 px-3 bg-[#00296b] hover:bg-[#002054] text-white font-bold text-xs rounded-xl shadow-sm transition-colors flex items-center justify-center gap-1 cursor-pointer"
                   >
                     <span>Apply Program</span>
                     <ArrowRight className="w-3.5 h-3.5 text-white" />
-                  </button>
+                  </button> */}
                 </div>
 
               </div>
@@ -279,10 +296,10 @@ export const ProgramsSection: React.FC<ProgramsSectionProps> = ({
             
             <div className="flex items-start justify-between gap-4 border-b border-neutral-200 pb-4">
               <div>
-                <span className="text-xs font-bold text-[#7A0016] bg-[#7A0016]/10 px-2.5 py-0.5 rounded">
+                <span className="text-xs font-bold text-[#00296b] bg-[#00296b]/10 px-2.5 py-0.5 rounded">
                   {activeProgramModal.degreeLevel} • {activeProgramModal.category}
                 </span>
-                <h3 className="text-2xl font-bold font-serif text-[#4A000E] mt-2">
+                <h3 className="text-2xl font-bold font-serif text-[#001b48] mt-2">
                   {activeProgramModal.title}
                 </h3>
                 <p className="text-sm font-semibold text-neutral-600">
@@ -299,7 +316,7 @@ export const ProgramsSection: React.FC<ProgramsSectionProps> = ({
             </div>
 
             {/* Quick Specs */}
-            <div className="grid grid-cols-2 sm:grid-cols-4 gap-3 bg-[#FAF6F6] p-4 rounded-xl border border-[#7A0016]/10 text-xs">
+            <div className="grid grid-cols-2 sm:grid-cols-4 gap-3 bg-[#f4f7fa] p-4 rounded-xl border border-[#00296b]/10 text-xs">
               <div>
                 <span className="text-neutral-500 font-medium block">Duration</span>
                 <span className="font-bold text-neutral-900">{activeProgramModal.duration}</span>
@@ -310,7 +327,7 @@ export const ProgramsSection: React.FC<ProgramsSectionProps> = ({
               </div>
               <div>
                 <span className="text-neutral-500 font-medium block">Annual Tuition</span>
-                <span className="font-bold text-[#7A0016]">${activeProgramModal.tuitionPerYear.toLocaleString()}</span>
+                <span className="font-bold text-[#00296b]">${activeProgramModal.tuitionPerYear.toLocaleString()}</span>
               </div>
               <div>
                 <span className="text-neutral-500 font-medium block">Deadline</span>
@@ -320,7 +337,7 @@ export const ProgramsSection: React.FC<ProgramsSectionProps> = ({
 
             {/* Description */}
             <div>
-              <h4 className="text-sm font-bold text-[#7A0016] uppercase tracking-wider mb-2">Program Overview</h4>
+              <h4 className="text-sm font-bold text-[#00296b] uppercase tracking-wider mb-2">Program Overview</h4>
               <p className="text-sm text-neutral-600 leading-relaxed">
                 {activeProgramModal.description}
               </p>
@@ -329,7 +346,7 @@ export const ProgramsSection: React.FC<ProgramsSectionProps> = ({
             {/* Prerequisites */}
             <div>
               <h4 className="text-sm font-bold text-neutral-800 uppercase tracking-wider mb-2 flex items-center gap-1.5">
-                <FileCheck className="w-4 h-4 text-[#7A0016]" />
+                <FileCheck className="w-4 h-4 text-[#00296b]" />
                 <span>Admission Prerequisites</span>
               </h4>
               <p className="text-xs text-neutral-700 bg-amber-50/70 p-3 rounded-lg border border-amber-200/80">
@@ -343,7 +360,7 @@ export const ProgramsSection: React.FC<ProgramsSectionProps> = ({
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-2">
                 {activeProgramModal.curriculumHighlights.map((module, i) => (
                   <div key={i} className="flex items-center gap-2 p-2 bg-neutral-50 rounded-lg text-xs font-medium text-neutral-800 border border-neutral-200">
-                    <CheckCircle2 className="w-4 h-4 text-[#7A0016]" />
+                    <CheckCircle2 className="w-4 h-4 text-[#00296b]" />
                     <span>{module}</span>
                   </div>
                 ))}
@@ -353,12 +370,12 @@ export const ProgramsSection: React.FC<ProgramsSectionProps> = ({
             {/* Career Outcomes */}
             <div>
               <h4 className="text-sm font-bold text-neutral-800 uppercase tracking-wider mb-2 flex items-center gap-1.5">
-                <Briefcase className="w-4 h-4 text-[#7A0016]" />
+                <Briefcase className="w-4 h-4 text-[#00296b]" />
                 <span>Career Outcomes</span>
               </h4>
               <div className="flex flex-wrap gap-2">
                 {activeProgramModal.careerOutcomes.map((career, i) => (
-                  <span key={i} className="text-xs bg-[#7A0016]/10 text-[#7A0016] font-semibold px-3 py-1 rounded-full">
+                  <span key={i} className="text-xs bg-[#00296b]/10 text-[#00296b] font-semibold px-3 py-1 rounded-full">
                     {career}
                   </span>
                 ))}
@@ -373,16 +390,16 @@ export const ProgramsSection: React.FC<ProgramsSectionProps> = ({
               >
                 Close
               </button>
-              <button
+              {/* <button
                 onClick={() => {
                   const prog = activeProgramModal;
                   setActiveProgramModal(null);
                   onApplyToProgram(prog);
                 }}
-                className="px-6 py-2.5 bg-[#7A0016] hover:bg-[#600010] text-white font-bold text-xs rounded-xl shadow-md"
+                className="px-6 py-2.5 bg-[#00296b] hover:bg-[#002054] text-white font-bold text-xs rounded-xl shadow-md"
               >
                 Apply to Program Now
-              </button>
+              </button> */}
             </div>
 
           </div>
@@ -396,7 +413,7 @@ export const ProgramsSection: React.FC<ProgramsSectionProps> = ({
             
             <div className="flex items-center justify-between border-b border-neutral-200 pb-4">
               <div>
-                <h3 className="text-2xl font-bold font-serif text-[#4A000E]">
+                <h3 className="text-2xl font-bold font-serif text-[#001b48]">
                   Side-by-Side Program Comparison
                 </h3>
                 <p className="text-xs text-neutral-500">
@@ -419,7 +436,7 @@ export const ProgramsSection: React.FC<ProgramsSectionProps> = ({
                   <tr className="border-b border-neutral-200">
                     <th className="p-3 text-xs font-bold text-neutral-500 uppercase w-1/4">Criteria</th>
                     {comparisonList.map((p) => (
-                      <th key={p.id} className="p-3 text-sm font-bold text-[#7A0016] font-serif w-1/4">
+                      <th key={p.id} className="p-3 text-sm font-bold text-[#00296b] font-serif w-1/4">
                         {p.title}
                       </th>
                     ))}
@@ -441,7 +458,7 @@ export const ProgramsSection: React.FC<ProgramsSectionProps> = ({
                   <tr>
                     <td className="p-3 font-semibold text-neutral-600">Annual Tuition</td>
                     {comparisonList.map((p) => (
-                      <td key={p.id} className="p-3 font-bold text-[#7A0016]">${p.tuitionPerYear.toLocaleString()}</td>
+                      <td key={p.id} className="p-3 font-bold text-[#00296b]">${p.tuitionPerYear.toLocaleString()}</td>
                     ))}
                   </tr>
                   <tr>
@@ -462,7 +479,7 @@ export const ProgramsSection: React.FC<ProgramsSectionProps> = ({
                       <td key={p.id} className="p-3 font-medium text-neutral-800">{p.applicationDeadline}</td>
                     ))}
                   </tr>
-                  <tr>
+                  {/* <tr>
                     <td className="p-3 font-semibold text-neutral-600">Action</td>
                     {comparisonList.map((p) => (
                       <td key={p.id} className="p-3">
@@ -471,13 +488,13 @@ export const ProgramsSection: React.FC<ProgramsSectionProps> = ({
                             setShowComparisonModal(false);
                             onApplyToProgram(p);
                           }}
-                          className="w-full py-2 bg-[#7A0016] text-white text-xs font-bold rounded-lg hover:bg-[#600010]"
+                          className="w-full py-2 bg-[#00296b] text-white text-xs font-bold rounded-lg hover:bg-[#002054]"
                         >
                           Apply Now
                         </button>
                       </td>
                     ))}
-                  </tr>
+                  </tr> */}
                 </tbody>
               </table>
             </div>

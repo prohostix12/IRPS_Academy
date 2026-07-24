@@ -26,7 +26,7 @@ export interface Program {
   title: string;
   universityId: string;
   universityName: string;
-  degreeLevel: 'Undergraduate' | 'Postgraduate' | 'Doctorate' | 'Professional Certificate';
+  degreeLevel: 'PhD' | 'EdD' | 'DBA' | 'EngD' | 'DSc / ScD' | 'DPhil';
   category: 'Engineering & Tech' | 'Business & Management' | 'Medicine & Health' | 'Arts & Humanities' | 'Law & Public Policy' | 'Natural Sciences';
   duration: string;
   credits: number;

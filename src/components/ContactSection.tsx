@@ -1,3 +1,5 @@
+"use client";
+
 import React, { useState } from 'react';
 import { FAQS } from '../data/universityData';
 import { 
@@ -27,24 +29,50 @@ export const ContactSection: React.FC = () => {
     message: ''
   });
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const [submitError, setSubmitError] = useState<string | null>(null);
+
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    setSubmitted(true);
+    setIsSubmitting(true);
+    setSubmitError(null);
+
+    try {
+      const response = await fetch('/api/contact', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(form)
+      });
+
+      const data = await response.json();
+      if (!response.ok) {
+        throw new Error(data.error || 'Failed to submit inquiry.');
+      }
+
+      setSubmitted(true);
+    } catch (err: any) {
+      console.error(err);
+      setSubmitError(err.message || 'An unexpected error occurred. Please try again.');
+    } finally {
+      setIsSubmitting(false);
+    }
   };
 
   const filteredFaqs = FAQS.filter(f => f.category === activeFaqCategory);
 
   return (
-    <div className="py-16 bg-[#FAF6F6] min-h-screen">
+    <div className="py-16 bg-[#f4f7fa] min-h-screen">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-16">
         
         {/* Header */}
         <div className="text-center max-w-3xl mx-auto">
-          <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-[#7A0016]/10 text-[#7A0016] text-xs font-bold uppercase tracking-wider mb-3">
-            <MessageSquare className="w-3.5 h-3.5 text-[#7A0016]" />
+          <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-[#00296b]/10 text-[#00296b] text-xs font-bold uppercase tracking-wider mb-3">
+            <MessageSquare className="w-3.5 h-3.5 text-[#00296b]" />
             <span>Admissions Support</span>
           </div>
-          <h2 className="text-3xl sm:text-5xl font-black font-serif text-[#4A000E] tracking-tight">
+          <h2 className="text-3xl sm:text-5xl font-black font-serif text-[#001b48] tracking-tight">
             Contact Admissions & Help Desk
           </h2>
           <p className="mt-4 text-base sm:text-lg text-neutral-600 leading-relaxed">
@@ -63,20 +91,20 @@ export const ContactSection: React.FC = () => {
                 <div className="w-16 h-16 bg-green-100 text-green-700 rounded-full flex items-center justify-center mx-auto">
                   <CheckCircle2 className="w-8 h-8" />
                 </div>
-                <h3 className="text-2xl font-bold font-serif text-[#4A000E]">Inquiry Received!</h3>
+                <h3 className="text-2xl font-bold font-serif text-[#001b48]">Inquiry Received!</h3>
                 <p className="text-sm text-neutral-600 max-w-md mx-auto">
                   Thank you for reaching out to Veritas Admissions. An admissions representative will respond to <strong>{form.email}</strong> within 24 hours.
                 </p>
                 <button
                   onClick={() => setSubmitted(false)}
-                  className="px-6 py-2.5 bg-[#7A0016] text-white text-xs font-bold rounded-xl"
+                  className="px-6 py-2.5 bg-[#00296b] text-white text-xs font-bold rounded-xl"
                 >
                   Send Another Inquiry
                 </button>
               </div>
             ) : (
               <form onSubmit={handleSubmit} className="space-y-4">
-                <h3 className="text-xl font-bold font-serif text-[#4A000E] border-b border-neutral-200 pb-2">
+                <h3 className="text-xl font-bold font-serif text-[#001b48] border-b border-neutral-200 pb-2">
                   Send an Inquiry
                 </h3>
 
@@ -89,7 +117,7 @@ export const ContactSection: React.FC = () => {
                       placeholder="e.g. Jordan Smith"
                       value={form.name}
                       onChange={(e) => setForm({ ...form, name: e.target.value })}
-                      className="w-full bg-neutral-50 border border-neutral-300 rounded-xl px-4 py-2.5 text-sm focus:ring-2 focus:ring-[#7A0016] outline-none"
+                      className="w-full bg-neutral-50 border border-neutral-300 rounded-xl px-4 py-2.5 text-sm focus:ring-2 focus:ring-[#00296b] outline-none"
                     />
                   </div>
 
@@ -101,12 +129,23 @@ export const ContactSection: React.FC = () => {
                       placeholder="jordan@example.com"
                       value={form.email}
                       onChange={(e) => setForm({ ...form, email: e.target.value })}
-                      className="w-full bg-neutral-50 border border-neutral-300 rounded-xl px-4 py-2.5 text-sm focus:ring-2 focus:ring-[#7A0016] outline-none"
+                      className="w-full bg-neutral-50 border border-neutral-300 rounded-xl px-4 py-2.5 text-sm focus:ring-2 focus:ring-[#00296b] outline-none"
                     />
                   </div>
                 </div>
 
-                <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
+                  <div>
+                    <label className="block text-xs font-bold text-neutral-700 uppercase mb-1">Phone Number</label>
+                    <input
+                      type="tel"
+                      placeholder="e.g. +1 (555) 000-0000"
+                      value={form.phone}
+                      onChange={(e) => setForm({ ...form, phone: e.target.value })}
+                      className="w-full bg-neutral-50 border border-neutral-300 rounded-xl px-4 py-2.5 text-sm focus:ring-2 focus:ring-[#00296b] outline-none"
+                    />
+                  </div>
+
                   <div>
                     <label className="block text-xs font-bold text-neutral-700 uppercase mb-1">Inquiry Category</label>
                     <select
@@ -136,6 +175,7 @@ export const ContactSection: React.FC = () => {
                   </div>
                 </div>
 
+
                 <div>
                   <label className="block text-xs font-bold text-neutral-700 uppercase mb-1">Your Question or Message *</label>
                   <textarea
@@ -144,16 +184,27 @@ export const ContactSection: React.FC = () => {
                     placeholder="Describe your question regarding admission requirements or scholarships..."
                     value={form.message}
                     onChange={(e) => setForm({ ...form, message: e.target.value })}
-                    className="w-full bg-neutral-50 border border-neutral-300 rounded-xl p-4 text-sm focus:ring-2 focus:ring-[#7A0016] outline-none"
+                    className="w-full bg-neutral-50 border border-neutral-300 rounded-xl p-4 text-sm focus:ring-2 focus:ring-[#00296b] outline-none"
                   />
                 </div>
 
+                {submitError && (
+                  <div className="p-3 bg-red-50 text-red-700 text-xs font-semibold rounded-xl border border-red-200">
+                    {submitError}
+                  </div>
+                )}
+
                 <button
                   type="submit"
-                  className="w-full py-3.5 bg-[#7A0016] hover:bg-[#600010] text-white font-bold text-sm rounded-xl shadow-md transition-all flex items-center justify-center gap-2 cursor-pointer"
+                  disabled={isSubmitting}
+                  className="w-full py-3.5 bg-[#00296b] hover:bg-[#002054] text-white font-bold text-sm rounded-xl shadow-md transition-all flex items-center justify-center gap-2 cursor-pointer disabled:opacity-50 disabled:cursor-not-allowed"
                 >
-                  <Send className="w-4 h-4 text-white" />
-                  <span>Submit Inquiry to Counselors</span>
+                  {isSubmitting ? (
+                    <div className="w-4 h-4 border-2 border-white border-t-transparent rounded-full animate-spin"></div>
+                  ) : (
+                    <Send className="w-4 h-4 text-white" />
+                  )}
+                  <span>{isSubmitting ? 'Submitting...' : 'Submit Inquiry to Counselors'}</span>
                 </button>
               </form>
             )}
@@ -164,37 +215,37 @@ export const ContactSection: React.FC = () => {
           <div className="lg:col-span-5 space-y-6">
             
             <div className="bg-white rounded-3xl p-6 sm:p-8 shadow-xl border border-neutral-200 space-y-4">
-              <h3 className="text-xl font-bold font-serif text-[#4A000E]">
+              <h3 className="text-xl font-bold font-serif text-[#001b48]">
                 Central Admissions Office
               </h3>
 
               <div className="space-y-3 text-xs text-neutral-700">
-                <div className="flex items-start gap-3 p-3 bg-[#FAF6F6] rounded-xl border border-[#7A0016]/10">
-                  <MapPin className="w-5 h-5 text-[#7A0016] shrink-0 mt-0.5" />
+                <div className="flex items-start gap-3 p-3 bg-[#f4f7fa] rounded-xl border border-[#00296b]/10">
+                  <MapPin className="w-5 h-5 text-[#00296b] shrink-0 mt-0.5" />
                   <div>
                     <strong className="block text-neutral-900">Main Campus Address</strong>
                     <span>100 University Boulevard, Cambridge, MA 02138, USA</span>
                   </div>
                 </div>
 
-                <div className="flex items-start gap-3 p-3 bg-[#FAF6F6] rounded-xl border border-[#7A0016]/10">
-                  <Phone className="w-5 h-5 text-[#7A0016] shrink-0 mt-0.5" />
+                <div className="flex items-start gap-3 p-3 bg-[#f4f7fa] rounded-xl border border-[#00296b]/10">
+                  <Phone className="w-5 h-5 text-[#00296b] shrink-0 mt-0.5" />
                   <div>
                     <strong className="block text-neutral-900">Toll-Free Admissions Hotline</strong>
                     <span>+1 (800) 555-UNIV / +1 (617) 555-0199</span>
                   </div>
                 </div>
 
-                <div className="flex items-start gap-3 p-3 bg-[#FAF6F6] rounded-xl border border-[#7A0016]/10">
-                  <Mail className="w-5 h-5 text-[#7A0016] shrink-0 mt-0.5" />
+                <div className="flex items-start gap-3 p-3 bg-[#f4f7fa] rounded-xl border border-[#00296b]/10">
+                  <Mail className="w-5 h-5 text-[#00296b] shrink-0 mt-0.5" />
                   <div>
                     <strong className="block text-neutral-900">Official Admissions Email</strong>
                     <span>admissions@veritasportal.edu</span>
                   </div>
                 </div>
 
-                <div className="flex items-start gap-3 p-3 bg-[#FAF6F6] rounded-xl border border-[#7A0016]/10">
-                  <Clock className="w-5 h-5 text-[#7A0016] shrink-0 mt-0.5" />
+                <div className="flex items-start gap-3 p-3 bg-[#f4f7fa] rounded-xl border border-[#00296b]/10">
+                  <Clock className="w-5 h-5 text-[#00296b] shrink-0 mt-0.5" />
                   <div>
                     <strong className="block text-neutral-900">Office Working Hours</strong>
                     <span>Monday – Friday: 8:00 AM – 6:00 PM EST</span>
@@ -211,7 +262,7 @@ export const ContactSection: React.FC = () => {
         <div className="bg-white rounded-3xl p-8 sm:p-12 shadow-xl border border-neutral-200 space-y-8">
           
           <div className="text-center max-w-2xl mx-auto">
-            <h3 className="text-2xl font-bold font-serif text-[#4A000E]">
+            <h3 className="text-2xl font-bold font-serif text-[#001b48]">
               Frequently Asked Questions
             </h3>
             <p className="text-xs text-neutral-500 mt-1">
@@ -227,8 +278,8 @@ export const ContactSection: React.FC = () => {
                 onClick={() => setActiveFaqCategory(cat)}
                 className={`px-4 py-2 rounded-xl text-xs font-bold transition-all cursor-pointer ${
                   activeFaqCategory === cat
-                    ? 'bg-[#7A0016] text-white shadow-sm'
-                    : 'bg-neutral-100 text-neutral-700 hover:bg-[#7A0016]/10 hover:text-[#7A0016]'
+                    ? 'bg-[#00296b] text-white shadow-sm'
+                    : 'bg-neutral-100 text-neutral-700 hover:bg-[#00296b]/10 hover:text-[#00296b]'
                 }`}
               >
                 {cat}
@@ -244,10 +295,10 @@ export const ContactSection: React.FC = () => {
                 <div key={faq.id} className="border border-neutral-200 rounded-2xl overflow-hidden bg-neutral-50/50">
                   <button
                     onClick={() => setOpenFaqId(isOpen ? null : faq.id)}
-                    className="w-full p-4 text-left font-bold text-sm text-[#4A000E] flex items-center justify-between hover:bg-[#7A0016]/5 transition-colors cursor-pointer"
+                    className="w-full p-4 text-left font-bold text-sm text-[#001b48] flex items-center justify-between hover:bg-[#00296b]/5 transition-colors cursor-pointer"
                   >
                     <span>{faq.question}</span>
-                    <ChevronDown className={`w-4 h-4 text-[#7A0016] transition-transform ${isOpen ? 'rotate-180' : ''}`} />
+                    <ChevronDown className={`w-4 h-4 text-[#00296b] transition-transform ${isOpen ? 'rotate-180' : ''}`} />
                   </button>
 
                   {isOpen && (

@@ -1,0 +1,16 @@
+{
+  "/api/admin/check/route": "app/api/admin/check/route.js",
+  "/api/admin/contacts/route": "app/api/admin/contacts/route.js",
+  "/api/admin/login/route": "app/api/admin/login/route.js",
+  "/_not-found/page": "app/_not-found/page.js",
+  "/api/admin/logout/route": "app/api/admin/logout/route.js",
+  "/api/admin/programs/[id]/route": "app/api/admin/programs/[id]/route.js",
+  "/api/admin/programs/route": "app/api/admin/programs/route.js",
+  "/api/admin/universities/[id]/route": "app/api/admin/universities/[id]/route.js",
+  "/api/admin/universities/route": "app/api/admin/universities/route.js",
+  "/api/contact/route": "app/api/contact/route.js",
+  "/api/programs/route": "app/api/programs/route.js",
+  "/api/universities/route": "app/api/universities/route.js",
+  "/admin/page": "app/admin/page.js",
+  "/page": "app/page.js"
+}

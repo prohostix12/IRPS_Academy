@@ -1,5 +1,7 @@
-import React, { useState } from 'react';
-import { UNIVERSITIES, PROGRAMS } from '../data/universityData';
+"use client";
+
+import React, { useState, useEffect } from 'react';
+import { useData } from '../context/DataContext';
 import { X, CheckCircle2, GraduationCap, ArrowRight } from 'lucide-react';
 
 interface QuickApplyModalProps {
@@ -15,13 +17,26 @@ export const QuickApplyModal: React.FC<QuickApplyModalProps> = ({
   defaultUniversity,
   onSubmittedSuccess 
 }) => {
-  if (!isOpen) return null;
-
+  const { universities: UNIVERSITIES, programs: PROGRAMS, loading } = useData();
   const [name, setName] = useState('');
   const [email, setEmail] = useState('');
-  const [selectedUni, setSelectedUni] = useState(defaultUniversity || UNIVERSITIES[0].name);
-  const [selectedProg, setSelectedProg] = useState(PROGRAMS[0].title);
+  const [selectedUni, setSelectedUni] = useState('');
+  const [selectedProg, setSelectedProg] = useState('');
   const [gpa, setGpa] = useState('3.85');
+
+  useEffect(() => {
+    if (!loading && UNIVERSITIES.length > 0 && !selectedUni) {
+      setSelectedUni(defaultUniversity || UNIVERSITIES[0].name);
+    }
+  }, [loading, UNIVERSITIES, defaultUniversity, selectedUni]);
+
+  useEffect(() => {
+    if (!loading && PROGRAMS.length > 0 && !selectedProg) {
+      setSelectedProg(PROGRAMS[0].title);
+    }
+  }, [loading, PROGRAMS, selectedProg]);
+
+  if (!isOpen) return null;
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
@@ -42,11 +57,11 @@ export const QuickApplyModal: React.FC<QuickApplyModalProps> = ({
         </button>
 
         <div className="flex items-center gap-3">
-          <div className="w-10 h-10 rounded-xl bg-[#7A0016] text-white flex items-center justify-center">
+          <div className="w-10 h-10 rounded-xl bg-[#00296b] text-white flex items-center justify-center">
             <GraduationCap className="w-6 h-6 text-white" />
           </div>
           <div>
-            <h3 className="text-xl font-bold font-serif text-[#4A000E]">
+            <h3 className="text-xl font-bold font-serif text-[#001b48]">
               Quick Admissions Application
             </h3>
             <p className="text-xs text-neutral-500">
@@ -64,7 +79,7 @@ export const QuickApplyModal: React.FC<QuickApplyModalProps> = ({
               placeholder="e.g. Taylor Reed"
               value={name}
               onChange={(e) => setName(e.target.value)}
-              className="w-full bg-neutral-50 border border-neutral-300 rounded-xl px-4 py-2.5 text-sm focus:ring-2 focus:ring-[#7A0016] outline-none"
+              className="w-full bg-neutral-50 border border-neutral-300 rounded-xl px-4 py-2.5 text-sm focus:ring-2 focus:ring-[#00296b] outline-none"
             />
           </div>
 
@@ -76,7 +91,7 @@ export const QuickApplyModal: React.FC<QuickApplyModalProps> = ({
               placeholder="taylor@example.com"
               value={email}
               onChange={(e) => setEmail(e.target.value)}
-              className="w-full bg-neutral-50 border border-neutral-300 rounded-xl px-4 py-2.5 text-sm focus:ring-2 focus:ring-[#7A0016] outline-none"
+              className="w-full bg-neutral-50 border border-neutral-300 rounded-xl px-4 py-2.5 text-sm focus:ring-2 focus:ring-[#00296b] outline-none"
             />
           </div>
 
@@ -114,13 +129,13 @@ export const QuickApplyModal: React.FC<QuickApplyModalProps> = ({
               placeholder="3.85"
               value={gpa}
               onChange={(e) => setGpa(e.target.value)}
-              className="w-full bg-neutral-50 border border-neutral-300 rounded-xl px-4 py-2.5 text-sm focus:ring-2 focus:ring-[#7A0016] outline-none"
+              className="w-full bg-neutral-50 border border-neutral-300 rounded-xl px-4 py-2.5 text-sm focus:ring-2 focus:ring-[#00296b] outline-none"
             />
           </div>
 
           <button
             type="submit"
-            className="w-full py-3.5 bg-[#7A0016] hover:bg-[#600010] text-white font-bold text-sm rounded-xl shadow-lg transition-all flex items-center justify-center gap-2 cursor-pointer mt-2"
+            className="w-full py-3.5 bg-[#00296b] hover:bg-[#002054] text-white font-bold text-sm rounded-xl shadow-lg transition-all flex items-center justify-center gap-2 cursor-pointer mt-2"
           >
             <span>Submit Application Now</span>
             <ArrowRight className="w-4 h-4 text-white" />

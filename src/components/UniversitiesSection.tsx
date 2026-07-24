@@ -1,5 +1,7 @@
+"use client";
+
 import React, { useState } from 'react';
-import { UNIVERSITIES } from '../data/universityData';
+import { useData } from '../context/DataContext';
 import { University, NavTab } from '../types';
 import { 
   Building2, 
@@ -27,11 +29,23 @@ export const UniversitiesSection: React.FC<UniversitiesSectionProps> = ({
   setSelectedUniversityFilter,
   onOpenQuickApplyWithUni 
 }) => {
+  const { universities: UNIVERSITIES, loading } = useData();
   const [selectedType, setSelectedType] = useState<string>('All');
   const [searchQuery, setSearchQuery] = useState<string>('');
   const [activeModalUni, setActiveModalUni] = useState<University | null>(null);
 
-  const filteredUniversities = UNIVERSITIES.filter((uni) => {
+  if (loading) {
+    return (
+      <div className="py-16 bg-[#f4f7fa] min-h-screen flex items-center justify-center">
+        <div className="space-y-4 text-center">
+          <div className="w-12 h-12 border-4 border-[#00296b] border-t-transparent rounded-full animate-spin mx-auto"></div>
+          <p className="text-sm font-semibold text-neutral-600 font-sans">Loading partner universities...</p>
+        </div>
+      </div>
+    );
+  }
+
+  const filteredUniversities = (UNIVERSITIES || []).filter((uni) => {
     const matchesType = selectedType === 'All' || uni.type === selectedType;
     const matchesQuery = 
       uni.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
@@ -47,16 +61,16 @@ export const UniversitiesSection: React.FC<UniversitiesSectionProps> = ({
   };
 
   return (
-    <div className="py-16 bg-[#FAF6F6] min-h-screen">
+    <div className="py-16 bg-[#f4f7fa] min-h-screen">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         
         {/* Section Header */}
         <div className="text-center max-w-3xl mx-auto mb-12">
-          <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-[#7A0016]/10 text-[#7A0016] text-xs font-bold uppercase tracking-wider mb-3">
-            <Building2 className="w-3.5 h-3.5 text-[#7A0016]" />
+          <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-[#00296b]/10 text-[#00296b] text-xs font-bold uppercase tracking-wider mb-3">
+            <Building2 className="w-3.5 h-3.5 text-[#00296b]" />
             <span>Accredited Campus Network</span>
           </div>
-          <h2 className="text-3xl sm:text-5xl font-black font-serif text-[#4A000E] tracking-tight">
+          <h2 className="text-3xl sm:text-5xl font-black font-serif text-[#001b48] tracking-tight">
             Explore Partner Universities
           </h2>
           <p className="mt-4 text-base sm:text-lg text-neutral-600 leading-relaxed">
@@ -65,7 +79,7 @@ export const UniversitiesSection: React.FC<UniversitiesSectionProps> = ({
         </div>
 
         {/* Filter & Search Toolbar */}
-        <div className="bg-white rounded-2xl p-4 sm:p-6 shadow-md border border-[#7A0016]/10 mb-10">
+        <div className="bg-white rounded-2xl p-4 sm:p-6 shadow-md border border-[#00296b]/10 mb-10">
           <div className="flex flex-col md:flex-row gap-4 items-center justify-between">
             
             {/* Search Input */}
@@ -75,7 +89,7 @@ export const UniversitiesSection: React.FC<UniversitiesSectionProps> = ({
                 placeholder="Search by university name, city, or specialization..."
                 value={searchQuery}
                 onChange={(e) => setSearchQuery(e.target.value)}
-                className="w-full bg-neutral-50 border border-neutral-300 rounded-xl pl-10 pr-4 py-3 text-sm text-neutral-800 focus:ring-2 focus:ring-[#7A0016] focus:border-[#7A0016] outline-none"
+                className="w-full bg-neutral-50 border border-neutral-300 rounded-xl pl-10 pr-4 py-3 text-sm text-neutral-800 focus:ring-2 focus:ring-[#00296b] focus:border-[#00296b] outline-none"
               />
               <Building2 className="w-5 h-5 text-neutral-400 absolute left-3 top-3.5" />
             </div>
@@ -88,8 +102,8 @@ export const UniversitiesSection: React.FC<UniversitiesSectionProps> = ({
                   onClick={() => setSelectedType(type)}
                   className={`px-3.5 py-2 rounded-xl text-xs sm:text-sm font-semibold transition-all cursor-pointer ${
                     selectedType === type
-                      ? 'bg-[#7A0016] text-white shadow-sm'
-                      : 'bg-neutral-100 text-neutral-700 hover:bg-[#7A0016]/10 hover:text-[#7A0016]'
+                      ? 'bg-[#00296b] text-white shadow-sm'
+                      : 'bg-neutral-100 text-neutral-700 hover:bg-[#00296b]/10 hover:text-[#00296b]'
                   }`}
                 >
                   {type}
@@ -117,11 +131,11 @@ export const UniversitiesSection: React.FC<UniversitiesSectionProps> = ({
                 />
                 <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent" />
                 
-                <span className="absolute top-3 left-3 bg-[#7A0016] text-white text-xs font-bold px-2.5 py-1 rounded-md shadow-md uppercase tracking-wider">
+                <span className="absolute top-3 left-3 bg-[#00296b] text-white text-xs font-bold px-2.5 py-1 rounded-md shadow-md uppercase tracking-wider">
                   {uni.type}
                 </span>
 
-                <span className="absolute top-3 right-3 bg-white/90 backdrop-blur-md text-[#7A0016] text-xs font-extrabold px-2.5 py-1 rounded-md shadow-md">
+                <span className="absolute top-3 right-3 bg-white/90 backdrop-blur-md text-[#00296b] text-xs font-extrabold px-2.5 py-1 rounded-md shadow-md">
                   {uni.ranking}
                 </span>
 
@@ -140,7 +154,7 @@ export const UniversitiesSection: React.FC<UniversitiesSectionProps> = ({
               <div className="p-6 flex-grow flex flex-col justify-between space-y-5">
                 
                 <div>
-                  <p className="text-xs text-[#7A0016] font-semibold italic mb-3">
+                  <p className="text-xs text-[#00296b] font-semibold italic mb-3">
                     "{uni.tagline}"
                   </p>
                   <p className="text-sm text-neutral-600 line-clamp-3 leading-relaxed">
@@ -149,7 +163,7 @@ export const UniversitiesSection: React.FC<UniversitiesSectionProps> = ({
                 </div>
 
                 {/* Key Metrics Grid */}
-                <div className="grid grid-cols-2 gap-2.5 bg-[#FAF6F6] rounded-xl p-3 text-xs border border-[#7A0016]/10">
+                <div className="grid grid-cols-2 gap-2.5 bg-[#f4f7fa] rounded-xl p-3 text-xs border border-[#00296b]/10">
                   <div>
                     <span className="text-neutral-500 font-medium block">Acceptance Rate</span>
                     <span className="font-bold text-neutral-900">{uni.acceptanceRate}</span>
@@ -160,7 +174,7 @@ export const UniversitiesSection: React.FC<UniversitiesSectionProps> = ({
                   </div>
                   <div>
                     <span className="text-neutral-500 font-medium block">Tuition / Year</span>
-                    <span className="font-bold text-[#7A0016]">{uni.tuitionRange.split('/')[0]}</span>
+                    <span className="font-bold text-[#00296b]">{uni.tuitionRange.split('/')[0]}</span>
                   </div>
                   <div>
                     <span className="text-neutral-500 font-medium block">Est. Campus</span>
@@ -171,7 +185,7 @@ export const UniversitiesSection: React.FC<UniversitiesSectionProps> = ({
                 {/* Top Programs List */}
                 <div>
                   <p className="text-xs font-bold text-neutral-700 uppercase tracking-wider mb-2 flex items-center gap-1">
-                    <BookOpen className="w-3.5 h-3.5 text-[#7A0016]" />
+                    <BookOpen className="w-3.5 h-3.5 text-[#00296b]" />
                     <span>Key Specializations</span>
                   </p>
                   <div className="flex flex-wrap gap-1.5">
@@ -190,14 +204,14 @@ export const UniversitiesSection: React.FC<UniversitiesSectionProps> = ({
                 <div className="pt-2 flex items-center gap-2">
                   <button
                     onClick={() => setActiveModalUni(uni)}
-                    className="flex-1 py-2.5 px-3 bg-neutral-100 hover:bg-[#7A0016]/10 text-[#7A0016] font-semibold text-xs rounded-xl transition-colors border border-[#7A0016]/20 cursor-pointer text-center"
+                    className="flex-1 py-2.5 px-3 bg-neutral-100 hover:bg-[#00296b]/10 text-[#00296b] font-semibold text-xs rounded-xl transition-colors border border-[#00296b]/20 cursor-pointer text-center"
                   >
                     View Details & Tour
                   </button>
 
                   <button
                     onClick={() => handleExplorePrograms(uni.name)}
-                    className="flex-1 py-2.5 px-3 bg-[#7A0016] hover:bg-[#600010] text-white font-semibold text-xs rounded-xl shadow-sm transition-colors flex items-center justify-center gap-1 cursor-pointer"
+                    className="flex-1 py-2.5 px-3 bg-[#00296b] hover:bg-[#002054] text-white font-semibold text-xs rounded-xl shadow-sm transition-colors flex items-center justify-center gap-1 cursor-pointer"
                   >
                     <span>View Programs</span>
                     <ChevronRight className="w-3.5 h-3.5 text-white" />
@@ -234,13 +248,13 @@ export const UniversitiesSection: React.FC<UniversitiesSectionProps> = ({
               </button>
 
               <div className="absolute bottom-4 left-6 right-6 text-white">
-                <span className="bg-[#7A0016] text-white text-xs font-bold px-2.5 py-0.5 rounded uppercase tracking-wider">
+                <span className="bg-[#00296b] text-white text-xs font-bold px-2.5 py-0.5 rounded uppercase tracking-wider">
                   {activeModalUni.ranking}
                 </span>
                 <h3 className="text-2xl sm:text-3xl font-black font-serif mt-1">
                   {activeModalUni.name}
                 </h3>
-                <p className="text-xs text-red-200 flex items-center gap-1 mt-1">
+                <p className="text-xs text-[#e8c47a] flex items-center gap-1 mt-1">
                   <MapPin className="w-3.5 h-3.5" />
                   <span>{activeModalUni.location} • Founded {activeModalUni.established}</span>
                 </p>
@@ -251,7 +265,7 @@ export const UniversitiesSection: React.FC<UniversitiesSectionProps> = ({
             <div className="p-6 sm:p-8 space-y-6 text-neutral-800">
               
               <div>
-                <h4 className="text-lg font-bold text-[#7A0016] font-serif mb-2">Overview & Heritage</h4>
+                <h4 className="text-lg font-bold text-[#00296b] font-serif mb-2">Overview & Heritage</h4>
                 <p className="text-sm text-neutral-600 leading-relaxed">
                   {activeModalUni.description}
                 </p>
@@ -262,8 +276,8 @@ export const UniversitiesSection: React.FC<UniversitiesSectionProps> = ({
                 <h4 className="text-sm font-bold text-neutral-800 uppercase tracking-wider mb-3">Campus Features & Advantages</h4>
                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-2.5">
                   {activeModalUni.features.map((feat, idx) => (
-                    <div key={idx} className="flex items-center gap-2 p-2.5 bg-[#FAF6F6] rounded-lg border border-[#7A0016]/10 text-xs font-medium text-neutral-800">
-                      <CheckCircle2 className="w-4 h-4 text-[#7A0016] shrink-0" />
+                    <div key={idx} className="flex items-center gap-2 p-2.5 bg-[#f4f7fa] rounded-lg border border-[#00296b]/10 text-xs font-medium text-neutral-800">
+                      <CheckCircle2 className="w-4 h-4 text-[#00296b] shrink-0" />
                       <span>{feat}</span>
                     </div>
                   ))}
@@ -291,7 +305,7 @@ export const UniversitiesSection: React.FC<UniversitiesSectionProps> = ({
               {/* Modal Footer CTA */}
               <div className="pt-4 border-t border-neutral-200 flex flex-col sm:flex-row items-center justify-between gap-3">
                 <div className="text-xs text-neutral-500 flex items-center gap-1.5">
-                  <Mail className="w-4 h-4 text-[#7A0016]" />
+                  <Mail className="w-4 h-4 text-[#00296b]" />
                   <span>Admissions Contact: <strong>{activeModalUni.contactEmail}</strong></span>
                 </div>
 
@@ -301,11 +315,11 @@ export const UniversitiesSection: React.FC<UniversitiesSectionProps> = ({
                       setActiveModalUni(null);
                       handleExplorePrograms(activeModalUni.name);
                     }}
-                    className="flex-1 sm:flex-none px-4 py-2.5 bg-[#7A0016] hover:bg-[#600010] text-white text-xs font-bold rounded-xl transition-all shadow-md"
+                    className="flex-1 sm:flex-none px-4 py-2.5 bg-[#00296b] hover:bg-[#002054] text-white text-xs font-bold rounded-xl transition-all shadow-md"
                   >
                     View Degree Programs
                   </button>
-                  {onOpenQuickApplyWithUni && (
+                  {/* {onOpenQuickApplyWithUni && (
                     <button
                       onClick={() => {
                         const uniName = activeModalUni.name;
@@ -316,7 +330,7 @@ export const UniversitiesSection: React.FC<UniversitiesSectionProps> = ({
                     >
                       Apply Now
                     </button>
-                  )}
+                  )} */}
                 </div>
               </div>
 
