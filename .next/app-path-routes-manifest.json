@@ -4,13 +4,13 @@
   "/api/admin/login/route": "/api/admin/login",
   "/_not-found/page": "/_not-found",
   "/api/admin/logout/route": "/api/admin/logout",
-  "/api/admin/programs/[id]/route": "/api/admin/programs/[id]",
   "/api/admin/programs/route": "/api/admin/programs",
-  "/api/admin/universities/[id]/route": "/api/admin/universities/[id]",
   "/api/admin/universities/route": "/api/admin/universities",
+  "/api/admin/programs/[id]/route": "/api/admin/programs/[id]",
+  "/api/universities/route": "/api/universities",
+  "/api/admin/universities/[id]/route": "/api/admin/universities/[id]",
   "/api/contact/route": "/api/contact",
   "/api/programs/route": "/api/programs",
-  "/api/universities/route": "/api/universities",
-  "/admin/page": "/admin",
-  "/page": "/"
+  "/page": "/",
+  "/admin/page": "/admin"
 }

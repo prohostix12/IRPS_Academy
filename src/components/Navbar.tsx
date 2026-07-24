@@ -2,7 +2,7 @@
 
 import React, { useState } from 'react';
 import { NavTab } from '../types';
-import { Award, Menu, X, GraduationCap, Search, FileText, ChevronRight, Phone } from 'lucide-react';
+import { Award, Menu, X, GraduationCap, Search, FileText, ChevronRight, Phone, Lock } from 'lucide-react';
 import { Logo } from './Logo';
 
 interface NavbarProps {
@@ -94,23 +94,15 @@ export const Navbar: React.FC<NavbarProps> = ({ activeTab, setActiveTab, onOpenQ
           </nav>
 
           {/* Right Action Buttons */}
-          {/* <div className="hidden md:flex items-center gap-3">
-            <button
-              onClick={() => handleNavClick('admissions')}
-              className="px-4 py-2 text-sm font-semibold text-[#00296b] hover:bg-[#00296b]/10 rounded-lg transition-colors flex items-center gap-1.5 border border-[#00296b]/20"
+          <div className="hidden lg:flex items-center gap-3">
+            <a
+              href="/admin"
+              className="px-5 py-2.5 rounded-xl text-sm font-semibold text-[#00296b] border border-[#00296b]/20 hover:bg-[#00296b] hover:text-white transition-all duration-300 flex items-center gap-2 group shadow-xs hover:shadow-md hover:scale-102 cursor-pointer"
             >
-              <FileText className="w-4 h-4 text-[#00296b]" />
-              Check Status
-            </button>
-
-            <button
-              onClick={onOpenQuickApply}
-              className="px-5 py-2.5 rounded-lg text-sm font-semibold text-white bg-gradient-to-r from-[#00296b] to-[#001b48] hover:from-[#002054] hover:to-[#001233] shadow-md hover:shadow-lg transition-all flex items-center gap-2 group cursor-pointer"
-            >
-              <span>Apply Now</span>
-              <ChevronRight className="w-4 h-4 text-white group-hover:translate-x-0.5 transition-transform" />
-            </button>
-          </div> */}
+              <Lock className="w-4 h-4 text-[#00296b] group-hover:text-white transition-colors duration-300" />
+              <span>Admin Panel</span>
+            </a>
+          </div>
 
           {/* Mobile Hamburger Toggle */}
           <div className="flex lg:hidden items-center gap-2">
@@ -153,25 +145,16 @@ export const Navbar: React.FC<NavbarProps> = ({ activeTab, setActiveTab, onOpenQ
             );
           })}
 
-          {/* <div className="pt-3 border-t border-neutral-200 flex flex-col gap-2.5">
-            <button
-              onClick={() => {
-                handleNavClick('admissions');
-              }}
-              className="w-full py-2.5 text-center text-sm font-semibold text-[#00296b] bg-[#00296b]/10 rounded-lg border border-[#00296b]/20"
+          <div className="pt-3 border-t border-neutral-200">
+            <a
+              href="/admin"
+              onClick={() => setMobileMenuOpen(false)}
+              className="w-full py-3 text-center text-sm font-bold text-white bg-[#00296b] hover:bg-[#001b48] rounded-lg shadow-md transition-all flex items-center justify-center gap-2 cursor-pointer"
             >
-              Track Existing Application
-            </button>
-            <button
-              onClick={() => {
-                setMobileMenuOpen(false);
-                onOpenQuickApply();
-              }}
-              className="w-full py-3 text-center text-sm font-bold text-white bg-[#00296b] hover:bg-[#002054] rounded-lg shadow-md"
-            >
-              Start Admission Application
-            </button>
-          </div> */}
+              <Lock className="w-4 h-4 text-white" />
+              <span>Login</span>
+            </a>
+          </div>
         </div>
       )}
     </header>
