@@ -100,7 +100,7 @@ export const Navbar: React.FC<NavbarProps> = ({ activeTab, setActiveTab, onOpenQ
               className="px-5 py-2.5 rounded-xl text-sm font-semibold text-[#00296b] border border-[#00296b]/20 hover:bg-[#00296b] hover:text-white transition-all duration-300 flex items-center gap-2 group shadow-xs hover:shadow-md hover:scale-102 cursor-pointer"
             >
               <Lock className="w-4 h-4 text-[#00296b] group-hover:text-white transition-colors duration-300" />
-              <span>Admin Panel</span>
+              <span>Login</span>
             </a>
           </div>
 
