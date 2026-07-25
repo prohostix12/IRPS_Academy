@@ -10,7 +10,7 @@ import { ProgramsSection } from '../components/ProgramsSection';
 import { AboutSection } from '../components/AboutSection';
 import { ContactSection } from '../components/ContactSection';
 import { Footer } from '../components/Footer';
-// import { QuickApplyModal } from '../components/QuickApplyModal';
+import { QuickApplyModal } from '../components/QuickApplyModal';
 import { CheckCircle2, Sparkles, X } from 'lucide-react';
 
 export default function Page() {
@@ -19,7 +19,7 @@ export default function Page() {
   // const [selectedProgramForApply, setSelectedProgramForApply] = useState<Program | null>(null);
   
   // Quick Apply Modal State
-  // const [isQuickApplyOpen, setIsQuickApplyOpen] = useState<boolean>(false);
+  const [isQuickApplyOpen, setIsQuickApplyOpen] = useState<boolean>(false);
   // const [quickApplyUni, setQuickApplyUni] = useState<string>('');
 
   // Toast Notification State
@@ -69,7 +69,7 @@ export default function Page() {
       <Navbar
         activeTab={activeTab}
         setActiveTab={setActiveTab}
-        onOpenQuickApply={() => {}}
+        onOpenQuickApply={() => setIsQuickApplyOpen(true)}
       />
 
       {/* Main View Content Switcher */}
@@ -80,7 +80,7 @@ export default function Page() {
             <Hero
               setActiveTab={setActiveTab}
               onSearchSubmit={handleSearchFromHero}
-              onOpenQuickApply={() => {}}
+              onOpenQuickApply={() => setIsQuickApplyOpen(true)}
             />
 
             {/* Featured Universities Section Preview */}
@@ -132,20 +132,18 @@ export default function Page() {
       </main>
 
       {/* Quick Apply Modal */}
-      {/* <QuickApplyModal
+      <QuickApplyModal
         isOpen={isQuickApplyOpen}
         onClose={() => setIsQuickApplyOpen(false)}
-        defaultUniversity={quickApplyUni}
-        onSubmittedSuccess={(generatedId) => {
-          showToast(`Application Logged! Your Reference ID: ${generatedId}`);
-          setActiveTab('admissions');
+        onSubmittedSuccess={() => {
+          showToast("Inquiry submitted successfully!");
         }}
-      /> */}
+      />
 
       {/* Footer */}
       <Footer
         setActiveTab={setActiveTab}
-        onOpenQuickApply={() => {}}
+        onOpenQuickApply={() => setIsQuickApplyOpen(true)}
       />
 
     </div>

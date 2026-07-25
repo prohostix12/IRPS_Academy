@@ -13,7 +13,7 @@ export const Footer: React.FC<FooterProps> = ({ setActiveTab, onOpenQuickApply }
     <footer className="bg-[#001b48] text-white border-t border-white/10">
       
       {/* Upper Newsletter & Action Bar */}
-      <div className="bg-[#001233] py-10 px-4 sm:px-8 border-b border-white/10">
+      {/* <div className="bg-[#001233] py-10 px-4 sm:px-8 border-b border-white/10">
         <div className="max-w-7xl mx-auto flex flex-col md:flex-row items-center justify-between gap-6">
           <div className="space-y-1 text-center md:text-left">
             <h3 className="text-xl sm:text-2xl font-bold font-serif text-white">
@@ -35,7 +35,7 @@ export const Footer: React.FC<FooterProps> = ({ setActiveTab, onOpenQuickApply }
             </button>
           </div>
         </div>
-      </div>
+      </div> */}
 
       {/* Main Footer Directory */}
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12 grid grid-cols-1 md:grid-cols-12 gap-8">

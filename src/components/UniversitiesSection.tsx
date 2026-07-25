@@ -2,7 +2,7 @@
 
 import React, { useState } from 'react';
 import { useData } from '../context/DataContext';
-import { University, NavTab } from '../types';
+import { University, Program, NavTab } from '../types';
 import { 
   Building2, 
   MapPin, 
@@ -15,7 +15,11 @@ import {
   CheckCircle2, 
   Mail, 
   ExternalLink,
-  BookOpen
+  BookOpen,
+  Clock,
+  DollarSign,
+  Briefcase,
+  FileCheck
 } from 'lucide-react';
 
 interface UniversitiesSectionProps {
@@ -29,10 +33,11 @@ export const UniversitiesSection: React.FC<UniversitiesSectionProps> = ({
   setSelectedUniversityFilter,
   onOpenQuickApplyWithUni 
 }) => {
-  const { universities: UNIVERSITIES, loading } = useData();
+  const { universities: UNIVERSITIES, programs: PROGRAMS, loading } = useData();
   const [selectedType, setSelectedType] = useState<string>('All');
   const [searchQuery, setSearchQuery] = useState<string>('');
   const [activeModalUni, setActiveModalUni] = useState<University | null>(null);
+  const [activeProgramModal, setActiveProgramModal] = useState<Program | null>(null);
 
   if (loading) {
     return (
@@ -182,21 +187,35 @@ export const UniversitiesSection: React.FC<UniversitiesSectionProps> = ({
                   </div>
                 </div>
 
-                {/* Top Programs List */}
+                {/* Offered Programs List */}
                 <div>
                   <p className="text-xs font-bold text-neutral-700 uppercase tracking-wider mb-2 flex items-center gap-1">
-                    <BookOpen className="w-3.5 h-3.5 text-[#00296b]" />
-                    <span>Key Specializations</span>
+                    <GraduationCap className="w-3.5 h-3.5 text-[#00296b]" />
+                    <span>Offered Doctoral Programs</span>
                   </p>
-                  <div className="flex flex-wrap gap-1.5">
-                    {uni.topPrograms.map((prog, idx) => (
-                      <span 
-                        key={idx}
-                        className="text-[11px] font-medium bg-neutral-100 text-neutral-700 px-2 py-0.5 rounded border border-neutral-200"
-                      >
-                        {prog}
-                      </span>
-                    ))}
+                  <div className="flex flex-col gap-2">
+                    {(PROGRAMS || [])
+                      .filter((p) => p.universityId === uni.id)
+                      .map((prog) => (
+                        <button
+                          key={prog.id}
+                          onClick={() => setActiveProgramModal(prog)}
+                          className="flex items-center justify-between text-left px-3 py-2 bg-neutral-50 hover:bg-[#00296b]/5 border border-neutral-200/80 hover:border-[#00296b]/35 rounded-xl transition-all cursor-pointer group/item"
+                        >
+                          <div className="flex flex-col min-w-0">
+                            <span className="text-xs font-semibold text-neutral-800 line-clamp-1 group-hover/item:text-[#00296b] transition-colors">
+                              {prog.title}
+                            </span>
+                            <span className="text-[10px] text-neutral-500 font-medium mt-0.5">
+                              {prog.degreeLevel} • {prog.format}
+                            </span>
+                          </div>
+                          <ChevronRight className="w-3.5 h-3.5 text-neutral-400 group-hover/item:text-[#00296b] group-hover/item:translate-x-0.5 transition-all shrink-0 ml-2" />
+                        </button>
+                      ))}
+                    {(PROGRAMS || []).filter((p) => p.universityId === uni.id).length === 0 && (
+                      <span className="text-xs text-neutral-500 italic">No programs listed yet.</span>
+                    )}
                   </div>
                 </div>
 
@@ -284,6 +303,50 @@ export const UniversitiesSection: React.FC<UniversitiesSectionProps> = ({
                 </div>
               </div>
 
+              {/* Offered Doctoral Programs */}
+              <div>
+                <h4 className="text-sm font-bold text-neutral-800 uppercase tracking-wider mb-3">Offered Doctoral Programs</h4>
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                  {(PROGRAMS || [])
+                    .filter((p) => p.universityId === activeModalUni.id)
+                    .map((prog) => (
+                      <div 
+                        key={prog.id}
+                        className="bg-neutral-50 hover:bg-[#00296b]/5 p-3 rounded-xl border border-neutral-200 hover:border-[#00296b]/30 transition-all flex flex-col justify-between"
+                      >
+                        <div>
+                          <span className="inline-block text-[9px] font-bold text-[#00296b] bg-[#00296b]/10 px-2 py-0.5 rounded uppercase tracking-wider mb-2">
+                            {prog.degreeLevel} • {prog.format}
+                          </span>
+                          <h5 className="font-bold text-xs sm:text-sm text-neutral-900 leading-snug">
+                            {prog.title}
+                          </h5>
+                          <p className="text-[11px] text-neutral-500 mt-1 line-clamp-2 leading-relaxed">
+                            {prog.description}
+                          </p>
+                        </div>
+                        <div className="mt-3 pt-2.5 border-t border-neutral-200/60 flex items-center justify-between">
+                          <span className="text-[11px] font-bold text-[#00296b]">
+                            ${prog.tuitionPerYear.toLocaleString()} / yr
+                          </span>
+                          <button
+                            onClick={() => {
+                              setActiveProgramModal(prog);
+                            }}
+                            className="text-[11px] font-bold text-[#00296b] hover:text-[#002054] inline-flex items-center gap-0.5 cursor-pointer"
+                          >
+                            <span>Learn More</span>
+                            <ChevronRight className="w-3 h-3" />
+                          </button>
+                        </div>
+                      </div>
+                    ))}
+                  {(PROGRAMS || []).filter((p) => p.universityId === activeModalUni.id).length === 0 && (
+                    <p className="text-xs text-neutral-500 italic sm:col-span-2">No programs available currently.</p>
+                  )}
+                </div>
+              </div>
+
               {/* Photo Gallery Thumbnails */}
               {activeModalUni.gallery.length > 0 && (
                 <div>
@@ -334,6 +397,120 @@ export const UniversitiesSection: React.FC<UniversitiesSectionProps> = ({
                 </div>
               </div>
 
+            </div>
+
+          </div>
+        </div>
+      )}
+
+      {/* Program Detail Modal */}
+      {activeProgramModal && (
+        <div 
+          className="fixed inset-0 flex items-center justify-center p-4 bg-black/70 backdrop-blur-xs animate-fadeIn"
+          style={{ zIndex: 9999 }}
+          onClick={() => setActiveProgramModal(null)}
+        >
+          <div 
+            className="bg-white rounded-2xl max-w-2xl w-full max-h-[90vh] overflow-y-auto shadow-2xl border border-neutral-200 p-6 sm:p-8 space-y-6 text-neutral-800"
+            onClick={(e) => e.stopPropagation()}
+          >
+            
+            <div className="flex items-start justify-between gap-4 border-b border-neutral-200 pb-4">
+              <div>
+                <span className="text-xs font-bold text-[#00296b] bg-[#00296b]/10 px-2.5 py-0.5 rounded">
+                  {activeProgramModal.degreeLevel} • {activeProgramModal.category}
+                </span>
+                <h3 className="text-2xl font-bold font-serif text-[#001b48] mt-2 leading-snug">
+                  {activeProgramModal.title}
+                </h3>
+                <p className="text-sm font-semibold text-neutral-600">
+                  {activeProgramModal.universityName}
+                </p>
+              </div>
+
+              <button
+                onClick={() => setActiveProgramModal(null)}
+                className="w-8 h-8 rounded-full bg-neutral-100 text-neutral-600 hover:bg-neutral-200 flex items-center justify-center cursor-pointer shrink-0"
+              >
+                <X className="w-5 h-5" />
+              </button>
+            </div>
+
+            {/* Quick Specs */}
+            <div className="grid grid-cols-2 sm:grid-cols-4 gap-3 bg-[#f4f7fa] p-4 rounded-xl border border-[#00296b]/10 text-xs">
+              <div>
+                <span className="text-neutral-500 font-medium block">Duration</span>
+                <span className="font-bold text-neutral-900">{activeProgramModal.duration}</span>
+              </div>
+              <div>
+                <span className="text-neutral-500 font-medium block">Credits</span>
+                <span className="font-bold text-neutral-900">{activeProgramModal.credits} Hours</span>
+              </div>
+              <div>
+                <span className="text-neutral-500 font-medium block">Annual Tuition</span>
+                <span className="font-bold text-[#00296b]">${activeProgramModal.tuitionPerYear.toLocaleString()}</span>
+              </div>
+              <div>
+                <span className="text-neutral-500 font-medium block">Deadline</span>
+                <span className="font-bold text-neutral-900">{activeProgramModal.applicationDeadline}</span>
+              </div>
+            </div>
+
+            {/* Description */}
+            <div>
+              <h4 className="text-sm font-bold text-[#00296b] uppercase tracking-wider mb-2">Program Overview</h4>
+              <p className="text-sm text-neutral-600 leading-relaxed">
+                {activeProgramModal.description}
+              </p>
+            </div>
+
+            {/* Prerequisites */}
+            <div>
+              <h4 className="text-sm font-bold text-neutral-800 uppercase tracking-wider mb-2 flex items-center gap-1.5">
+                <FileCheck className="w-4 h-4 text-[#00296b]" />
+                <span>Admission Prerequisites</span>
+              </h4>
+              <p className="text-xs text-neutral-700 bg-amber-50/70 p-3 rounded-lg border border-amber-200/80">
+                {activeProgramModal.prerequisites}
+              </p>
+            </div>
+
+            {/* Curriculum Highlights */}
+            <div>
+              <h4 className="text-sm font-bold text-neutral-800 uppercase tracking-wider mb-2">Curriculum Modules</h4>
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-2">
+                {activeProgramModal.curriculumHighlights.map((module, i) => (
+                  <div key={i} className="flex items-center gap-2 p-2 bg-neutral-50 rounded-lg text-xs font-medium text-neutral-800 border border-neutral-200">
+                    <CheckCircle2 className="w-4 h-4 text-[#00296b]" />
+                    <span>{module}</span>
+                  </div>
+                ))}
+              </div>
+            </div>
+
+            {/* Career Outcomes */}
+            <div>
+              <h4 className="text-sm font-bold text-neutral-800 uppercase tracking-wider mb-2 flex items-center gap-1.5">
+                <Briefcase className="w-4 h-4 text-[#00296b]" />
+                <span>Career Outcomes</span>
+              </h4>
+              <div className="flex flex-wrap gap-2">
+                {activeProgramModal.careerOutcomes.map((career, i) => (
+                  <span key={i} className="text-xs bg-[#00296b]/10 text-[#00296b] font-semibold px-3 py-1 rounded-full">
+                    {career}
+                  </span>
+                ))}
+              </div>
+            </div>
+
+            {/* Modal Footer CTA */}
+            <div className="pt-4 border-t border-neutral-200 flex items-center justify-end gap-3">
+              <button
+                onClick={() => setActiveProgramModal(null)}
+                className="px-4 py-2.5 bg-neutral-100 hover:bg-neutral-200 text-neutral-700 font-semibold text-xs rounded-xl cursor-pointer"
+              >
+                Close
+              </button>
             </div>
 
           </div>
