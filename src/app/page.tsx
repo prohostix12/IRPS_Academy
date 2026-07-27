@@ -12,6 +12,7 @@ import { ContactSection } from '../components/ContactSection';
 import { Footer } from '../components/Footer';
 import { QuickApplyModal } from '../components/QuickApplyModal';
 import { CheckCircle2, Sparkles, X } from 'lucide-react';
+import { ProcessFlow } from '../components/ProcessFlow';
 
 export default function Page() {
   const [activeTab, setActiveTab] = useState<NavTab>('home');
@@ -128,6 +129,10 @@ export default function Page() {
 
         {activeTab === 'contact' && (
           <ContactSection />
+        )}
+
+        {activeTab === 'process' && (
+          <ProcessFlow />
         )}
       </main>
 

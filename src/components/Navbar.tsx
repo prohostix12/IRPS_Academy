@@ -18,6 +18,7 @@ export const Navbar: React.FC<NavbarProps> = ({ activeTab, setActiveTab, onOpenQ
     { id: 'home', label: 'Home' },
     { id: 'universities', label: 'Universities' },
     { id: 'programs', label: 'Programs' },
+    { id: 'process', label: 'Process Flow' },
     // { id: 'admissions', label: 'Admissions Portal' },
     { id: 'about', label: 'About Us' },
     { id: 'contact', label: 'Contact Us' },

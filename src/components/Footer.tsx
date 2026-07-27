@@ -60,7 +60,7 @@ export const Footer: React.FC<FooterProps> = ({ setActiveTab, onOpenQuickApply }
         <div className="md:col-span-2 space-y-3">
           <h4 className="text-xs font-bold text-[#e8c47a] uppercase tracking-widest">Navigation</h4>
           <ul className="space-y-2 text-xs text-blue-100/80">
-            {['home', 'universities', 'programs', 'admissions', 'about', 'contact'].filter((tab) => tab !== 'admissions').map((tab) => (
+            {['home', 'universities', 'programs', 'process', 'admissions', 'about', 'contact'].filter((tab) => tab !== 'admissions').map((tab) => (
               <li key={tab}>
                 <button
                   onClick={() => {
@@ -69,7 +69,7 @@ export const Footer: React.FC<FooterProps> = ({ setActiveTab, onOpenQuickApply }
                   }}
                   className="hover:text-white capitalize transition-colors cursor-pointer"
                 >
-                  {tab === 'admissions' ? 'Admissions Portal' : tab === 'about' ? 'About Us' : tab === 'contact' ? 'Contact Us' : tab}
+                  {tab === 'admissions' ? 'Admissions Portal' : tab === 'about' ? 'About Us' : tab === 'contact' ? 'Contact Us' : tab === 'process' ? 'Process Flow' : tab}
                 </button>
               </li>
             ))}
