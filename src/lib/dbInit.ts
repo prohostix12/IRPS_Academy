@@ -42,6 +42,7 @@ export async function ensureDbInitialized() {
         features TEXT[] NOT NULL,
         contact_email VARCHAR(255) NOT NULL,
         logo TEXT DEFAULT '',
+        logo_bg VARCHAR(50) DEFAULT '#ffffff',
         created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
       )
     `;
@@ -93,6 +94,16 @@ export async function ensureDbInitialized() {
       ALTER TABLE universities ADD COLUMN IF NOT EXISTS logo TEXT DEFAULT ''
     `;
 
+    // Ensure logo_bg column exists on universities table
+    await sql`
+      ALTER TABLE universities ADD COLUMN IF NOT EXISTS logo_bg VARCHAR(50) DEFAULT '#ffffff'
+    `;
+
+    // Migrate 'Private Ivy' to 'Private University'
+    await sql`
+      UPDATE universities SET type = 'Private University' WHERE type = 'Private Ivy'
+    `;
+
     // 5. Seed default admin if empty
     const adminCountRes = await sql`SELECT count(*) as count FROM admins`;
     const adminCount = parseInt(adminCountRes[0].count, 10);
@@ -125,13 +136,13 @@ export async function ensureDbInitialized() {
             id, name, code, tagline, location, established, type, ranking, 
             acceptance_rate, total_students, campus_size, image, gallery, 
             description, top_programs, tuition_range, features, contact_email,
-            logo
+            logo, logo_bg
           ) VALUES (
             ${uni.id}, ${uni.name}, ${uni.code}, ${uni.tagline}, ${uni.location}, 
             ${uni.established}, ${uni.type}, ${uni.ranking}, ${uni.acceptanceRate}, 
             ${uni.totalStudents}, ${uni.campusSize}, ${uni.image}, ${uni.gallery}, 
             ${uni.description}, ${uni.topPrograms}, ${uni.tuitionRange}, 
-            ${uni.features}, ${uni.contactEmail}, ${uni.logo || ''}
+            ${uni.features}, ${uni.contactEmail}, ${uni.logo || ''}, ${uni.logoBg || '#ffffff'}
           )
         `;
       }

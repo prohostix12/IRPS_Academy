@@ -213,12 +213,14 @@ export const AdmissionsPortal: React.FC<AdmissionsPortalProps> = ({
                   {(() => {
                     const uni = UNIVERSITIES.find(u => u.name === formData.universityName);
                     return uni?.logo ? (
-                      <img 
-                        src={uni.logo} 
-                        alt={`${formData.universityName} Logo`} 
-                        className="w-6 h-6 rounded-full object-cover bg-neutral-100 p-0.5 border border-neutral-300 shrink-0"
-                        onError={(e) => { (e.target as HTMLImageElement).style.display = 'none'; }}
-                      />
+                      <div className="w-8 h-8 rounded-full border border-neutral-300 shrink-0 overflow-hidden flex items-center justify-center p-0.5" style={{ backgroundColor: uni.logoBg || '#ffffff' }}>
+                        <img 
+                          src={uni.logo} 
+                          alt={`${formData.universityName} Logo`} 
+                          className="max-w-full max-h-full object-contain"
+                          onError={(e) => { (e.target as HTMLImageElement).style.display = 'none'; }}
+                        />
+                      </div>
                     ) : null;
                   })()}
                   <span>Your application to <strong>{formData.universityName}</strong> for <strong>{formData.programTitle}</strong> has been logged in our central admissions portal.</span>
@@ -510,12 +512,14 @@ export const AdmissionsPortal: React.FC<AdmissionsPortalProps> = ({
                             {(() => {
                               const uni = UNIVERSITIES.find(u => u.name === formData.universityName);
                               return uni?.logo ? (
-                                <img 
-                                  src={uni.logo} 
-                                  alt={`${formData.universityName} Logo`} 
-                                  className="w-5 h-5 rounded-full object-cover bg-white p-0.5 border border-neutral-200 shrink-0"
-                                  onError={(e) => { (e.target as HTMLImageElement).style.display = 'none'; }}
-                                />
+                                <div className="w-6 h-6 rounded-full border border-neutral-200 shrink-0 overflow-hidden flex items-center justify-center p-0.5" style={{ backgroundColor: uni.logoBg || '#ffffff' }}>
+                                  <img 
+                                    src={uni.logo} 
+                                    alt={`${formData.universityName} Logo`} 
+                                    className="max-w-full max-h-full object-contain"
+                                    onError={(e) => { (e.target as HTMLImageElement).style.display = 'none'; }}
+                                  />
+                                </div>
                               ) : null;
                             })()}
                             <span className="font-bold text-[#00296b]">{formData.universityName}</span>
@@ -631,12 +635,14 @@ export const AdmissionsPortal: React.FC<AdmissionsPortalProps> = ({
                       {(() => {
                         const uni = UNIVERSITIES.find(u => u.name === trackedRecord.universityName);
                         return uni?.logo ? (
-                          <img 
-                            src={uni.logo} 
-                            alt={`${trackedRecord.universityName} Logo`} 
-                            className="w-6 h-6 rounded-full object-cover bg-white p-0.5 border border-neutral-300 shrink-0"
-                            onError={(e) => { (e.target as HTMLImageElement).style.display = 'none'; }}
-                          />
+                          <div className="w-7 h-7 rounded-full border border-neutral-300 shrink-0 overflow-hidden flex items-center justify-center p-0.5" style={{ backgroundColor: uni.logoBg || '#ffffff' }}>
+                            <img 
+                              src={uni.logo} 
+                              alt={`${trackedRecord.universityName} Logo`} 
+                              className="max-w-full max-h-full object-contain"
+                              onError={(e) => { (e.target as HTMLImageElement).style.display = 'none'; }}
+                            />
+                          </div>
                         ) : null;
                       })()}
                       <span className="font-bold text-[#00296b] text-sm">{trackedRecord.universityName}</span>

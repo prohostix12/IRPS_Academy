@@ -78,6 +78,7 @@ export default function AdminPage() {
     campusSize: '',
     image: '',
     logo: '',
+    logoBg: '#ffffff',
     gallery: '',
     description: '',
     topPrograms: '',
@@ -339,6 +340,7 @@ export default function AdminPage() {
       campusSize: '',
       image: '',
       logo: '',
+      logoBg: '#ffffff',
       gallery: '',
       description: '',
       topPrograms: '',
@@ -386,6 +388,7 @@ export default function AdminPage() {
       campusSize: uni.campusSize,
       image: uni.image,
       logo: uni.logo || '',
+      logoBg: uni.logoBg || '#ffffff',
       gallery: uni.gallery.join(', '),
       description: uni.description,
       topPrograms: uni.topPrograms.join(', '),
@@ -674,7 +677,7 @@ export default function AdminPage() {
                 {universities.map(uni => (
                   <div key={uni.id} className="bg-slate-900 border border-slate-800 rounded-3xl p-5 flex flex-col sm:flex-row gap-5 shadow-lg relative">
                     <img 
-                      src={uni.image} 
+                      src={uni.image || 'https://images.unsplash.com/photo-1541829070764-84a7d30dd3f3?auto=format&fit=crop&w=1200&q=80'} 
                       alt={uni.name} 
                       className="w-full sm:w-36 h-28 object-cover rounded-2xl bg-slate-850 shrink-0 border border-slate-800"
                       onError={(e) => { (e.target as HTMLImageElement).src = 'https://images.unsplash.com/photo-1541829070764-84a7d30dd3f3?auto=format&fit=crop&w=300&q=80' }}
@@ -683,12 +686,14 @@ export default function AdminPage() {
                       <div className="flex items-start justify-between gap-2">
                         <div className="flex items-center gap-3">
                           {uni.logo ? (
-                            <img 
-                              src={uni.logo} 
-                              alt={`${uni.name} Logo`} 
-                              className="w-10 h-10 rounded-xl object-cover bg-slate-850 p-0.5 shrink-0 border border-slate-800" 
-                              onError={(e) => { (e.target as HTMLImageElement).style.display = 'none'; }}
-                            />
+                            <div className="w-10 h-10 rounded-xl border border-slate-700 shrink-0 overflow-hidden flex items-center justify-center p-0.5 shadow-inner" style={{ backgroundColor: uni.logoBg || '#ffffff' }}>
+                              <img 
+                                src={uni.logo} 
+                                alt={`${uni.name} Logo`} 
+                                className="max-w-full max-h-full object-contain" 
+                                onError={(e) => { (e.target as HTMLImageElement).style.display = 'none'; }}
+                              />
+                            </div>
                           ) : (
                             <div className="w-10 h-10 rounded-xl bg-slate-850 flex items-center justify-center shrink-0 border border-slate-800 text-slate-400 font-bold text-[10px]">
                               {uni.code.substring(0, 3)}
@@ -1051,7 +1056,7 @@ export default function AdminPage() {
                     className="w-full bg-slate-850 border border-slate-700 rounded-xl px-3 py-2 text-white outline-none cursor-pointer"
                   >
                     <option value="Public State">Public State</option>
-                    <option value="Private Ivy">Private Ivy</option>
+                    <option value="Private University">Private University</option>
                     <option value="Institute of Technology">Institute of Technology</option>
                     <option value="Specialized College">Specialized College</option>
                   </select>
@@ -1117,14 +1122,25 @@ export default function AdminPage() {
                 </div>
 
                 <div className="space-y-1">
-                  <label className="block font-bold text-slate-300 uppercase tracking-wide">University Logo URL</label>
-                  <input
-                    type="text"
-                    placeholder="https://images.unsplash.com/logo.png"
-                    value={uniForm.logo}
-                    onChange={(e) => setUniForm({ ...uniForm, logo: e.target.value })}
-                    className="w-full bg-slate-850 border border-slate-700 rounded-xl px-3 py-2 text-white focus:outline-none focus:border-amber-400"
-                  />
+                  <label className="block font-bold text-slate-300 uppercase tracking-wide">University Logo URL & Background</label>
+                  <div className="flex gap-2">
+                    <input
+                      type="text"
+                      placeholder="https://images.unsplash.com/logo.png"
+                      value={uniForm.logo}
+                      onChange={(e) => setUniForm({ ...uniForm, logo: e.target.value })}
+                      className="flex-grow bg-slate-850 border border-slate-700 rounded-xl px-3 py-2 text-white focus:outline-none focus:border-amber-400 font-sans"
+                    />
+                    <div className="flex items-center gap-1.5 bg-slate-850 border border-slate-700 rounded-xl px-2 shrink-0">
+                      <input
+                        type="color"
+                        value={uniForm.logoBg}
+                        onChange={(e) => setUniForm({ ...uniForm, logoBg: e.target.value })}
+                        className="w-8 h-8 rounded-lg cursor-pointer bg-transparent border-0"
+                        title="Logo Background Color"
+                      />
+                    </div>
+                  </div>
                 </div>
 
                 <div className="space-y-1">

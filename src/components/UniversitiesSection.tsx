@@ -101,7 +101,7 @@ export const UniversitiesSection: React.FC<UniversitiesSectionProps> = ({
 
             {/* Type Filter Buttons */}
             <div className="flex flex-wrap gap-2 w-full md:w-auto">
-              {['All', 'Public State', 'Private Ivy', 'Institute of Technology', 'Specialized College'].map((type) => (
+              {['All', 'Public State', 'Private University', 'Institute of Technology', 'Specialized College'].map((type) => (
                 <button
                   key={type}
                   onClick={() => setSelectedType(type)}
@@ -129,7 +129,7 @@ export const UniversitiesSection: React.FC<UniversitiesSectionProps> = ({
               {/* Image & Badges */}
               <div className="relative h-56 overflow-hidden">
                 <img
-                  src={uni.image}
+                  src={uni.image || 'https://images.unsplash.com/photo-1541829070764-84a7d30dd3f3?auto=format&fit=crop&w=1200&q=80'}
                   alt={uni.name}
                   referrerPolicy="no-referrer"
                   className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
@@ -146,12 +146,14 @@ export const UniversitiesSection: React.FC<UniversitiesSectionProps> = ({
 
                 <div className="absolute bottom-3 left-3 right-3 text-white flex items-center gap-3">
                   {uni.logo && (
-                    <img 
-                      src={uni.logo} 
-                      alt={`${uni.name} Logo`} 
-                      className="w-10 h-10 rounded-xl object-cover bg-white p-0.5 border border-white/20 shrink-0 shadow-md"
-                      onError={(e) => { (e.target as HTMLImageElement).style.display = 'none'; }}
-                    />
+                    <div className="w-10 h-10 rounded-xl border border-white/20 shrink-0 overflow-hidden shadow-md flex items-center justify-center p-0.5" style={{ backgroundColor: uni.logoBg || '#ffffff' }}>
+                      <img 
+                        src={uni.logo} 
+                        alt={`${uni.name} Logo`} 
+                        className="max-w-full max-h-full object-contain"
+                        onError={(e) => { (e.target as HTMLImageElement).style.display = 'none'; }}
+                      />
+                    </div>
                   )}
                   <div className="min-w-0">
                     <p className="text-xs font-medium text-amber-200 flex items-center gap-1">
@@ -262,7 +264,7 @@ export const UniversitiesSection: React.FC<UniversitiesSectionProps> = ({
             {/* Modal Header Image */}
             <div className="relative h-64">
               <img
-                src={activeModalUni.image}
+                src={activeModalUni.image || 'https://images.unsplash.com/photo-1541829070764-84a7d30dd3f3?auto=format&fit=crop&w=1200&q=80'}
                 alt={activeModalUni.name}
                 referrerPolicy="no-referrer"
                 className="w-full h-full object-cover"
@@ -278,12 +280,14 @@ export const UniversitiesSection: React.FC<UniversitiesSectionProps> = ({
 
               <div className="absolute bottom-4 left-6 right-6 text-white flex items-center gap-4">
                 {activeModalUni.logo && (
-                  <img 
-                    src={activeModalUni.logo} 
-                    alt={`${activeModalUni.name} Logo`} 
-                    className="w-12 h-12 sm:w-16 sm:h-16 rounded-2xl object-cover bg-white p-0.5 border border-white/20 shrink-0 shadow-lg"
-                    onError={(e) => { (e.target as HTMLImageElement).style.display = 'none'; }}
-                  />
+                  <div className="w-12 h-12 sm:w-16 sm:h-16 rounded-2xl border border-white/20 shrink-0 overflow-hidden shadow-lg flex items-center justify-center p-1" style={{ backgroundColor: activeModalUni.logoBg || '#ffffff' }}>
+                    <img 
+                      src={activeModalUni.logo} 
+                      alt={`${activeModalUni.name} Logo`} 
+                      className="max-w-full max-h-full object-contain"
+                      onError={(e) => { (e.target as HTMLImageElement).style.display = 'none'; }}
+                    />
+                  </div>
                 )}
                 <div className="min-w-0">
                   <span className="bg-[#00296b] text-white text-xs font-bold px-2.5 py-0.5 rounded uppercase tracking-wider">

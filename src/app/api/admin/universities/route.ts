@@ -13,7 +13,7 @@ export async function POST(req: Request) {
     const body = await req.json();
     const {
       name, code, tagline, location, established, type, ranking,
-      acceptanceRate, totalStudents, campusSize, image, logo, gallery,
+      acceptanceRate, totalStudents, campusSize, image, logo, logoBg, gallery,
       description, topPrograms, tuitionRange, features, contactEmail
     } = body;
 
@@ -26,12 +26,12 @@ export async function POST(req: Request) {
     await sql`
       INSERT INTO universities (
         id, name, code, tagline, location, established, type, ranking, 
-        acceptance_rate, total_students, campus_size, image, logo, gallery, 
+        acceptance_rate, total_students, campus_size, image, logo, logo_bg, gallery, 
         description, top_programs, tuition_range, features, contact_email
       ) VALUES (
         ${id}, ${name}, ${code}, ${tagline || ''}, ${location}, ${Number(established) || 2026}, 
         ${type}, ${ranking || ''}, ${acceptanceRate || ''}, ${totalStudents || ''}, 
-        ${campusSize || ''}, ${image || ''}, ${logo || ''}, ${gallery || []}, ${description || ''}, 
+        ${campusSize || ''}, ${image || ''}, ${logo || ''}, ${logoBg || '#ffffff'}, ${gallery || []}, ${description || ''}, 
         ${topPrograms || []}, ${tuitionRange || ''}, ${features || []}, ${contactEmail}
       )
     `;
@@ -54,7 +54,7 @@ export async function PUT(req: Request) {
     const body = await req.json();
     const {
       id, name, code, tagline, location, established, type, ranking,
-      acceptanceRate, totalStudents, campusSize, image, logo, gallery,
+      acceptanceRate, totalStudents, campusSize, image, logo, logoBg, gallery,
       description, topPrograms, tuitionRange, features, contactEmail
     } = body;
 
@@ -76,6 +76,7 @@ export async function PUT(req: Request) {
         campus_size = ${campusSize || ''},
         image = ${image || ''},
         logo = ${logo || ''},
+        logo_bg = ${logoBg || '#ffffff'},
         gallery = ${gallery || []},
         description = ${description || ''},
         top_programs = ${topPrograms || []},

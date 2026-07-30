@@ -223,22 +223,24 @@ export const ProgramsSection: React.FC<ProgramsSectionProps> = ({
                     {prog.title}
                   </h3>
 
-                  <p className="text-xs font-bold text-neutral-600 flex items-center gap-1.5">
+                  <div className="text-xs font-bold text-neutral-600 flex items-center gap-1.5">
                     {(() => {
                       const uni = UNIVERSITIES?.find(u => u.id === prog.universityId || u.name === prog.universityName);
                       return uni?.logo ? (
-                        <img 
-                          src={uni.logo} 
-                          alt={`${prog.universityName} Logo`} 
-                          className="w-4 h-4 rounded-full object-cover bg-neutral-100 border border-neutral-300 inline"
-                          onError={(e) => { (e.target as HTMLImageElement).style.display = 'none'; }}
-                        />
+                        <div className="w-5 h-5 rounded-full border border-neutral-300 shrink-0 overflow-hidden flex items-center justify-center p-0.5" style={{ backgroundColor: uni.logoBg || '#ffffff' }}>
+                          <img 
+                            src={uni.logo} 
+                            alt={`${prog.universityName} Logo`} 
+                            className="max-w-full max-h-full object-contain"
+                            onError={(e) => { (e.target as HTMLImageElement).style.display = 'none'; }}
+                          />
+                        </div>
                       ) : (
                         <GraduationCap className="w-4 h-4 text-[#00296b]" />
                       );
                     })()}
                     <span>{prog.universityName}</span>
-                  </p>
+                  </div>
                 </div>
 
                 {/* Description */}
@@ -318,12 +320,14 @@ export const ProgramsSection: React.FC<ProgramsSectionProps> = ({
                   {(() => {
                     const uni = UNIVERSITIES?.find(u => u.id === activeProgramModal.universityId || u.name === activeProgramModal.universityName);
                     return uni?.logo ? (
-                      <img 
-                        src={uni.logo} 
-                        alt={`${activeProgramModal.universityName} Logo`} 
-                        className="w-5 h-5 rounded-full object-cover bg-neutral-100 border border-neutral-300 inline"
-                        onError={(e) => { (e.target as HTMLImageElement).style.display = 'none'; }}
-                      />
+                      <div className="w-6 h-6 rounded-full border border-neutral-300 shrink-0 overflow-hidden flex items-center justify-center p-0.5" style={{ backgroundColor: uni.logoBg || '#ffffff' }}>
+                        <img 
+                          src={uni.logo} 
+                          alt={`${activeProgramModal.universityName} Logo`} 
+                          className="max-w-full max-h-full object-contain"
+                          onError={(e) => { (e.target as HTMLImageElement).style.display = 'none'; }}
+                        />
+                      </div>
                     ) : null;
                   })()}
                   <p className="text-sm font-semibold text-neutral-600">
@@ -476,12 +480,14 @@ export const ProgramsSection: React.FC<ProgramsSectionProps> = ({
                         <td key={p.id} className="p-3 font-bold text-neutral-800">
                           <div className="flex items-center gap-1.5">
                             {uni?.logo && (
-                              <img 
-                                src={uni.logo} 
-                                alt={`${p.universityName} Logo`} 
-                                className="w-4 h-4 rounded-full object-cover bg-neutral-100 border border-neutral-300"
-                                onError={(e) => { (e.target as HTMLImageElement).style.display = 'none'; }}
-                              />
+                              <div className="w-5 h-5 rounded-full border border-neutral-300 shrink-0 overflow-hidden flex items-center justify-center p-0.5" style={{ backgroundColor: uni.logoBg || '#ffffff' }}>
+                                <img 
+                                  src={uni.logo} 
+                                  alt={`${p.universityName} Logo`} 
+                                  className="max-w-full max-h-full object-contain"
+                                  onError={(e) => { (e.target as HTMLImageElement).style.display = 'none'; }}
+                                />
+                              </div>
                             )}
                             <span>{p.universityName}</span>
                           </div>

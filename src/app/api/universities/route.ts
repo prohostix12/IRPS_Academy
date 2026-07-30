@@ -26,6 +26,7 @@ export async function GET() {
       campusSize: u.campus_size,
       image: u.image,
       logo: u.logo || '',
+      logoBg: u.logo_bg || '#ffffff',
       gallery: u.gallery,
       description: u.description,
       topPrograms: u.top_programs,

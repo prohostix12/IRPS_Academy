@@ -7,13 +7,14 @@ export interface University {
   tagline: string;
   location: string;
   established: number;
-  type: 'Public State' | 'Private Ivy' | 'Institute of Technology' | 'Specialized College';
+  type: 'Public State' | 'Private University' | 'Institute of Technology' | 'Specialized College';
   ranking: string;
   acceptanceRate: string;
   totalStudents: string;
   campusSize: string;
   image: string;
   logo: string;
+  logoBg: string;
   gallery: string[];
   description: string;
   topPrograms: string[];

@@ -17,6 +17,7 @@ export const UNIVERSITIES: University[] = [
     campusSize: '350 Acres',
     image: 'https://images.unsplash.com/photo-1541829070764-84a7d30dd3f3?auto=format&fit=crop&w=1200&q=80',
     logo: 'https://images.unsplash.com/photo-1546410531-bb4caa6b424d?auto=format&fit=crop&w=120&q=80',
+    logoBg: '#ffffff',
     gallery: [
       'https://images.unsplash.com/photo-1523050854058-8df90110c9f1?auto=format&fit=crop&w=800&q=80',
       'https://images.unsplash.com/photo-1592280771190-3e2e4d571952?auto=format&fit=crop&w=800&q=80',
@@ -42,6 +43,7 @@ export const UNIVERSITIES: University[] = [
     campusSize: '210 Acres',
     image: 'https://images.unsplash.com/photo-1562774053-701939374585?auto=format&fit=crop&w=1200&q=80',
     logo: 'https://images.unsplash.com/photo-1516321318423-f06f85e504b3?auto=format&fit=crop&w=120&q=80',
+    logoBg: '#f8fafc',
     gallery: [
       'https://images.unsplash.com/photo-1581091226825-a6a2a5aee158?auto=format&fit=crop&w=800&q=80',
       'https://images.unsplash.com/photo-1532094349884-543bc11b234d?auto=format&fit=crop&w=800&q=80'
@@ -66,6 +68,7 @@ export const UNIVERSITIES: University[] = [
     campusSize: '120 Acres',
     image: 'https://images.unsplash.com/photo-1576091160399-112ba8d25d1d?auto=format&fit=crop&w=1200&q=80',
     logo: 'https://images.unsplash.com/photo-1505751172876-fa1923c5c528?auto=format&fit=crop&w=120&q=80',
+    logoBg: '#ffffff',
     gallery: [
       'https://images.unsplash.com/photo-1516549655169-df83a0774514?auto=format&fit=crop&w=800&q=80',
       'https://images.unsplash.com/photo-1579684385127-1ef15d508118?auto=format&fit=crop&w=800&q=80'
@@ -83,13 +86,14 @@ export const UNIVERSITIES: University[] = [
     tagline: 'Empowering Global Leaders, Financial Strategists & Entrepreneurs',
     location: 'New York City, NY, USA',
     established: 1948,
-    type: 'Private Ivy',
+    type: 'Private University',
     ranking: '#5 Business School Worldwide',
     acceptanceRate: '15%',
     totalStudents: '12,400+',
     campusSize: 'Metropolitan Campus',
     image: 'https://images.unsplash.com/photo-1498243691581-b145c3f54a5a?auto=format&fit=crop&w=1200&q=80',
     logo: 'https://images.unsplash.com/photo-1454165804606-c3d57bc86b40?auto=format&fit=crop&w=120&q=80',
+    logoBg: '#ffffff',
     gallery: [
       'https://images.unsplash.com/photo-1486406146926-c627a92ad1ab?auto=format&fit=crop&w=800&q=80',
       'https://images.unsplash.com/photo-1454165804606-c3d57bc86b40?auto=format&fit=crop&w=800&q=80'
@@ -107,13 +111,14 @@ export const UNIVERSITIES: University[] = [
     tagline: 'Defending Justice, Shaping Legislation, & Leading Governance',
     location: 'Washington, D.C., USA',
     established: 1925,
-    type: 'Private Ivy',
+    type: 'Private University',
     ranking: '#6 Law & Policy School',
     acceptanceRate: '16%',
     totalStudents: '7,500+',
     campusSize: '85 Acres',
     image: 'https://images.unsplash.com/photo-1592280771190-3e2e4d571952?auto=format&fit=crop&w=1200&q=80',
     logo: 'https://images.unsplash.com/photo-1589829545856-d10d557cf95f?auto=format&fit=crop&w=120&q=80',
+    logoBg: '#f1f5f9',
     gallery: [
       'https://images.unsplash.com/photo-1436450412740-6b988f486c6b?auto=format&fit=crop&w=800&q=80'
     ],
@@ -137,6 +142,7 @@ export const UNIVERSITIES: University[] = [
     campusSize: '65 Acres',
     image: 'https://images.unsplash.com/photo-1513542789411-b6a5d4f31634?auto=format&fit=crop&w=1200&q=80',
     logo: 'https://images.unsplash.com/photo-1513364776144-60967b0f800f?auto=format&fit=crop&w=120&q=80',
+    logoBg: '#ffffff',
     gallery: [
       'https://images.unsplash.com/photo-1460518451285-97b6aa326961?auto=format&fit=crop&w=800&q=80'
     ],
