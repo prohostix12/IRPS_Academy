@@ -41,6 +41,7 @@ export async function ensureDbInitialized() {
         tuition_range VARCHAR(255) NOT NULL,
         features TEXT[] NOT NULL,
         contact_email VARCHAR(255) NOT NULL,
+        logo TEXT DEFAULT '',
         created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
       )
     `;
@@ -87,6 +88,11 @@ export async function ensureDbInitialized() {
       ALTER TABLE contact_inquiries ADD COLUMN IF NOT EXISTS status VARCHAR(50) DEFAULT 'unread'
     `;
 
+    // Ensure logo column exists on universities table
+    await sql`
+      ALTER TABLE universities ADD COLUMN IF NOT EXISTS logo TEXT DEFAULT ''
+    `;
+
     // 5. Seed default admin if empty
     const adminCountRes = await sql`SELECT count(*) as count FROM admins`;
     const adminCount = parseInt(adminCountRes[0].count, 10);
@@ -118,13 +124,14 @@ export async function ensureDbInitialized() {
           INSERT INTO universities (
             id, name, code, tagline, location, established, type, ranking, 
             acceptance_rate, total_students, campus_size, image, gallery, 
-            description, top_programs, tuition_range, features, contact_email
+            description, top_programs, tuition_range, features, contact_email,
+            logo
           ) VALUES (
             ${uni.id}, ${uni.name}, ${uni.code}, ${uni.tagline}, ${uni.location}, 
             ${uni.established}, ${uni.type}, ${uni.ranking}, ${uni.acceptanceRate}, 
             ${uni.totalStudents}, ${uni.campusSize}, ${uni.image}, ${uni.gallery}, 
             ${uni.description}, ${uni.topPrograms}, ${uni.tuitionRange}, 
-            ${uni.features}, ${uni.contactEmail}
+            ${uni.features}, ${uni.contactEmail}, ${uni.logo || ''}
           )
         `;
       }

@@ -13,6 +13,7 @@ export interface University {
   totalStudents: string;
   campusSize: string;
   image: string;
+  logo: string;
   gallery: string[];
   description: string;
   topPrograms: string[];

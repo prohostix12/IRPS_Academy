@@ -144,14 +144,24 @@ export const UniversitiesSection: React.FC<UniversitiesSectionProps> = ({
                   {uni.ranking}
                 </span>
 
-                <div className="absolute bottom-3 left-3 right-3 text-white">
-                  <p className="text-xs font-medium text-amber-200 flex items-center gap-1">
-                    <MapPin className="w-3.5 h-3.5 text-amber-200" />
-                    <span>{uni.location}</span>
-                  </p>
-                  <h3 className="text-xl font-bold font-serif leading-snug line-clamp-1">
-                    {uni.name}
-                  </h3>
+                <div className="absolute bottom-3 left-3 right-3 text-white flex items-center gap-3">
+                  {uni.logo && (
+                    <img 
+                      src={uni.logo} 
+                      alt={`${uni.name} Logo`} 
+                      className="w-10 h-10 rounded-xl object-cover bg-white p-0.5 border border-white/20 shrink-0 shadow-md"
+                      onError={(e) => { (e.target as HTMLImageElement).style.display = 'none'; }}
+                    />
+                  )}
+                  <div className="min-w-0">
+                    <p className="text-xs font-medium text-amber-200 flex items-center gap-1">
+                      <MapPin className="w-3.5 h-3.5 text-amber-200" />
+                      <span>{uni.location}</span>
+                    </p>
+                    <h3 className="text-xl font-bold font-serif leading-snug line-clamp-1">
+                      {uni.name}
+                    </h3>
+                  </div>
                 </div>
               </div>
 
@@ -266,17 +276,27 @@ export const UniversitiesSection: React.FC<UniversitiesSectionProps> = ({
                 <X className="w-5 h-5" />
               </button>
 
-              <div className="absolute bottom-4 left-6 right-6 text-white">
-                <span className="bg-[#00296b] text-white text-xs font-bold px-2.5 py-0.5 rounded uppercase tracking-wider">
-                  {activeModalUni.ranking}
-                </span>
-                <h3 className="text-2xl sm:text-3xl font-black font-serif mt-1">
-                  {activeModalUni.name}
-                </h3>
-                <p className="text-xs text-[#e8c47a] flex items-center gap-1 mt-1">
-                  <MapPin className="w-3.5 h-3.5" />
-                  <span>{activeModalUni.location} • Founded {activeModalUni.established}</span>
-                </p>
+              <div className="absolute bottom-4 left-6 right-6 text-white flex items-center gap-4">
+                {activeModalUni.logo && (
+                  <img 
+                    src={activeModalUni.logo} 
+                    alt={`${activeModalUni.name} Logo`} 
+                    className="w-12 h-12 sm:w-16 sm:h-16 rounded-2xl object-cover bg-white p-0.5 border border-white/20 shrink-0 shadow-lg"
+                    onError={(e) => { (e.target as HTMLImageElement).style.display = 'none'; }}
+                  />
+                )}
+                <div className="min-w-0">
+                  <span className="bg-[#00296b] text-white text-xs font-bold px-2.5 py-0.5 rounded uppercase tracking-wider">
+                    {activeModalUni.ranking}
+                  </span>
+                  <h3 className="text-2xl sm:text-3xl font-black font-serif mt-1">
+                    {activeModalUni.name}
+                  </h3>
+                  <p className="text-xs text-[#e8c47a] flex items-center gap-1 mt-1">
+                    <MapPin className="w-3.5 h-3.5" />
+                    <span>{activeModalUni.location} • Founded {activeModalUni.established}</span>
+                  </p>
+                </div>
               </div>
             </div>
 

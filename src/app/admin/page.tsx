@@ -77,6 +77,7 @@ export default function AdminPage() {
     totalStudents: '',
     campusSize: '',
     image: '',
+    logo: '',
     gallery: '',
     description: '',
     topPrograms: '',
@@ -337,6 +338,7 @@ export default function AdminPage() {
       totalStudents: '',
       campusSize: '',
       image: '',
+      logo: '',
       gallery: '',
       description: '',
       topPrograms: '',
@@ -383,6 +385,7 @@ export default function AdminPage() {
       totalStudents: uni.totalStudents,
       campusSize: uni.campusSize,
       image: uni.image,
+      logo: uni.logo || '',
       gallery: uni.gallery.join(', '),
       description: uni.description,
       topPrograms: uni.topPrograms.join(', '),
@@ -678,9 +681,23 @@ export default function AdminPage() {
                     />
                     <div className="flex-grow space-y-2">
                       <div className="flex items-start justify-between gap-2">
-                        <div>
-                          <span className="text-[10px] font-bold text-amber-400 uppercase tracking-widest">{uni.code}</span>
-                          <h3 className="font-bold font-serif text-lg text-white leading-tight">{uni.name}</h3>
+                        <div className="flex items-center gap-3">
+                          {uni.logo ? (
+                            <img 
+                              src={uni.logo} 
+                              alt={`${uni.name} Logo`} 
+                              className="w-10 h-10 rounded-xl object-cover bg-slate-850 p-0.5 shrink-0 border border-slate-800" 
+                              onError={(e) => { (e.target as HTMLImageElement).style.display = 'none'; }}
+                            />
+                          ) : (
+                            <div className="w-10 h-10 rounded-xl bg-slate-850 flex items-center justify-center shrink-0 border border-slate-800 text-slate-400 font-bold text-[10px]">
+                              {uni.code.substring(0, 3)}
+                            </div>
+                          )}
+                          <div>
+                            <span className="text-[10px] font-bold text-amber-400 uppercase tracking-widest">{uni.code}</span>
+                            <h3 className="font-bold font-serif text-lg text-white leading-tight">{uni.name}</h3>
+                          </div>
                         </div>
                         <div className="flex gap-1.5 shrink-0">
                           <button
@@ -1087,7 +1104,7 @@ export default function AdminPage() {
                 </div>
               </div>
 
-              <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+              <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
                 <div className="space-y-1">
                   <label className="block font-bold text-slate-300 uppercase tracking-wide">Hero Image URL</label>
                   <input
@@ -1095,6 +1112,17 @@ export default function AdminPage() {
                     placeholder="https://images.unsplash.com/..."
                     value={uniForm.image}
                     onChange={(e) => setUniForm({ ...uniForm, image: e.target.value })}
+                    className="w-full bg-slate-850 border border-slate-700 rounded-xl px-3 py-2 text-white focus:outline-none focus:border-amber-400"
+                  />
+                </div>
+
+                <div className="space-y-1">
+                  <label className="block font-bold text-slate-300 uppercase tracking-wide">University Logo URL</label>
+                  <input
+                    type="text"
+                    placeholder="https://images.unsplash.com/logo.png"
+                    value={uniForm.logo}
+                    onChange={(e) => setUniForm({ ...uniForm, logo: e.target.value })}
                     className="w-full bg-slate-850 border border-slate-700 rounded-xl px-3 py-2 text-white focus:outline-none focus:border-amber-400"
                   />
                 </div>

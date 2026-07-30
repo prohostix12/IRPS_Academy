@@ -30,7 +30,7 @@ export const ProgramsSection: React.FC<ProgramsSectionProps> = ({
   selectedUniversityFilter = '',
   onApplyToProgram
 }) => {
-  const { programs: PROGRAMS, loading } = useData();
+  const { universities: UNIVERSITIES, programs: PROGRAMS, loading } = useData();
   const [degreeFilter, setDegreeFilter] = useState<string>('All');
   const [categoryFilter, setCategoryFilter] = useState<string>('All');
   const [uniFilter, setUniFilter] = useState<string>(selectedUniversityFilter || 'All');
@@ -223,8 +223,20 @@ export const ProgramsSection: React.FC<ProgramsSectionProps> = ({
                     {prog.title}
                   </h3>
 
-                  <p className="text-xs font-bold text-neutral-600 flex items-center gap-1">
-                    <GraduationCap className="w-4 h-4 text-[#00296b]" />
+                  <p className="text-xs font-bold text-neutral-600 flex items-center gap-1.5">
+                    {(() => {
+                      const uni = UNIVERSITIES?.find(u => u.id === prog.universityId || u.name === prog.universityName);
+                      return uni?.logo ? (
+                        <img 
+                          src={uni.logo} 
+                          alt={`${prog.universityName} Logo`} 
+                          className="w-4 h-4 rounded-full object-cover bg-neutral-100 border border-neutral-300 inline"
+                          onError={(e) => { (e.target as HTMLImageElement).style.display = 'none'; }}
+                        />
+                      ) : (
+                        <GraduationCap className="w-4 h-4 text-[#00296b]" />
+                      );
+                    })()}
                     <span>{prog.universityName}</span>
                   </p>
                 </div>
@@ -302,9 +314,22 @@ export const ProgramsSection: React.FC<ProgramsSectionProps> = ({
                 <h3 className="text-2xl font-bold font-serif text-[#001b48] mt-2">
                   {activeProgramModal.title}
                 </h3>
-                <p className="text-sm font-semibold text-neutral-600">
-                  {activeProgramModal.universityName}
-                </p>
+                <div className="flex items-center gap-2 mt-1">
+                  {(() => {
+                    const uni = UNIVERSITIES?.find(u => u.id === activeProgramModal.universityId || u.name === activeProgramModal.universityName);
+                    return uni?.logo ? (
+                      <img 
+                        src={uni.logo} 
+                        alt={`${activeProgramModal.universityName} Logo`} 
+                        className="w-5 h-5 rounded-full object-cover bg-neutral-100 border border-neutral-300 inline"
+                        onError={(e) => { (e.target as HTMLImageElement).style.display = 'none'; }}
+                      />
+                    ) : null;
+                  })()}
+                  <p className="text-sm font-semibold text-neutral-600">
+                    {activeProgramModal.universityName}
+                  </p>
+                </div>
               </div>
 
               <button
@@ -445,9 +470,24 @@ export const ProgramsSection: React.FC<ProgramsSectionProps> = ({
                 <tbody className="divide-y divide-neutral-200 text-xs">
                   <tr>
                     <td className="p-3 font-semibold text-neutral-600">University</td>
-                    {comparisonList.map((p) => (
-                      <td key={p.id} className="p-3 font-bold text-neutral-800">{p.universityName}</td>
-                    ))}
+                    {comparisonList.map((p) => {
+                      const uni = UNIVERSITIES?.find(u => u.id === p.universityId || u.name === p.universityName);
+                      return (
+                        <td key={p.id} className="p-3 font-bold text-neutral-800">
+                          <div className="flex items-center gap-1.5">
+                            {uni?.logo && (
+                              <img 
+                                src={uni.logo} 
+                                alt={`${p.universityName} Logo`} 
+                                className="w-4 h-4 rounded-full object-cover bg-neutral-100 border border-neutral-300"
+                                onError={(e) => { (e.target as HTMLImageElement).style.display = 'none'; }}
+                              />
+                            )}
+                            <span>{p.universityName}</span>
+                          </div>
+                        </td>
+                      );
+                    })}
                   </tr>
                   <tr>
                     <td className="p-3 font-semibold text-neutral-600">Degree Level</td>

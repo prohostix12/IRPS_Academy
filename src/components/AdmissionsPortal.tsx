@@ -209,9 +209,20 @@ export const AdmissionsPortal: React.FC<AdmissionsPortalProps> = ({
                 <h3 className="text-3xl font-bold font-serif text-[#001b48]">
                   Application Successfully Submitted!
                 </h3>
-                <p className="text-sm text-neutral-600 max-w-md mx-auto">
-                  Your application to <strong>{formData.universityName}</strong> for <strong>{formData.programTitle}</strong> has been logged in our central admissions portal.
-                </p>
+                <div className="text-sm text-neutral-600 max-w-md mx-auto flex items-center justify-center gap-2 flex-wrap">
+                  {(() => {
+                    const uni = UNIVERSITIES.find(u => u.name === formData.universityName);
+                    return uni?.logo ? (
+                      <img 
+                        src={uni.logo} 
+                        alt={`${formData.universityName} Logo`} 
+                        className="w-6 h-6 rounded-full object-cover bg-neutral-100 p-0.5 border border-neutral-300 shrink-0"
+                        onError={(e) => { (e.target as HTMLImageElement).style.display = 'none'; }}
+                      />
+                    ) : null;
+                  })()}
+                  <span>Your application to <strong>{formData.universityName}</strong> for <strong>{formData.programTitle}</strong> has been logged in our central admissions portal.</span>
+                </div>
 
                 <div className="bg-[#f4f7fa] p-6 rounded-2xl border border-[#00296b]/20 max-w-sm mx-auto">
                   <span className="text-xs font-bold text-neutral-500 uppercase block mb-1">Your Tracking Reference ID</span>
@@ -493,9 +504,22 @@ export const AdmissionsPortal: React.FC<AdmissionsPortalProps> = ({
                           <span className="font-semibold text-neutral-500">Email:</span>
                           <span className="font-bold">{formData.email || 'alex.mercer@example.com'}</span>
                         </div>
-                        <div className="flex justify-between border-b border-neutral-200 pb-2">
+                        <div className="flex justify-between border-b border-neutral-200 pb-2 items-center">
                           <span className="font-semibold text-neutral-500">Target University:</span>
-                          <span className="font-bold text-[#00296b]">{formData.universityName}</span>
+                          <div className="flex items-center gap-1.5">
+                            {(() => {
+                              const uni = UNIVERSITIES.find(u => u.name === formData.universityName);
+                              return uni?.logo ? (
+                                <img 
+                                  src={uni.logo} 
+                                  alt={`${formData.universityName} Logo`} 
+                                  className="w-5 h-5 rounded-full object-cover bg-white p-0.5 border border-neutral-200 shrink-0"
+                                  onError={(e) => { (e.target as HTMLImageElement).style.display = 'none'; }}
+                                />
+                              ) : null;
+                            })()}
+                            <span className="font-bold text-[#00296b]">{formData.universityName}</span>
+                          </div>
                         </div>
                         <div className="flex justify-between border-b border-neutral-200 pb-2">
                           <span className="font-semibold text-neutral-500">Target Program:</span>
@@ -602,8 +626,21 @@ export const AdmissionsPortal: React.FC<AdmissionsPortalProps> = ({
                 {/* Target Info Grid */}
                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 bg-[#f4f7fa] p-4 rounded-2xl border border-[#00296b]/10 text-xs">
                   <div>
-                    <span className="text-neutral-500 block font-medium">University</span>
-                    <span className="font-bold text-[#00296b] text-sm">{trackedRecord.universityName}</span>
+                    <span className="text-neutral-500 block font-medium mb-1">University</span>
+                    <div className="flex items-center gap-2">
+                      {(() => {
+                        const uni = UNIVERSITIES.find(u => u.name === trackedRecord.universityName);
+                        return uni?.logo ? (
+                          <img 
+                            src={uni.logo} 
+                            alt={`${trackedRecord.universityName} Logo`} 
+                            className="w-6 h-6 rounded-full object-cover bg-white p-0.5 border border-neutral-300 shrink-0"
+                            onError={(e) => { (e.target as HTMLImageElement).style.display = 'none'; }}
+                          />
+                        ) : null;
+                      })()}
+                      <span className="font-bold text-[#00296b] text-sm">{trackedRecord.universityName}</span>
+                    </div>
                   </div>
                   <div>
                     <span className="text-neutral-500 block font-medium">Program</span>
