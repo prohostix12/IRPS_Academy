@@ -38,7 +38,7 @@ export interface Program {
   description: string;
   curriculumHighlights: string[];
   careerOutcomes: string[];
-  prerequisites: string;
+  eligibility: string;
   featured?: boolean;
 }
 

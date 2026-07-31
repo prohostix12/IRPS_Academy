@@ -11,6 +11,7 @@ coverage/
 .next/
 out/
 
+
 # production
 build/
 dist/
@@ -38,3 +39,6 @@ yarn-error.log*
 # typescript
 *.tsbuildinfo
 next-env.d.ts
+
+
+

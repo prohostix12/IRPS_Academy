@@ -105,7 +105,7 @@ export default function AdminPage() {
     description: '',
     curriculumHighlights: '',
     careerOutcomes: '',
-    prerequisites: '',
+    eligibility: '',
     featured: false
   });
   const [progFormError, setProgFormError] = useState<string | null>(null);
@@ -366,7 +366,7 @@ export default function AdminPage() {
       description: '',
       curriculumHighlights: '',
       careerOutcomes: '',
-      prerequisites: '',
+      eligibility: '',
       featured: false
     });
     setEditingProg(null);
@@ -414,7 +414,7 @@ export default function AdminPage() {
       description: prog.description,
       curriculumHighlights: prog.curriculumHighlights.join(', '),
       careerOutcomes: prog.careerOutcomes.join(', '),
-      prerequisites: prog.prerequisites,
+      eligibility: prog.eligibility,
       featured: prog.featured || false
     });
     setIsProgModalOpen(true);
@@ -1053,12 +1053,12 @@ export default function AdminPage() {
                   <select
                     value={uniForm.type}
                     onChange={(e) => setUniForm({ ...uniForm, type: e.target.value })}
-                    className="w-full bg-slate-850 border border-slate-700 rounded-xl px-3 py-2 text-white outline-none cursor-pointer"
+                    className="w-full bg-[#0F172B] border border-slate-700 rounded-xl px-3 py-2 text-white outline-none cursor-pointer"
                   >
-                    <option value="Public State">Public State</option>
-                    <option value="Private University">Private University</option>
-                    <option value="Institute of Technology">Institute of Technology</option>
-                    <option value="Specialized College">Specialized College</option>
+                    <option value="Public State" className="bg-[#0F172B] text-white">Public State</option>
+                    <option value="Private University" className="bg-[#0F172B] text-white">Private University</option>
+                    <option value="Institute of Technology" className="bg-[#0F172B] text-white">Institute of Technology</option>
+                    <option value="Specialized College" className="bg-[#0F172B] text-white">Specialized College</option>
                   </select>
                 </div>
               </div>
@@ -1271,10 +1271,10 @@ export default function AdminPage() {
                   <select
                     value={progForm.universityId}
                     onChange={(e) => setProgForm({ ...progForm, universityId: e.target.value })}
-                    className="w-full bg-slate-850 border border-slate-700 rounded-xl px-3 py-2 text-white outline-none cursor-pointer"
+                    className="w-full bg-[#0F172B] border border-slate-700 rounded-xl px-3 py-2 text-white outline-none cursor-pointer"
                   >
                     {universities.map(u => (
-                      <option key={u.id} value={u.id} className="bg-slate-900">{u.name}</option>
+                      <option key={u.id} value={u.id} className="bg-[#0F172B] text-white">{u.name}</option>
                     ))}
                   </select>
                 </div>
@@ -1286,14 +1286,14 @@ export default function AdminPage() {
                   <select
                     value={progForm.degreeLevel}
                     onChange={(e) => setProgForm({ ...progForm, degreeLevel: e.target.value })}
-                    className="w-full bg-slate-850 border border-slate-700 rounded-xl px-3 py-2 text-white outline-none cursor-pointer"
+                    className="w-full bg-[#0F172B] border border-slate-700 rounded-xl px-3 py-2 text-white outline-none cursor-pointer"
                   >
-                    <option value="PhD">PhD</option>
-                    <option value="EdD">EdD</option>
-                    <option value="DBA">DBA</option>
-                    <option value="EngD">EngD</option>
-                    <option value="DSc / ScD">DSc / ScD</option>
-                    <option value="DPhil">DPhil</option>
+                    <option value="PhD" className="bg-[#0F172B] text-white">PhD</option>
+                    <option value="EdD" className="bg-[#0F172B] text-white">EdD</option>
+                    <option value="DBA" className="bg-[#0F172B] text-white">DBA</option>
+                    <option value="EngD" className="bg-[#0F172B] text-white">EngD</option>
+                    <option value="DSc / ScD" className="bg-[#0F172B] text-white">DSc / ScD</option>
+                    <option value="DPhil" className="bg-[#0F172B] text-white">DPhil</option>
                   </select>
                 </div>
 
@@ -1302,14 +1302,14 @@ export default function AdminPage() {
                   <select
                     value={progForm.category}
                     onChange={(e) => setProgForm({ ...progForm, category: e.target.value })}
-                    className="w-full bg-slate-850 border border-slate-700 rounded-xl px-3 py-2 text-white outline-none cursor-pointer"
+                    className="w-full bg-[#0F172B] border border-slate-700 rounded-xl px-3 py-2 text-white outline-none cursor-pointer"
                   >
-                    <option value="Engineering & Tech">Engineering & Tech</option>
-                    <option value="Business & Management">Business & Management</option>
-                    <option value="Medicine & Health">Medicine & Health</option>
-                    <option value="Arts & Humanities">Arts & Humanities</option>
-                    <option value="Law & Public Policy">Law & Public Policy</option>
-                    <option value="Natural Sciences">Natural Sciences</option>
+                    <option value="Engineering & Tech" className="bg-[#0F172B] text-white">Engineering & Tech</option>
+                    <option value="Business & Management" className="bg-[#0F172B] text-white">Business & Management</option>
+                    <option value="Medicine & Health" className="bg-[#0F172B] text-white">Medicine & Health</option>
+                    <option value="Arts & Humanities" className="bg-[#0F172B] text-white">Arts & Humanities</option>
+                    <option value="Law & Public Policy" className="bg-[#0F172B] text-white">Law & Public Policy</option>
+                    <option value="Natural Sciences" className="bg-[#0F172B] text-white">Natural Sciences</option>
                   </select>
                 </div>
 
@@ -1318,11 +1318,11 @@ export default function AdminPage() {
                   <select
                     value={progForm.format}
                     onChange={(e) => setProgForm({ ...progForm, format: e.target.value })}
-                    className="w-full bg-slate-850 border border-slate-700 rounded-xl px-3 py-2 text-white outline-none cursor-pointer"
+                    className="w-full bg-[#0F172B] border border-slate-700 rounded-xl px-3 py-2 text-white outline-none cursor-pointer"
                   >
-                    <option value="Full-time On Campus">Full-time On Campus</option>
-                    <option value="Hybrid">Hybrid</option>
-                    <option value="Online Distance">Online Distance</option>
+                    <option value="Full-time On Campus" className="bg-[#0F172B] text-white">Full-time On Campus</option>
+                    <option value="Hybrid" className="bg-[#0F172B] text-white">Hybrid</option>
+                    <option value="Online Distance" className="bg-[#0F172B] text-white">Online Distance</option>
                   </select>
                 </div>
               </div>
@@ -1363,24 +1363,15 @@ export default function AdminPage() {
                 </div>
               </div>
 
-              <div className="space-y-1">
-                <label className="block font-bold text-slate-300 uppercase tracking-wide">Application Deadline Info</label>
-                <input
-                  type="text"
-                  placeholder="e.g. Dec 15, 2026 / Regular Jan 15, 2027"
-                  value={progForm.applicationDeadline}
-                  onChange={(e) => setProgForm({ ...progForm, applicationDeadline: e.target.value })}
-                  className="w-full bg-slate-850 border border-slate-700 rounded-xl px-3 py-2 text-white focus:outline-none focus:border-amber-400"
-                />
-              </div>
+
 
               <div className="space-y-1">
-                <label className="block font-bold text-slate-300 uppercase tracking-wide">Academic Prerequisites</label>
+                <label className="block font-bold text-slate-300 uppercase tracking-wide">Eligibility</label>
                 <input
                   type="text"
                   placeholder="e.g. Bachelor's in CS, Applied Math. MCAT 512+..."
-                  value={progForm.prerequisites}
-                  onChange={(e) => setProgForm({ ...progForm, prerequisites: e.target.value })}
+                  value={progForm.eligibility}
+                  onChange={(e) => setProgForm({ ...progForm, eligibility: e.target.value })}
                   className="w-full bg-slate-850 border border-slate-700 rounded-xl px-3 py-2 text-white focus:outline-none focus:border-amber-400"
                 />
               </div>

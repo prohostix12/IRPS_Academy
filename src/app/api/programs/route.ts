@@ -27,7 +27,7 @@ export async function GET() {
       description: p.description,
       curriculumHighlights: p.curriculum_highlights,
       careerOutcomes: p.career_outcomes,
-      prerequisites: p.prerequisites,
+      eligibility: p.eligibility,
       featured: p.featured
     }));
     

@@ -14,7 +14,7 @@ export async function POST(req: Request) {
     const {
       title, universityId, universityName, degreeLevel, category, duration,
       credits, tuitionPerYear, applicationDeadline, format, description,
-      curriculumHighlights, careerOutcomes, prerequisites, featured
+      curriculumHighlights, careerOutcomes, eligibility, featured
     } = body;
 
     if (!title || !universityId || !universityName || !degreeLevel || !category) {
@@ -27,11 +27,11 @@ export async function POST(req: Request) {
       INSERT INTO programs (
         id, title, university_id, university_name, degree_level, category, duration,
         credits, tuition_per_year, application_deadline, format, description,
-        curriculum_highlights, career_outcomes, prerequisites, featured
+        curriculum_highlights, career_outcomes, eligibility, featured
       ) VALUES (
         ${id}, ${title}, ${universityId}, ${universityName}, ${degreeLevel}, ${category}, ${duration || ''}, 
         ${Number(credits) || 0}, ${Number(tuitionPerYear) || 0}, ${applicationDeadline || ''}, ${format}, ${description || ''}, 
-        ${curriculumHighlights || []}, ${careerOutcomes || []}, ${prerequisites || ''}, ${featured || false}
+        ${curriculumHighlights || []}, ${careerOutcomes || []}, ${eligibility || ''}, ${featured || false}
       )
     `;
 
@@ -54,7 +54,7 @@ export async function PUT(req: Request) {
     const {
       id, title, universityId, universityName, degreeLevel, category, duration,
       credits, tuitionPerYear, applicationDeadline, format, description,
-      curriculumHighlights, careerOutcomes, prerequisites, featured
+      curriculumHighlights, careerOutcomes, eligibility, featured
     } = body;
 
     if (!id || !title || !universityId || !universityName || !degreeLevel || !category) {
@@ -76,7 +76,7 @@ export async function PUT(req: Request) {
         description = ${description || ''},
         curriculum_highlights = ${curriculumHighlights || []},
         career_outcomes = ${careerOutcomes || []},
-        prerequisites = ${prerequisites || ''},
+        eligibility = ${eligibility || ''},
         featured = ${featured || false}
       WHERE id = ${id}
     `;

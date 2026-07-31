@@ -64,7 +64,7 @@ export async function ensureDbInitialized() {
         description TEXT NOT NULL,
         curriculum_highlights TEXT[] NOT NULL,
         career_outcomes TEXT[] NOT NULL,
-        prerequisites TEXT NOT NULL,
+        eligibility TEXT NOT NULL,
         featured BOOLEAN DEFAULT FALSE,
         created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
       )
@@ -98,6 +98,18 @@ export async function ensureDbInitialized() {
     await sql`
       ALTER TABLE universities ADD COLUMN IF NOT EXISTS logo_bg VARCHAR(50) DEFAULT '#ffffff'
     `;
+
+    // Ensure eligibility column exists on programs table
+    try {
+      await sql`
+        ALTER TABLE programs RENAME COLUMN prerequisites TO eligibility
+      `;
+      console.log('Renamed programs.prerequisites to programs.eligibility successfully.');
+    } catch (e) {
+      await sql`
+        ALTER TABLE programs ADD COLUMN IF NOT EXISTS eligibility TEXT DEFAULT ''
+      `;
+    }
 
     // Migrate 'Private Ivy' to 'Private University'
     await sql`
@@ -158,13 +170,13 @@ export async function ensureDbInitialized() {
           INSERT INTO programs (
             id, title, university_id, university_name, degree_level, category, 
             duration, credits, tuition_per_year, application_deadline, format, 
-            description, curriculum_highlights, career_outcomes, prerequisites, featured
+            description, curriculum_highlights, career_outcomes, eligibility, featured
           ) VALUES (
             ${prog.id}, ${prog.title}, ${prog.universityId}, ${prog.universityName}, 
             ${prog.degreeLevel}, ${prog.category}, ${prog.duration}, ${prog.credits}, 
             ${prog.tuitionPerYear}, ${prog.applicationDeadline}, ${prog.format}, 
             ${prog.description}, ${prog.curriculumHighlights}, ${prog.careerOutcomes}, 
-            ${prog.prerequisites}, ${prog.featured || false}
+            ${prog.eligibility}, ${prog.featured || false}
           )
         `;
       }

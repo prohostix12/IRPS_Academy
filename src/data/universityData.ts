@@ -171,7 +171,7 @@ export const PROGRAMS: Program[] = [
     description: 'A rigorous doctoral research program focused on algorithm analysis, distributed cloud systems, cybersecurity, full-stack architecture, and machine learning principles with industry capstones.',
     curriculumHighlights: ['Advanced Algorithms & Complexity', 'Distributed Cloud Architecture', 'Post-Quantum Cryptography', 'AI & Machine Learning Research'],
     careerOutcomes: ['Software Architect', 'Principal Research Scientist', 'University Professor', 'R&D Director'],
-    prerequisites: 'Master\'s or Bachelor\'s degree in Computer Science, Math, or related field. Minimum GPA 3.5/4.0.'
+    eligibility: 'Master\'s or Bachelor\'s degree in Computer Science, Math, or related field. Minimum GPA 3.5/4.0.'
   },
   {
     id: 'prog-ai-ms',
@@ -189,7 +189,7 @@ export const PROGRAMS: Program[] = [
     description: 'Advanced doctoral program delving into generative AI, transformer models, reinforcement learning, computer vision, and autonomous robotics ethics.',
     curriculumHighlights: ['Deep Learning & Transformers', 'Computer Vision & Spatial Computing', 'Natural Language Processing', 'Autonomous Systems & Robotics'],
     careerOutcomes: ['AI Research Scientist', 'Machine Learning Engineer', 'Computer Vision Specialist', 'Generative AI Tech Lead'],
-    prerequisites: 'Master\'s degree in Computer Science, Applied Math, or Electrical Engineering. GRE Quantitative score 165+.'
+    eligibility: 'Master\'s degree in Computer Science, Applied Math, or Electrical Engineering. GRE Quantitative score 165+.'
   },
   {
     id: 'prog-mba-exec',
@@ -207,7 +207,7 @@ export const PROGRAMS: Program[] = [
     description: 'Designed for high-potential executives seeking to master corporate finance, digital business transformation, global supply chains, and venture leadership through a Doctor of Business Administration.',
     curriculumHighlights: ['Corporate Valuation & Mergers', 'Strategic Leadership in Tech', 'Global Supply Chain Management', 'Venture Capital & Private Equity'],
     careerOutcomes: ['Chief Executive Officer (CEO)', 'Management Consultant', 'VP of Operations', 'Investment Partner'],
-    prerequisites: 'MBA or Master\'s degree with minimum 5 years of senior professional management experience.'
+    eligibility: 'MBA or Master\'s degree with minimum 5 years of senior professional management experience.'
   },
   {
     id: 'prog-med-md',
@@ -225,7 +225,7 @@ export const PROGRAMS: Program[] = [
     description: 'Comprehensive medical research training combining advanced clinical pathology, genomics, simulated surgical suites, and elite clinical residency rotations.',
     curriculumHighlights: ['Advanced Pathology & Histology', 'Pathophysiology & Pharmacology', 'Clinical Research Methodology', 'Surgical & Emergency Medicine Rotations'],
     careerOutcomes: ['Clinical Director', 'Medical Researcher', 'Pathologist', 'Attending Physician'],
-    prerequisites: 'Bachelor\'s or Master\'s in Biomedical Sciences or Pre-Med. MCAT/GRE scores and 200+ hours of clinical shadow experience.'
+    eligibility: 'Bachelor\'s or Master\'s in Biomedical Sciences or Pre-Med. MCAT/GRE scores and 200+ hours of clinical shadow experience.'
   },
   {
     id: 'prog-law-jd',
@@ -243,7 +243,7 @@ export const PROGRAMS: Program[] = [
     description: 'Equipping legal scholars to advocate in federal courts, draft emerging cyber legislation, and master constitutional law, intellectual property, and international human rights.',
     curriculumHighlights: ['Advanced Constitutional Theory', 'Intellectual Property & AI Regulation', 'Federal Appellate Advocacy', 'International Trade & Human Rights'],
     careerOutcomes: ['Trial Attorney', 'Judicial Law Clerk', 'Corporate General Counsel', 'Legislative Policy Advisor'],
-    prerequisites: 'Master of Laws (LL.M.) or equivalent legal degree. Strong research proposal.'
+    eligibility: 'Master of Laws (LL.M.) or equivalent legal degree. Strong research proposal.'
   },
   {
     id: 'prog-vfx-bfa',
@@ -261,7 +261,7 @@ export const PROGRAMS: Program[] = [
     description: 'A doctoral program in education focused on immersive soundstages, digital animation suites, Unreal Engine 5 real-time graphics, and educational design pipeline.',
     curriculumHighlights: ['3D Modeling & Sculpting', 'Unreal Engine 5 Real-Time Production', 'Digital Curriculum & Pedagogy', 'Virtual Production & Motion Capture'],
     careerOutcomes: ['Lead 3D Artist', 'VFX Supervisor', 'Unreal Technical Director', 'Media Arts Professor'],
-    prerequisites: 'Master\'s degree in Arts, Media, Education or related fields. Portfolio submission.'
+    eligibility: 'Master\'s degree in Arts, Media, Education or related fields. Portfolio submission.'
   },
   {
     id: 'prog-fintech-msc',
@@ -279,7 +279,7 @@ export const PROGRAMS: Program[] = [
     description: 'Master algorithmic trading, blockchain protocols, machine learning risk models, and quantitative asset pricing on live trading floors at a doctoral research level.',
     curriculumHighlights: ['Algorithmic Trading & Python', 'Blockchain Architecture & Smart Contracts', 'Quantitative Risk Modeling', 'Financial Machine Learning'],
     careerOutcomes: ['Quantitative Analyst (Quant)', 'FinTech Product Lead', 'Risk Manager', 'Algorithmic Trader'],
-    prerequisites: 'Master\'s degree in Finance, Economics, or Quantitative Science.'
+    eligibility: 'Master\'s degree in Finance, Economics, or Quantitative Science.'
   },
   {
     id: 'prog-biotech-msc',
@@ -297,7 +297,7 @@ export const PROGRAMS: Program[] = [
     description: 'Hands-on doctoral research with CRISPR gene therapy, synthetic biology, biopharmaceutical manufacturing, and clinical trial design in cutting-edge cleanrooms.',
     curriculumHighlights: ['CRISPR-Cas9 Gene Editing', 'Recombinant DNA Technology', 'Biopharmaceutical Process Engineering', 'Bioinformatics & Proteomics'],
     careerOutcomes: ['Biotech Research Scientist', 'Genomics Project Manager', 'Bio-Process Engineer', 'Clinical Trial Director'],
-    prerequisites: 'Master\'s or Bachelor\'s in Bioengineering, Biochemistry, or related field.'
+    eligibility: 'Master\'s or Bachelor\'s in Bioengineering, Biochemistry, or related field.'
   }
 ];
 

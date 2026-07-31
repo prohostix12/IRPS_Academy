@@ -372,14 +372,14 @@ export const ProgramsSection: React.FC<ProgramsSectionProps> = ({
               </p>
             </div>
 
-            {/* Prerequisites */}
+            {/* Eligibility */}
             <div>
               <h4 className="text-sm font-bold text-neutral-800 uppercase tracking-wider mb-2 flex items-center gap-1.5">
                 <FileCheck className="w-4 h-4 text-[#00296b]" />
-                <span>Admission Prerequisites</span>
+                <span>Eligibility</span>
               </h4>
               <p className="text-xs text-neutral-700 bg-amber-50/70 p-3 rounded-lg border border-amber-200/80">
-                {activeProgramModal.prerequisites}
+                {activeProgramModal.eligibility}
               </p>
             </div>
 
