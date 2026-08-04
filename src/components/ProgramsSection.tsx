@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useData } from '../context/DataContext';
 import { Program, NavTab } from '../types';
 import { 
@@ -22,19 +22,29 @@ import {
 interface ProgramsSectionProps {
   setActiveTab: (tab: NavTab) => void;
   selectedUniversityFilter?: string;
+  selectedDegreeFilter?: string;
+  selectedSearchQuery?: string;
   onApplyToProgram: (program: Program) => void;
 }
 
 export const ProgramsSection: React.FC<ProgramsSectionProps> = ({ 
   setActiveTab, 
   selectedUniversityFilter = '',
+  selectedDegreeFilter = 'All',
+  selectedSearchQuery = '',
   onApplyToProgram
 }) => {
   const { universities: UNIVERSITIES, programs: PROGRAMS, loading } = useData();
-  const [degreeFilter, setDegreeFilter] = useState<string>('All');
+  const [degreeFilter, setDegreeFilter] = useState<string>(selectedDegreeFilter || 'All');
   const [categoryFilter, setCategoryFilter] = useState<string>('All');
   const [uniFilter, setUniFilter] = useState<string>(selectedUniversityFilter || 'All');
-  const [searchQuery, setSearchQuery] = useState<string>('');
+  const [searchQuery, setSearchQuery] = useState<string>(selectedSearchQuery || '');
+
+  useEffect(() => {
+    setUniFilter(selectedUniversityFilter || 'All');
+    setDegreeFilter(selectedDegreeFilter || 'All');
+    setSearchQuery(selectedSearchQuery || '');
+  }, [selectedUniversityFilter, selectedDegreeFilter, selectedSearchQuery]);
   
   // Program Details Modal State
   const [activeProgramModal, setActiveProgramModal] = useState<Program | null>(null);
@@ -158,12 +168,11 @@ export const ProgramsSection: React.FC<ProgramsSectionProps> = ({
                 className="w-full bg-neutral-50 border border-neutral-300 rounded-xl px-3.5 py-2.5 text-sm text-neutral-800 focus:ring-2 focus:ring-[#00296b] outline-none cursor-pointer"
               >
                 <option value="All">All Campuses</option>
-                <option value="Heritage State University">Heritage State University</option>
-                <option value="Veritas Institute of Technology">Veritas Institute of Tech</option>
-                <option value="St. Jude College of Health Sciences">St. Jude Health Sciences</option>
-                <option value="Global Business & Economics Academy">Global Business Academy</option>
-                <option value="Veritas School of Law & Public Policy">Veritas School of Law</option>
-                <option value="Aura College of Creative Arts & Design">Aura College of Arts</option>
+                {(UNIVERSITIES || []).map((uni) => (
+                  <option key={uni.id} value={uni.name}>
+                    {uni.name}
+                  </option>
+                ))}
               </select>
             </div>
 

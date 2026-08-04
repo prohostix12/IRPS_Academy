@@ -372,7 +372,7 @@ export const UniversitiesSection: React.FC<UniversitiesSectionProps> = ({
               </div>
 
               {/* Photo Gallery Thumbnails */}
-              {activeModalUni.gallery.length > 0 && (
+              {/* {activeModalUni.gallery.length > 0 && (
                 <div>
                   <h4 className="text-sm font-bold text-neutral-800 uppercase tracking-wider mb-3">Campus Gallery Preview</h4>
                   <div className="grid grid-cols-3 gap-3">
@@ -387,7 +387,7 @@ export const UniversitiesSection: React.FC<UniversitiesSectionProps> = ({
                     ))}
                   </div>
                 </div>
-              )}
+              )} */}
 
               {/* Modal Footer CTA */}
               <div className="pt-4 border-t border-neutral-200 flex flex-col sm:flex-row items-center justify-between gap-3">

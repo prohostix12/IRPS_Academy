@@ -9,7 +9,7 @@ export async function POST(req: Request) {
   }
 
   try {
-    const sql = getDb();
+    const db = await getDb();
     const body = await req.json();
     const {
       name, code, tagline, location, established, type, ranking,
@@ -23,18 +23,30 @@ export async function POST(req: Request) {
 
     const id = `uni-${name.toLowerCase().replace(/[^a-z0-9]+/g, '-')}`;
 
-    await sql`
-      INSERT INTO universities (
-        id, name, code, tagline, location, established, type, ranking, 
-        acceptance_rate, total_students, campus_size, image, logo, logo_bg, gallery, 
-        description, top_programs, tuition_range, features, contact_email
-      ) VALUES (
-        ${id}, ${name}, ${code}, ${tagline || ''}, ${location}, ${Number(established) || 2026}, 
-        ${type}, ${ranking || ''}, ${acceptanceRate || ''}, ${totalStudents || ''}, 
-        ${campusSize || ''}, ${image || ''}, ${logo || ''}, ${logoBg || '#ffffff'}, ${gallery || []}, ${description || ''}, 
-        ${topPrograms || []}, ${tuitionRange || ''}, ${features || []}, ${contactEmail}
-      )
-    `;
+    await db.collection<any>('universities').insertOne({
+      _id: id,
+      id,
+      name,
+      code,
+      tagline: tagline || '',
+      location,
+      established: Number(established) || 2026,
+      type,
+      ranking: ranking || '',
+      acceptance_rate: acceptanceRate || '',
+      total_students: totalStudents || '',
+      campus_size: campusSize || '',
+      image: image || '',
+      logo: logo || '',
+      logo_bg: logoBg || '#ffffff',
+      gallery: gallery || [],
+      description: description || '',
+      top_programs: topPrograms || [],
+      tuition_range: tuitionRange || '',
+      features: features || [],
+      contact_email: contactEmail,
+      created_at: new Date()
+    });
 
     return NextResponse.json({ success: true, id, message: 'University created successfully.' });
   } catch (error: any) {
@@ -50,7 +62,7 @@ export async function PUT(req: Request) {
   }
 
   try {
-    const sql = getDb();
+    const db = await getDb();
     const body = await req.json();
     const {
       id, name, code, tagline, location, established, type, ranking,
@@ -62,29 +74,32 @@ export async function PUT(req: Request) {
       return NextResponse.json({ error: 'Missing required fields' }, { status: 400 });
     }
 
-    await sql`
-      UPDATE universities SET 
-        name = ${name},
-        code = ${code},
-        tagline = ${tagline || ''},
-        location = ${location},
-        established = ${Number(established) || 2026},
-        type = ${type},
-        ranking = ${ranking || ''},
-        acceptance_rate = ${acceptanceRate || ''},
-        total_students = ${totalStudents || ''},
-        campus_size = ${campusSize || ''},
-        image = ${image || ''},
-        logo = ${logo || ''},
-        logo_bg = ${logoBg || '#ffffff'},
-        gallery = ${gallery || []},
-        description = ${description || ''},
-        top_programs = ${topPrograms || []},
-        tuition_range = ${tuitionRange || ''},
-        features = ${features || []},
-        contact_email = ${contactEmail}
-      WHERE id = ${id}
-    `;
+    await db.collection<any>('universities').updateOne(
+      { _id: id },
+      {
+        $set: {
+          name,
+          code,
+          tagline: tagline || '',
+          location,
+          established: Number(established) || 2026,
+          type,
+          ranking: ranking || '',
+          acceptance_rate: acceptanceRate || '',
+          total_students: totalStudents || '',
+          campus_size: campusSize || '',
+          image: image || '',
+          logo: logo || '',
+          logo_bg: logoBg || '#ffffff',
+          gallery: gallery || [],
+          description: description || '',
+          top_programs: topPrograms || [],
+          tuition_range: tuitionRange || '',
+          features: features || [],
+          contact_email: contactEmail
+        }
+      }
+    );
 
     return NextResponse.json({ success: true, message: 'University updated successfully.' });
   } catch (error: any) {

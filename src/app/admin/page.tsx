@@ -36,6 +36,7 @@ interface ContactInquiry {
   phone: string;
   inquiryType: string;
   campus: string;
+  program?: string;
   message: string;
   createdAt: string;
   status: string;
@@ -925,6 +926,9 @@ export default function AdminPage() {
                             {inq.inquiryType}
                           </span>
                           <span className="text-[10px] text-amber-400/90 font-medium">Campus: {inq.campus}</span>
+                          {inq.program && (
+                            <span className="text-[10px] text-emerald-400 font-medium font-semibold">Program: {inq.program}</span>
+                          )}
                         </div>
 
                         <button
@@ -1156,7 +1160,7 @@ export default function AdminPage() {
                 </div>
               </div>
 
-              <div className="space-y-1">
+              {/* <div className="space-y-1">
                 <label className="block font-bold text-slate-300 uppercase tracking-wide">Gallery Image URLs (Comma-separated)</label>
                 <input
                   type="text"
@@ -1165,7 +1169,7 @@ export default function AdminPage() {
                   onChange={(e) => setUniForm({ ...uniForm, gallery: e.target.value })}
                   className="w-full bg-slate-850 border border-slate-700 rounded-xl px-3 py-2 text-white focus:outline-none focus:border-amber-400"
                 />
-              </div>
+              </div> */}
 
               <div className="space-y-1">
                 <label className="block font-bold text-slate-300 uppercase tracking-wide">Top Programs Preview (Comma-separated)</label>

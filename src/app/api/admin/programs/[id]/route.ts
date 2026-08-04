@@ -13,11 +13,9 @@ export async function DELETE(
 
   try {
     const { id } = await params;
-    const sql = getDb();
+    const db = await getDb();
 
-    await sql`
-      DELETE FROM programs WHERE id = ${id}
-    `;
+    await db.collection<any>('programs').deleteOne({ _id: id });
 
     return NextResponse.json({ success: true, message: 'Program deleted successfully.' });
   } catch (error: any) {

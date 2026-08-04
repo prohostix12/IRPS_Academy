@@ -46,7 +46,7 @@ export const Navbar: React.FC<NavbarProps> = ({ activeTab, setActiveTab, onOpenQ
           <div className="flex items-center gap-4 text-xs">
             <span className="flex items-center gap-1 hover:text-[#e8c47a] transition-colors cursor-pointer" onClick={() => handleNavClick('contact')}>
               <Phone className="w-3 h-3 text-[#e8c47a]" />
-              Admissions Helpline: +1 (800) 555-UNIV
+              Admissions Helpline: +91 7904337416
             </span>
             <span className="hidden md:inline text-white/40">|</span>
             {/* <button 

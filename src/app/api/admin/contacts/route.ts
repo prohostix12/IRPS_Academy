@@ -9,11 +9,11 @@ export async function GET() {
   }
   
   try {
-    const sql = getDb();
-    const contacts = await sql`
-      SELECT * FROM contact_inquiries 
-      ORDER BY created_at DESC
-    `;
+    const db = await getDb();
+    const contacts = await db.collection('contact_inquiries')
+      .find()
+      .sort({ created_at: -1 })
+      .toArray();
     
     const mappedContacts = contacts.map(c => ({
       id: c.id,
@@ -22,6 +22,7 @@ export async function GET() {
       phone: c.phone,
       inquiryType: c.inquiry_type,
       campus: c.campus,
+      program: c.program || '',
       message: c.message,
       createdAt: c.created_at,
       status: c.status || 'unread'
@@ -41,7 +42,7 @@ export async function PUT(req: Request) {
   }
 
   try {
-    const sql = getDb();
+    const db = await getDb();
     const body = await req.json();
     const { id, status } = body;
 
@@ -49,11 +50,10 @@ export async function PUT(req: Request) {
       return NextResponse.json({ error: 'Missing required fields: id and status' }, { status: 400 });
     }
 
-    await sql`
-      UPDATE contact_inquiries
-      SET status = ${status}
-      WHERE id = ${id}
-    `;
+    await db.collection('contact_inquiries').updateOne(
+      { id: Number(id) },
+      { $set: { status } }
+    );
 
     return NextResponse.json({ success: true, message: 'Inquiry status updated successfully.' });
   } catch (error: any) {

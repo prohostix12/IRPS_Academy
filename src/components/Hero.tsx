@@ -3,6 +3,7 @@
 import React, { useState } from 'react';
 import { HERO_CAMPUS_IMAGE } from '../data/universityData';
 import { NavTab } from '../types';
+import { useData } from '../context/DataContext';
 import { 
   Search, 
   GraduationCap, 
@@ -25,13 +26,14 @@ interface HeroProps {
 }
 
 export const Hero: React.FC<HeroProps> = ({ setActiveTab, onSearchSubmit, onOpenQuickApply }) => {
+  const { universities } = useData();
   const [degreeLevel, setDegreeLevel] = useState<string>('All');
-  const [fieldCategory, setFieldCategory] = useState<string>('All');
+  const [uniFilter, setUniFilter] = useState<string>('All');
   const [searchQuery, setSearchQuery] = useState<string>('');
 
   const handleSearch = (e: React.FormEvent) => {
     e.preventDefault();
-    onSearchSubmit(fieldCategory, degreeLevel, searchQuery);
+    onSearchSubmit(uniFilter, degreeLevel, searchQuery);
     setActiveTab('programs');
   };
 
@@ -144,23 +146,23 @@ export const Hero: React.FC<HeroProps> = ({ setActiveTab, onSearchSubmit, onOpen
               </div>
             </div>
 
-            {/* Study Field Selector */}
+             {/* University Selector */}
             <div className="md:col-span-4 space-y-1.5">
               <label className="block text-xs font-bold text-neutral-700 uppercase tracking-wider">
-                Study Discipline
+                University
               </label>
               <div className="relative">
                 <select
-                  value={fieldCategory}
-                  onChange={(e) => setFieldCategory(e.target.value)}
+                  value={uniFilter}
+                  onChange={(e) => setUniFilter(e.target.value)}
                   className="w-full bg-neutral-50 border border-neutral-300 rounded-xl px-3.5 py-3 text-sm font-medium text-neutral-800 focus:ring-2 focus:ring-[#00296b] focus:border-[#00296b] outline-none transition-all appearance-none cursor-pointer"
                 >
-                  <option value="All">All Fields & Faculties</option>
-                  <option value="Engineering & Tech">Engineering & Computer Science</option>
-                  <option value="Business & Management">Business, Finance & MBA</option>
-                  <option value="Medicine & Health">Medicine, Nursing & Public Health</option>
-                  <option value="Law & Public Policy">Law, Policy & International Relations</option>
-                  <option value="Arts & Humanities">Arts, VFX & Architecture</option>
+                  <option value="All">All Universities</option>
+                  {(universities || []).map((uni) => (
+                    <option key={uni.id} value={uni.name}>
+                      {uni.name}
+                    </option>
+                  ))}
                 </select>
                 <div className="absolute right-3 top-3.5 pointer-events-none text-neutral-400 text-xs">▼</div>
               </div>

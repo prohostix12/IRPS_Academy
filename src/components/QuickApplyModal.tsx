@@ -2,6 +2,7 @@
 
 import React, { useState, useEffect } from 'react';
 import { X, CheckCircle2, Send, MessageSquare } from 'lucide-react';
+import { useData } from '../context/DataContext';
 
 interface QuickApplyModalProps {
   isOpen: boolean;
@@ -14,11 +15,12 @@ export const QuickApplyModal: React.FC<QuickApplyModalProps> = ({
   onClose,
   onSubmittedSuccess 
 }) => {
+  const { universities } = useData();
   const [name, setName] = useState('');
   const [email, setEmail] = useState('');
   const [phone, setPhone] = useState('');
   const [inquiryType, setInquiryType] = useState('Admissions Inquiry');
-  const [campus, setCampus] = useState('Heritage State University');
+  const [campus, setCampus] = useState('');
   const [message, setMessage] = useState('');
   
   const [isSubmitting, setIsSubmitting] = useState(false);
@@ -32,12 +34,12 @@ export const QuickApplyModal: React.FC<QuickApplyModalProps> = ({
       setEmail('');
       setPhone('');
       setInquiryType('Admissions Inquiry');
-      setCampus('Heritage State University');
+      setCampus(universities[0]?.name || '');
       setMessage('');
       setSubmitted(false);
       setSubmitError(null);
     }
-  }, [isOpen]);
+  }, [isOpen, universities]);
 
   if (!isOpen) return null;
 
@@ -188,10 +190,11 @@ export const QuickApplyModal: React.FC<QuickApplyModalProps> = ({
                     onChange={(e) => setCampus(e.target.value)}
                     className="w-full bg-neutral-50 border border-neutral-300 rounded-xl px-4 py-2.5 text-xs font-semibold outline-none"
                   >
-                    <option>Heritage State University</option>
-                    <option>Veritas Institute of Tech</option>
-                    <option>St. Jude Health Sciences</option>
-                    <option>Global Business Academy</option>
+                    {universities.map((uni) => (
+                      <option key={uni.id} value={uni.name}>
+                        {uni.name}
+                      </option>
+                    ))}
                   </select>
                 </div>
               </div>

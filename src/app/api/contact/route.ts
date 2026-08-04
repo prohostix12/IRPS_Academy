@@ -1,23 +1,29 @@
 import { NextResponse } from 'next/server';
 import { getDb } from '../../../lib/db';
-import { ensureDbInitialized } from '../../../lib/dbInit';
 
 export async function POST(req: Request) {
   try {
-    await ensureDbInitialized();
-    const sql = getDb();
+    const db = await getDb();
     
     const body = await req.json();
-    const { name, email, phone, inquiryType, campus, message } = body;
+    const { name, email, phone, inquiryType, campus, program, message } = body;
     
     if (!name || !email || !message) {
       return NextResponse.json({ error: 'Name, email, and message are required fields.' }, { status: 400 });
     }
     
-    await sql`
-      INSERT INTO contact_inquiries (name, email, phone, inquiry_type, campus, message)
-      VALUES (${name}, ${email}, ${phone || ''}, ${inquiryType || 'General Inquiry'}, ${campus || 'General'}, ${message})
-    `;
+    await db.collection('contact_inquiries').insertOne({
+      id: Date.now(),
+      name,
+      email,
+      phone: phone || '',
+      inquiry_type: inquiryType || 'General Inquiry',
+      campus: campus || 'General',
+      program: program || '',
+      message,
+      status: 'unread',
+      created_at: new Date()
+    });
     
     return NextResponse.json({ success: true, message: 'Inquiry submitted successfully.' });
   } catch (error: any) {

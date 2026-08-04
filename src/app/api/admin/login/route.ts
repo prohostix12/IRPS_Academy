@@ -1,13 +1,11 @@
 import { NextResponse } from 'next/server';
 import { getDb } from '../../../../lib/db';
-import { ensureDbInitialized } from '../../../../lib/dbInit';
 import { signToken, COOKIE_NAME } from '../../../../lib/auth';
 import bcrypt from 'bcryptjs';
 
 export async function POST(req: Request) {
   try {
-    await ensureDbInitialized();
-    const sql = getDb();
+    const db = await getDb();
     
     const body = await req.json();
     const { username, password } = body;
@@ -16,9 +14,7 @@ export async function POST(req: Request) {
       return NextResponse.json({ error: 'Username and password are required.' }, { status: 400 });
     }
     
-    const admins = await sql`
-      SELECT * FROM admins WHERE username = ${username}
-    `;
+    const admins = await db.collection('admins').find({ username }).toArray();
     
     if (admins.length === 0) {
       return NextResponse.json({ error: 'Invalid username or password.' }, { status: 401 });

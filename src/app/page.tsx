@@ -17,6 +17,8 @@ import { ProcessFlow } from '../components/ProcessFlow';
 export default function Page() {
   const [activeTab, setActiveTab] = useState<NavTab>('home');
   const [selectedUniFilter, setSelectedUniFilter] = useState<string>('All');
+  const [selectedDegreeFilter, setSelectedDegreeFilter] = useState<string>('All');
+  const [selectedSearchQuery, setSelectedSearchQuery] = useState<string>('');
   // const [selectedProgramForApply, setSelectedProgramForApply] = useState<Program | null>(null);
   
   // Quick Apply Modal State
@@ -33,8 +35,17 @@ export default function Page() {
     }, 6000);
   };
 
-  const handleSearchFromHero = (category: string, level: string, query: string) => {
+  const handleSearchFromHero = (uniFilter: string, level: string, query: string) => {
+    setSelectedUniFilter(uniFilter);
+    setSelectedDegreeFilter(level);
+    setSelectedSearchQuery(query);
     setActiveTab('programs');
+  };
+
+  const handleSelectUniversity = (uniName: string) => {
+    setSelectedUniFilter(uniName);
+    setSelectedDegreeFilter('All');
+    setSelectedSearchQuery('');
   };
 
   // const handleApplyToProgram = (program: Program) => {
@@ -87,7 +98,7 @@ export default function Page() {
             {/* Featured Universities Section Preview */}
             <UniversitiesSection
               setActiveTab={setActiveTab}
-              setSelectedUniversityFilter={setSelectedUniFilter}
+              setSelectedUniversityFilter={handleSelectUniversity}
               onOpenQuickApplyWithUni={() => {}}
             />
 
@@ -95,6 +106,8 @@ export default function Page() {
             <ProgramsSection
               setActiveTab={setActiveTab}
               selectedUniversityFilter={selectedUniFilter}
+              selectedDegreeFilter={selectedDegreeFilter}
+              selectedSearchQuery={selectedSearchQuery}
               onApplyToProgram={() => {}}
             />
           </div>
@@ -103,7 +116,7 @@ export default function Page() {
         {activeTab === 'universities' && (
           <UniversitiesSection
             setActiveTab={setActiveTab}
-            setSelectedUniversityFilter={setSelectedUniFilter}
+            setSelectedUniversityFilter={handleSelectUniversity}
             onOpenQuickApplyWithUni={() => {}}
           />
         )}
@@ -112,6 +125,8 @@ export default function Page() {
           <ProgramsSection
             setActiveTab={setActiveTab}
             selectedUniversityFilter={selectedUniFilter}
+            selectedDegreeFilter={selectedDegreeFilter}
+            selectedSearchQuery={selectedSearchQuery}
             onApplyToProgram={() => {}}
           />
         )}

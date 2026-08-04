@@ -1,16 +1,16 @@
 import { NextResponse } from 'next/server';
 import { getDb } from '../../../lib/db';
-import { ensureDbInitialized } from '../../../lib/dbInit';
+
+export const dynamic = 'force-dynamic';
 
 export async function GET() {
   try {
-    await ensureDbInitialized();
-    const sql = getDb();
+    const db = await getDb();
     
-    const dbUnis = await sql`
-      SELECT * FROM universities 
-      ORDER BY name ASC
-    `;
+    const dbUnis = await db.collection('universities')
+      .find()
+      .sort({ name: 1 })
+      .toArray();
     
     const universities = dbUnis.map(u => ({
       id: u.id,

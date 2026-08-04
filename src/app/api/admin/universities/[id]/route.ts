@@ -13,11 +13,11 @@ export async function DELETE(
 
   try {
     const { id } = await params;
-    const sql = getDb();
+    const db = await getDb();
 
-    await sql`
-      DELETE FROM universities WHERE id = ${id}
-    `;
+    await db.collection<any>('universities').deleteOne({ _id: id });
+    // CASCADE DELETE related programs to replicate PostgreSQL foreign key cascade
+    await db.collection('programs').deleteMany({ university_id: id });
 
     return NextResponse.json({ success: true, message: 'University deleted successfully.' });
   } catch (error: any) {

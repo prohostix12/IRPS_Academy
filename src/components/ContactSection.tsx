@@ -1,7 +1,8 @@
 "use client";
 
-import React, { useState } from 'react';
+import React, { useState, useEffect, useMemo } from 'react';
 import { FAQS } from '../data/universityData';
+import { useData } from '../context/DataContext';
 import { 
   Phone, 
   Mail, 
@@ -16,6 +17,7 @@ import {
 } from 'lucide-react';
 
 export const ContactSection: React.FC = () => {
+  const { universities, programs } = useData();
   const [submitted, setSubmitted] = useState(false);
   const [activeFaqCategory, setActiveFaqCategory] = useState<string>('Admissions');
   const [openFaqId, setOpenFaqId] = useState<string | null>('faq-1');
@@ -25,9 +27,34 @@ export const ContactSection: React.FC = () => {
     email: '',
     phone: '',
     inquiryType: 'Admissions Inquiry',
-    campus: 'Heritage State University',
+    campus: '',
+    program: '',
     message: ''
   });
+
+  const availablePrograms = useMemo(() => {
+    return programs.filter(prog => 
+      !form.campus || prog.universityName.toLowerCase() === form.campus.toLowerCase()
+    );
+  }, [programs, form.campus]);
+
+  useEffect(() => {
+    if (universities.length > 0 && !form.campus) {
+      setForm(prev => ({ ...prev, campus: universities[0].name }));
+    }
+  }, [universities, form.campus]);
+
+  useEffect(() => {
+    if (availablePrograms.length > 0) {
+      if (!availablePrograms.some(p => p.title === form.program)) {
+        setForm(prev => ({ ...prev, program: availablePrograms[0].title }));
+      }
+    } else {
+      if (form.program !== '') {
+        setForm(prev => ({ ...prev, program: '' }));
+      }
+    }
+  }, [availablePrograms, form.program]);
 
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [submitError, setSubmitError] = useState<string | null>(null);
@@ -134,7 +161,7 @@ export const ContactSection: React.FC = () => {
                   </div>
                 </div>
 
-                <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                   <div>
                     <label className="block text-xs font-bold text-neutral-700 uppercase mb-1">Phone Number</label>
                     <input
@@ -167,10 +194,27 @@ export const ContactSection: React.FC = () => {
                       onChange={(e) => setForm({ ...form, campus: e.target.value })}
                       className="w-full bg-neutral-50 border border-neutral-300 rounded-xl px-4 py-2.5 text-xs font-semibold outline-none"
                     >
-                      <option>Heritage State University</option>
-                      <option>Veritas Institute of Tech</option>
-                      <option>St. Jude Health Sciences</option>
-                      <option>Global Business Academy</option>
+                      {universities.map((uni) => (
+                        <option key={uni.id} value={uni.name}>
+                          {uni.name}
+                        </option>
+                      ))}
+                    </select>
+                  </div>
+
+                  <div>
+                    <label className="block text-xs font-bold text-neutral-700 uppercase mb-1">Target Program</label>
+                    <select
+                      value={form.program}
+                      onChange={(e) => setForm({ ...form, program: e.target.value })}
+                      className="w-full bg-neutral-50 border border-neutral-300 rounded-xl px-4 py-2.5 text-xs font-semibold outline-none"
+                    >
+                      <option value="">General / No Specific Program</option>
+                      {availablePrograms.map((prog) => (
+                        <option key={prog.id} value={prog.title}>
+                          {prog.title}
+                        </option>
+                      ))}
                     </select>
                   </div>
                 </div>
