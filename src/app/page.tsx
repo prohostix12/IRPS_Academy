@@ -14,6 +14,7 @@ import { QuickApplyModal } from '../components/QuickApplyModal';
 import { CheckCircle2, Sparkles, X } from 'lucide-react';
 import { ProcessFlow } from '../components/ProcessFlow';
 import { TestimonialsSection } from '../components/TestimonialsSection';
+import { WhyChooseUs } from '../components/WhyChooseUs';
 
 export default function Page() {
   const [activeTab, setActiveTab] = useState<NavTab>('home');
@@ -111,6 +112,9 @@ export default function Page() {
               selectedSearchQuery={selectedSearchQuery}
               onApplyToProgram={() => {}}
             />
+
+            {/* Why Choose Us Section */}
+            <WhyChooseUs onOpenQuickApply={() => setIsQuickApplyOpen(true)} />
 
             {/* Testimonials Section */}
             <TestimonialsSection />

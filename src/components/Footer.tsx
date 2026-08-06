@@ -91,9 +91,10 @@ export const Footer: React.FC<FooterProps> = ({ setActiveTab, onOpenQuickApply }
         {/* Direct Contact */}
         <div className="md:col-span-3 space-y-3 text-xs text-blue-100/80">
           <h4 className="text-xs font-bold text-[#e8c47a] uppercase tracking-widest">Admissions Contact</h4>
-          <p className="flex items-center gap-2">
+          <p className="flex items-top gap-2">
             <MapPin className="w-4 h-4 text-[#e8c47a]/80 shrink-0" />
-            <span>IRPS, 1st Floor, Pearl Bay Arcade, YMCA Cross Road, Calicut, India 673010</span>
+            <span>705 7th floor manipal center Dickenson road, Mahatma Gandhi Rd, Yellappa Chetty Layout, Bengaluru, Karnataka 560042
+</span>
           </p>
           <p className="flex items-center gap-2">
             <Phone className="w-4 h-4 text-[#e8c47a]/80 shrink-0" />
