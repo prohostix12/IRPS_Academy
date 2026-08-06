@@ -60,12 +60,9 @@ export interface ApplicationRecord {
 export interface Testimonial {
   id: string;
   name: string;
-  program: string;
-  university: string;
-  graduationYear: string;
   quote: string;
   avatar: string;
-  achievement: string;
+  rating?: number;
 }
 
 export interface FAQItem {

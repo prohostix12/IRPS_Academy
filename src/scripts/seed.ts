@@ -1,5 +1,5 @@
 import { getDb } from '../lib/db';
-import { UNIVERSITIES, PROGRAMS } from '../data/universityData';
+import { UNIVERSITIES, PROGRAMS, TESTIMONIALS } from '../data/universityData';
 import bcrypt from 'bcryptjs';
 import dotenv from 'dotenv';
 
@@ -133,6 +133,26 @@ async function runInit() {
       console.log(`✓ Seeded ${PROGRAMS.length} programs.`);
     } else {
       console.log('✓ Programs collection already seeded.');
+    }
+
+    // Seed testimonials if empty (force clean first to update schema)
+    await db.collection('testimonials').deleteMany({});
+    const testimonialCount = await db.collection('testimonials').countDocuments();
+    if (testimonialCount === 0) {
+      const testimonialDocs = TESTIMONIALS.map(t => ({
+        _id: t.id,
+        id: t.id,
+        name: t.name,
+        quote: t.quote,
+        avatar: t.avatar,
+        rating: t.rating || 5,
+        created_at: new Date()
+      }));
+
+      await db.collection<any>('testimonials').insertMany(testimonialDocs, { ordered: false });
+      console.log(`✓ Seeded ${TESTIMONIALS.length} testimonials.`);
+    } else {
+      console.log('✓ Testimonials collection already seeded.');
     }
 
     console.log('Database seeding completed successfully!');

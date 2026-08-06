@@ -2,7 +2,7 @@
 
 import React, { useState, useEffect } from 'react';
 import { useData } from '../../context/DataContext';
-import { University, Program } from '../../types';
+import { University, Program, Testimonial } from '../../types';
 import { 
   Building2, 
   BookOpen, 
@@ -26,7 +26,8 @@ import {
   Sparkles,
   MapPin,
   Clock,
-  Compass
+  Compass,
+  Star
 } from 'lucide-react';
 
 interface ContactInquiry {
@@ -43,7 +44,7 @@ interface ContactInquiry {
 }
 
 export default function AdminPage() {
-  const { universities, programs, refreshData, loading: dataLoading } = useData();
+  const { universities, programs, testimonials = [], refreshData, loading: dataLoading } = useData();
 
   // Authentication State
   const [isAdmin, setIsAdmin] = useState<boolean | null>(null);
@@ -53,7 +54,7 @@ export default function AdminPage() {
   const [isLoggingIn, setIsLoggingIn] = useState(false);
 
   // Dashboard Navigation State
-  const [activeSection, setActiveSection] = useState<'universities' | 'programs' | 'inquiries'>('universities');
+  const [activeSection, setActiveSection] = useState<'universities' | 'programs' | 'inquiries' | 'testimonials'>('universities');
 
   // Contact Inquiries State
   const [inquiries, setInquiries] = useState<ContactInquiry[]>([]);
@@ -111,6 +112,19 @@ export default function AdminPage() {
   });
   const [progFormError, setProgFormError] = useState<string | null>(null);
   const [isProgSubmitting, setIsProgSubmitting] = useState(false);
+
+  // Testimonials Form Modal State
+  const [isTestiModalOpen, setIsTestiModalOpen] = useState(false);
+  const [editingTesti, setEditingTesti] = useState<Testimonial | null>(null);
+  const [testiForm, setTestiForm] = useState({
+    name: '',
+    quote: '',
+    avatar: '',
+    rating: '5'
+  });
+  const [testiFormError, setTestiFormError] = useState<string | null>(null);
+  const [isTestiSubmitting, setIsTestiSubmitting] = useState(false);
+  const [searchTestiQuery, setSearchTestiQuery] = useState('');
 
   // Toast Notification State
   const [toast, setToast] = useState<string | null>(null);
@@ -326,6 +340,61 @@ export default function AdminPage() {
     }
   };
 
+  // 7. Create / Update Testimonial
+  const handleTestiSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+    setTestiFormError(null);
+    setIsTestiSubmitting(true);
+
+    const payload = {
+      ...testiForm,
+      rating: Number(testiForm.rating) || 5,
+      id: editingTesti ? editingTesti.id : undefined
+    };
+
+    try {
+      const method = editingTesti ? 'PUT' : 'POST';
+      const res = await fetch('/api/admin/testimonials', {
+        method,
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(payload)
+      });
+
+      const data = await res.json();
+      if (!res.ok) {
+        throw new Error(data.error || 'Failed to save testimonial.');
+      }
+
+      await refreshData();
+      setIsTestiModalOpen(false);
+      showToast(editingTesti ? 'Testimonial updated successfully!' : 'Testimonial added successfully!');
+      resetTestiForm();
+    } catch (err: any) {
+      setTestiFormError(err.message || 'An error occurred.');
+    } finally {
+      setIsTestiSubmitting(false);
+    }
+  };
+
+  // Delete Testimonial
+  const handleTestiDelete = async (id: string) => {
+    if (!confirm('Are you sure you want to delete this testimonial?')) return;
+
+    try {
+      const res = await fetch(`/api/admin/testimonials/${id}`, { method: 'DELETE' });
+      const data = await res.json();
+
+      if (!res.ok) {
+        throw new Error(data.error || 'Failed to delete testimonial.');
+      }
+
+      await refreshData();
+      showToast('Testimonial deleted successfully.');
+    } catch (err: any) {
+      alert(err.message || 'Delete failed.');
+    }
+  };
+
   // Helper Form Resets
   const resetUniForm = () => {
     setUniForm({
@@ -372,6 +441,28 @@ export default function AdminPage() {
     });
     setEditingProg(null);
     setProgFormError(null);
+  };
+
+  const resetTestiForm = () => {
+    setTestiForm({
+      name: '',
+      quote: '',
+      avatar: '',
+      rating: '5'
+    });
+    setEditingTesti(null);
+    setTestiFormError(null);
+  };
+
+  const openEditTestiModal = (testi: Testimonial) => {
+    setEditingTesti(testi);
+    setTestiForm({
+      name: testi.name,
+      quote: testi.quote,
+      avatar: testi.avatar || '',
+      rating: String(testi.rating || 5)
+    });
+    setIsTestiModalOpen(true);
   };
 
   const openEditUniModal = (uni: University) => {
@@ -610,6 +701,19 @@ export default function AdminPage() {
             <span>Contact Inquiries</span>
             <span className="ml-auto bg-slate-850 text-slate-400 text-[10px] px-2 py-0.5 rounded-md font-bold">{inquiries.length}</span>
           </button>
+
+          <button
+            onClick={() => setActiveSection('testimonials')}
+            className={`w-full flex items-center gap-3 px-4 py-3 rounded-xl text-sm font-semibold transition-all cursor-pointer ${
+              activeSection === 'testimonials'
+                ? 'bg-amber-400 text-slate-950 font-bold shadow-md shadow-amber-500/10'
+                : 'text-slate-400 hover:bg-slate-800 hover:text-white'
+            }`}
+          >
+            <Star className="w-4.5 h-4.5" />
+            <span>Testimonials</span>
+            <span className="ml-auto bg-slate-850 text-slate-400 text-[10px] px-2 py-0.5 rounded-md font-bold">{testimonials.length}</span>
+          </button>
         </nav>
 
         {/* Sidebar Footer Logout */}
@@ -631,13 +735,15 @@ export default function AdminPage() {
         <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 border-b border-slate-800 pb-5">
           <div>
             <h2 className="text-2xl sm:text-3xl font-black font-serif text-white tracking-tight capitalize">
-              {activeSection === 'universities' ? 'Universities Network' : activeSection === 'programs' ? 'Accredited Programs' : 'Student Contact Messages'}
+              {activeSection === 'universities' ? 'Universities Network' : activeSection === 'programs' ? 'Accredited Programs' : activeSection === 'testimonials' ? 'Alumni Testimonials' : 'Student Contact Messages'}
             </h2>
             <p className="text-xs text-slate-400 mt-1">
               {activeSection === 'universities' 
                 ? 'Register and update accredited university campuses globally.' 
                 : activeSection === 'programs' 
                 ? 'Manage active degree programs, tuition costs, and admission requirements.' 
+                : activeSection === 'testimonials'
+                ? 'Manage student testimonials, achievements, and star ratings.'
                 : 'View inquiries, callback requests, and questions sent by prospective students.'}
             </p>
           </div>
@@ -660,6 +766,16 @@ export default function AdminPage() {
             >
               <Plus className="w-4 h-4 text-slate-950 stroke-[3]" />
               <span>Add Program</span>
+            </button>
+          )}
+
+          {activeSection === 'testimonials' && (
+            <button
+              onClick={() => { resetTestiForm(); setIsTestiModalOpen(true); }}
+              className="px-4 py-2.5 bg-amber-400 hover:bg-amber-500 text-slate-950 text-xs font-bold rounded-xl shadow-lg transition-all flex items-center gap-2 cursor-pointer"
+            >
+              <Plus className="w-4 h-4 text-slate-950 stroke-[3]" />
+              <span>Add Testimonial</span>
             </button>
           )}
         </div>
@@ -959,6 +1075,115 @@ export default function AdminPage() {
                     </div>
                   </div>
                 ))}
+              </div>
+            )}
+          </div>
+        )}
+
+        {/* -------------------- TESTIMONIALS VIEW -------------------- */}
+        {activeSection === 'testimonials' && (
+          <div className="space-y-4">
+            
+            {/* Filter Toolbar */}
+            <div className="bg-slate-900 border border-slate-800 p-4 rounded-3xl flex flex-col lg:flex-row gap-4 items-center justify-between shadow-md">
+              <div className="w-full lg:w-1/3 relative">
+                <input
+                  type="text"
+                  placeholder="Search testimonials (name, program, university)..."
+                  value={searchTestiQuery}
+                  onChange={(e) => setSearchTestiQuery(e.target.value)}
+                  className="w-full bg-slate-850 border border-slate-700 rounded-xl pl-9 pr-4 py-2.5 text-xs text-white placeholder-slate-500 focus:outline-none focus:border-amber-400"
+                />
+                <Search className="w-4 h-4 text-slate-500 absolute left-3 top-3" />
+              </div>
+            </div>
+
+            {/* Testimonials Content */}
+            {dataLoading ? (
+              <div className="py-20 text-center text-slate-500 text-sm">Loading testimonials...</div>
+            ) : testimonials.length === 0 ? (
+              <div className="py-20 text-center border border-dashed border-slate-800 rounded-3xl text-slate-500">
+                No testimonials registered yet. Click "Add Testimonial" to get started.
+              </div>
+            ) : (
+              <div className="bg-slate-900 border border-slate-800 rounded-3xl overflow-hidden shadow-md">
+                <div className="overflow-x-auto">
+                  <table className="w-full border-collapse text-left text-xs">
+                    <thead>
+                      <tr className="border-b border-slate-800 bg-slate-850/50 text-slate-300 font-bold uppercase tracking-wider">
+                        <th className="p-4">Alumni / Scholar</th>
+                        <th className="p-4">Quote</th>
+                        <th className="p-4">Rating</th>
+                        <th className="p-4 text-right">Actions</th>
+                      </tr>
+                    </thead>
+                    <tbody className="divide-y divide-slate-800">
+                      {testimonials
+                        .filter(t => 
+                          t.name.toLowerCase().includes(searchTestiQuery.toLowerCase())
+                        )
+                        .map(t => (
+                          <tr key={t.id} className="hover:bg-slate-850/30 transition-colors">
+                            <td className="p-4 flex items-center gap-3">
+                              {t.avatar ? (
+                                <img 
+                                  src={t.avatar} 
+                                  alt={t.name} 
+                                  className="w-10 h-10 rounded-full object-cover border border-slate-700 bg-slate-800"
+                                  onError={(e) => {
+                                    (e.target as HTMLImageElement).src = `https://api.dicebear.com/7.x/initials/svg?seed=${encodeURIComponent(t.name)}`;
+                                  }}
+                                />
+                              ) : (
+                                <div className="w-10 h-10 rounded-full bg-slate-800 border border-slate-700 flex items-center justify-center font-bold text-slate-400 uppercase">
+                                  {t.name.slice(0, 2)}
+                                </div>
+                              )}
+                              <div>
+                                <div className="font-bold text-white text-sm">{t.name}</div>
+                              </div>
+                            </td>
+                            <td className="p-4 max-w-xs truncate text-slate-350 italic" title={t.quote}>
+                              "{t.quote}"
+                            </td>
+                            <td className="p-4 text-amber-400 font-bold whitespace-nowrap">
+                              <div className="flex gap-0.5 text-[#ff5e57]">
+                                {[...Array(5)].map((_, i) => (
+                                  <Star 
+                                    key={i} 
+                                    className={`w-3 h-3 ${
+                                      i < (t.rating || 5) 
+                                        ? 'text-[#ff5e57] fill-[#ff5e57]' 
+                                        : 'text-slate-700 fill-slate-700'
+                                    }`} 
+                                  />
+                                ))}
+                              </div>
+                            </td>
+
+                            <td className="p-4 text-right">
+                              <div className="flex items-center justify-end gap-2">
+                                <button
+                                  onClick={() => openEditTestiModal(t)}
+                                  className="p-1.5 bg-slate-800 hover:bg-amber-400 hover:text-slate-950 rounded-xl transition-all cursor-pointer"
+                                  title="Edit Testimonial"
+                                >
+                                  <Edit className="w-3.5 h-3.5" />
+                                </button>
+                                <button
+                                  onClick={() => handleTestiDelete(t.id)}
+                                  className="p-1.5 bg-slate-800 hover:bg-red-900 hover:text-red-200 rounded-xl transition-all cursor-pointer"
+                                  title="Delete Testimonial"
+                                >
+                                  <Trash2 className="w-3.5 h-3.5" />
+                                </button>
+                              </div>
+                            </td>
+                          </tr>
+                        ))}
+                    </tbody>
+                  </table>
+                </div>
               </div>
             )}
           </div>
@@ -1437,6 +1662,98 @@ export default function AdminPage() {
                   <CheckCircle2 className="w-4 h-4 text-slate-950" />
                 )}
                 <span>{isProgSubmitting ? 'Saving...' : editingProg ? 'Update Degree Program' : 'Create Degree Program'}</span>
+              </button>
+            </form>
+          </div>
+        </div>
+      )}
+
+      {/* -------------------- TESTIMONIALS MODAL FORM -------------------- */}
+      {isTestiModalOpen && (
+        <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/85 backdrop-blur-xs overflow-y-auto">
+          <div className="bg-slate-900 border border-slate-800 rounded-3xl max-w-2xl w-full p-6 sm:p-8 shadow-2xl space-y-5 my-8 max-h-[90vh] overflow-y-auto">
+            <div className="flex justify-between items-center pb-3 border-b border-slate-800">
+              <h3 className="text-lg font-black font-serif text-white">
+                {editingTesti ? 'Edit Testimonial' : 'Add New Testimonial'}
+              </h3>
+              <button 
+                onClick={() => { setIsTestiModalOpen(false); resetTestiForm(); }} 
+                className="p-1.5 bg-slate-800 hover:bg-slate-700 rounded-lg text-slate-400 hover:text-white transition-colors cursor-pointer"
+              >
+                <X className="w-4 h-4" />
+              </button>
+            </div>
+
+            {testiFormError && (
+              <div className="bg-red-950/40 border border-red-500/30 p-3 rounded-xl text-xs text-red-300">
+                {testiFormError}
+              </div>
+            )}
+
+            <form onSubmit={handleTestiSubmit} className="space-y-4 text-xs">
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                <div className="space-y-1">
+                  <label className="block font-bold text-slate-300 uppercase tracking-wide">Scholar Name *</label>
+                  <input
+                    type="text"
+                    required
+                    placeholder="e.g. David K. O'Connor"
+                    value={testiForm.name}
+                    onChange={(e) => setTestiForm({ ...testiForm, name: e.target.value })}
+                    className="w-full bg-slate-850 border border-slate-700 rounded-xl px-3 py-2 text-white focus:outline-none focus:border-amber-400"
+                  />
+                </div>
+
+                <div className="space-y-1">
+                  <label className="block font-bold text-slate-300 uppercase tracking-wide">Rating *</label>
+                  <select
+                    value={testiForm.rating}
+                    onChange={(e) => setTestiForm({ ...testiForm, rating: e.target.value })}
+                    className="w-full bg-[#0F172B] border border-slate-700 rounded-xl px-3 py-2 text-white outline-none cursor-pointer font-bold text-amber-400"
+                  >
+                    <option value="5" className="bg-[#0F172B] text-amber-400 font-bold">5 Stars ★★★★★</option>
+                    <option value="4" className="bg-[#0F172B] text-amber-400 font-bold">4 Stars ★★★★☆</option>
+                    <option value="3" className="bg-[#0F172B] text-amber-400 font-bold">3 Stars ★★★☆☆</option>
+                    <option value="2" className="bg-[#0F172B] text-amber-400 font-bold">2 Stars ★★☆☆☆</option>
+                    <option value="1" className="bg-[#0F172B] text-amber-400 font-bold">1 Star ★☆☆☆☆</option>
+                  </select>
+                </div>
+              </div>
+
+              <div className="space-y-1">
+                <label className="block font-bold text-slate-300 uppercase tracking-wide">Avatar Image URL</label>
+                <input
+                  type="text"
+                  placeholder="e.g. https://images.unsplash.com/... or leave blank for initials"
+                  value={testiForm.avatar}
+                  onChange={(e) => setTestiForm({ ...testiForm, avatar: e.target.value })}
+                  className="w-full bg-slate-850 border border-slate-700 rounded-xl px-3 py-2 text-white focus:outline-none focus:border-amber-400"
+                />
+              </div>
+
+              <div className="space-y-1">
+                <label className="block font-bold text-slate-300 uppercase tracking-wide">Scholar Quote / Testimonial Message *</label>
+                <textarea
+                  rows={4}
+                  required
+                  placeholder="Describe the scholar's feedback on their doctoral application journey, support, or outcome..."
+                  value={testiForm.quote}
+                  onChange={(e) => setTestiForm({ ...testiForm, quote: e.target.value })}
+                  className="w-full bg-slate-850 border border-slate-700 rounded-xl p-3 text-white focus:outline-none focus:border-amber-400"
+                />
+              </div>
+
+              <button
+                type="submit"
+                disabled={isTestiSubmitting}
+                className="w-full py-3.5 bg-amber-400 hover:bg-amber-500 text-slate-950 font-bold text-xs rounded-xl shadow-lg transition-all flex items-center justify-center gap-2 cursor-pointer disabled:opacity-50"
+              >
+                {isTestiSubmitting ? (
+                  <div className="w-4 h-4 border-2 border-slate-950 border-t-transparent rounded-full animate-spin"></div>
+                ) : (
+                  <CheckCircle2 className="w-4 h-4 text-slate-950" />
+                )}
+                <span>{isTestiSubmitting ? 'Saving...' : editingTesti ? 'Update Testimonial' : 'Create Testimonial'}</span>
               </button>
             </form>
           </div>

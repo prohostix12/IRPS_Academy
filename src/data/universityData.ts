@@ -350,32 +350,20 @@ export const TESTIMONIALS: Testimonial[] = [
   {
     id: 't1',
     name: 'David K. O\'Connor',
-    program: 'DSc in Artificial Intelligence',
-    university: 'Veritas Institute of Technology',
-    graduationYear: 'Class of 2025',
     quote: 'The seamless admission portal made applying effortless. Within 3 months of graduating, I secured my dream role as an AI Research Scientist at OpenAI.',
-    avatar: 'https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&w=300&q=80',
-    achievement: 'Lead AI Researcher at OpenAI'
+    avatar: 'https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&w=300&q=80'
   },
   {
     id: 't2',
     name: 'Amara Patel',
-    program: 'DSc in Clinical Medicine',
-    university: 'St. Jude College of Health Sciences',
-    graduationYear: 'Class of 2024',
     quote: 'Thanks to the university scholarship calculator, I received an 80% tuition merit grant! The clinical hospital access here is unrivaled.',
-    avatar: 'https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?auto=format&fit=crop&w=300&q=80',
-    achievement: 'Surgical Resident at Johns Hopkins'
+    avatar: 'https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?auto=format&fit=crop&w=300&q=80'
   },
   {
     id: 't3',
     name: 'Julian Thorne',
-    program: 'DBA in Global Strategic Leadership',
-    university: 'Global Business & Economics Academy',
-    graduationYear: 'Class of 2026',
     quote: 'Studying in D.C. and New York opened doors directly to Wall Street partners. The campus community and faculty mentorship are top tier.',
-    avatar: 'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?auto=format&fit=crop&w=300&q=80',
-    achievement: 'Managing Director, Fintech Ventures'
+    avatar: 'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?auto=format&fit=crop&w=300&q=80'
   }
 ];
 

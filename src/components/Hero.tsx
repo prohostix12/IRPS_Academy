@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState } from 'react';
+import React, { useState, useRef } from 'react';
 import { HERO_CAMPUS_IMAGE } from '../data/universityData';
 import { NavTab } from '../types';
 import { useData } from '../context/DataContext';
@@ -16,7 +16,9 @@ import {
   Globe2, 
   ShieldCheck, 
   Calculator,
-  Compass
+  Compass,
+  Volume2,
+  VolumeX
 } from 'lucide-react';
 
 interface HeroProps {
@@ -30,6 +32,18 @@ export const Hero: React.FC<HeroProps> = ({ setActiveTab, onSearchSubmit, onOpen
   const [degreeLevel, setDegreeLevel] = useState<string>('All');
   const [uniFilter, setUniFilter] = useState<string>('All');
   const [searchQuery, setSearchQuery] = useState<string>('');
+  const [isMuted, setIsMuted] = useState<boolean>(true);
+  const iframeRef = useRef<HTMLIFrameElement>(null);
+
+  const toggleMute = () => {
+    if (!iframeRef.current) return;
+    const newMuted = !isMuted;
+    setIsMuted(newMuted);
+    iframeRef.current.contentWindow?.postMessage(
+      JSON.stringify({ event: 'command', func: newMuted ? 'mute' : 'unMute' }),
+      '*'
+    );
+  };
 
   const handleSearch = (e: React.FormEvent) => {
     e.preventDefault();
@@ -67,43 +81,83 @@ export const Hero: React.FC<HeroProps> = ({ setActiveTab, onSearchSubmit, onOpen
       {/* Hero Content Section */}
       <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-12 sm:pt-20 pb-16 w-full flex-grow flex flex-col justify-center">
         
-        <div className="max-w-3xl space-y-6">
+        {/* Two-column layout for text and video */}
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-12 items-center w-full">
           
-          {/* Eyebrow Badge in Blue & Gold Accent */}
-          <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-white/10 backdrop-blur-md border border-white/20 text-xs sm:text-sm font-medium text-blue-100 shadow-lg animate-fadeIn">
-            <span className="w-2 h-2 rounded-full bg-[#e8c47a] animate-pulse" />
-            <Sparkles className="w-4 h-4 text-[#e8c47a]" />
-            <span>Fall 2026 Admissions Now Open Across Premier Universities</span>
+          {/* Left Column: Text Content */}
+          <div className="lg:col-span-7 space-y-6">
+            
+            {/* Eyebrow Badge in Blue & Gold Accent */}
+            <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-white/10 backdrop-blur-md border border-white/20 text-xs sm:text-sm font-medium text-blue-100 shadow-lg animate-fadeIn">
+              <span className="w-2 h-2 rounded-full bg-[#e8c47a] animate-pulse" />
+              <Sparkles className="w-4 h-4 text-[#e8c47a]" />
+              <span>Fall 2026 Admissions Now Open Across Premier Universities</span>
+            </div>
+
+            {/* Main Headline */}
+            <h1 className="text-4xl sm:text-6xl lg:text-7xl font-black font-serif tracking-tight leading-[1.08] text-white drop-shadow-md">
+              Begin Your <span className="text-transparent bg-clip-text bg-gradient-to-r from-[#e8c47a] via-amber-100 to-white">Academic Legacy</span>
+            </h1>
+
+            {/* Subtitle */}
+            <p className="text-base sm:text-xl text-blue-100/90 font-normal leading-relaxed max-w-2xl">
+              Explore world-renowned university campuses, discover accredited degree programs, calculate scholarship grants, and submit your official application through our unified admissions portal.
+            </p>
+
+            {/* Call to Action Buttons */}
+            <div className="pt-2 flex flex-wrap items-center gap-4">
+              {/* <button
+                onClick={onOpenQuickApply}
+                className="px-7 py-4 rounded-xl text-base font-bold text-[#00296b] bg-white hover:bg-blue-50/50 shadow-2xl hover:shadow-white/20 hover:-translate-y-0.5 transition-all flex items-center gap-3 cursor-pointer group"
+              >
+                <GraduationCap className="w-5 h-5 text-[#00296b]" />
+                <span>Apply Through Admissions Portal</span>
+                <ArrowRight className="w-5 h-5 text-[#00296b] group-hover:translate-x-1 transition-transform" />
+              </button> */}
+
+              <button
+                onClick={() => setActiveTab('universities')}
+                className="px-6 py-4 rounded-xl text-base font-semibold text-white bg-white/10 backdrop-blur-md hover:bg-white/20 border border-white/25 shadow-lg transition-all flex items-center gap-2 cursor-pointer"
+              >
+                <Compass className="w-5 h-5 text-[#e8c47a]" />
+                <span>Explore Campuses</span>
+              </button>
+            </div>
+
           </div>
 
-          {/* Main Headline */}
-          <h1 className="text-4xl sm:text-6xl lg:text-7xl font-black font-serif tracking-tight leading-[1.08] text-white drop-shadow-md">
-            Begin Your <span className="text-transparent bg-clip-text bg-gradient-to-r from-[#e8c47a] via-amber-100 to-white">Academic Legacy</span>
-          </h1>
-
-          {/* Subtitle */}
-          <p className="text-base sm:text-xl text-blue-100/90 font-normal leading-relaxed max-w-2xl">
-            Explore world-renowned university campuses, discover accredited degree programs, calculate scholarship grants, and submit your official application through our unified admissions portal.
-          </p>
-
-          {/* Call to Action Buttons */}
-          <div className="pt-2 flex flex-wrap items-center gap-4">
-            {/* <button
-              onClick={onOpenQuickApply}
-              className="px-7 py-4 rounded-xl text-base font-bold text-[#00296b] bg-white hover:bg-blue-50/50 shadow-2xl hover:shadow-white/20 hover:-translate-y-0.5 transition-all flex items-center gap-3 cursor-pointer group"
-            >
-              <GraduationCap className="w-5 h-5 text-[#00296b]" />
-              <span>Apply Through Admissions Portal</span>
-              <ArrowRight className="w-5 h-5 text-[#00296b] group-hover:translate-x-1 transition-transform" />
-            </button> */}
-
-            <button
-              onClick={() => setActiveTab('universities')}
-              className="px-6 py-4 rounded-xl text-base font-semibold text-white bg-white/10 backdrop-blur-md hover:bg-white/20 border border-white/25 shadow-lg transition-all flex items-center gap-2 cursor-pointer"
-            >
-              <Compass className="w-5 h-5 text-[#e8c47a]" />
-              <span>Explore Campuses</span>
-            </button>
+          {/* Right Column: Premium Video Card */}
+          <div className="lg:col-span-5 w-full flex justify-center lg:justify-end">
+            <div className="relative group w-full max-w-lg aspect-video rounded-3xl p-[1.5px] bg-gradient-to-tr from-cyan-400 via-blue-500 to-purple-600 shadow-[0_0_30px_rgba(0,168,204,0.2)] hover:shadow-[0_0_40px_rgba(0,168,204,0.4)] transition-all duration-500 overflow-hidden backdrop-blur-md">
+              <div className="w-full h-full bg-[#001233]/45 rounded-[22px] overflow-hidden relative">
+                <div className="absolute inset-0 overflow-hidden pointer-events-none select-none">
+                  <iframe
+                    ref={iframeRef}
+                    className="w-[116%] h-[116%] absolute -left-[8%] -top-[8%] object-cover pointer-events-none select-none"
+                    src="https://www.youtube-nocookie.com/embed/rmYiiNvFsrY?enablejsapi=1&autoplay=1&mute=1&loop=1&playlist=rmYiiNvFsrY&controls=0&rel=0&iv_load_policy=3&disablekb=1&modestbranding=1&cc_load_policy=3"
+                    title="IRPS University Campus Tour"
+                    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                    allowFullScreen
+                  />
+                </div>
+                
+                
+                {/* Custom Overlay for Audio Control (Mute/Unmute) */}
+                <div className="absolute bottom-4 left-4 z-20">
+                  <button
+                    onClick={toggleMute}
+                    className="flex items-center justify-center w-10 h-10 rounded-full bg-black/65 backdrop-blur-md border border-white/20 text-white hover:bg-black/85 hover:scale-110 transition-all shadow-lg cursor-pointer group"
+                    title={isMuted ? "Unmute" : "Mute"}
+                  >
+                    {isMuted ? (
+                      <VolumeX className="w-5 h-5 text-white/90 group-hover:text-white" />
+                    ) : (
+                      <Volume2 className="w-5 h-5 text-white/90 group-hover:text-white" />
+                    )}
+                  </button>
+                </div>
+              </div>
+            </div>
           </div>
 
         </div>
