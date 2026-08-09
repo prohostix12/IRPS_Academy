@@ -268,7 +268,7 @@ export const ContactSection: React.FC = () => {
                   <MapPin className="w-5 h-5 text-[#00296b] shrink-0 mt-0.5" />
                   <div>
                     <strong className="block text-neutral-900">Main Campus Address</strong>
-                    <span>100 University Boulevard, Cambridge, MA 02138, USA</span>
+                    <span>705 7th floor manipal center Dickenson road, Mahatma Gandhi Rd, Yellappa Chetty Layout, Bengaluru, Karnataka 560042</span>
                   </div>
                 </div>
 
@@ -276,7 +276,7 @@ export const ContactSection: React.FC = () => {
                   <Phone className="w-5 h-5 text-[#00296b] shrink-0 mt-0.5" />
                   <div>
                     <strong className="block text-neutral-900">Toll-Free Admissions Hotline</strong>
-                    <span>+1 (800) 555-UNIV / +1 (617) 555-0199</span>
+                    <span>+91 7904337416</span>
                   </div>
                 </div>
 
