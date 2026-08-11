@@ -98,11 +98,11 @@ export const Footer: React.FC<FooterProps> = ({ setActiveTab, onOpenQuickApply }
           </p>
           <p className="flex items-center gap-2">
             <Phone className="w-4 h-4 text-[#e8c47a]/80 shrink-0" />
-            <span>+91 7904337416</span>
+            <span>+91 9995852155</span>
           </p>
           <p className="flex items-center gap-2">
             <Mail className="w-4 h-4 text-[#e8c47a]/80 shrink-0" />
-            <span>admissions@veritasportal.edu</span>
+            <span>Info@irpsedu.com</span>
           </p>
 
           <button

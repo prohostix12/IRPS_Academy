@@ -276,7 +276,7 @@ export const ContactSection: React.FC = () => {
                   <Phone className="w-5 h-5 text-[#00296b] shrink-0 mt-0.5" />
                   <div>
                     <strong className="block text-neutral-900">Toll-Free Admissions Hotline</strong>
-                    <span>+91 7904337416</span>
+                    <span>+91 9995852155</span>
                   </div>
                 </div>
 
@@ -284,7 +284,7 @@ export const ContactSection: React.FC = () => {
                   <Mail className="w-5 h-5 text-[#00296b] shrink-0 mt-0.5" />
                   <div>
                     <strong className="block text-neutral-900">Official Admissions Email</strong>
-                    <span>admissions@veritasportal.edu</span>
+                    <span>Info@irpsedu.com</span>
                   </div>
                 </div>
 
