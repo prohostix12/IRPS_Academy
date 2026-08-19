@@ -114,7 +114,7 @@ export default function Page() {
             />
 
             {/* Why Choose Us Section */}
-            <WhyChooseUs onOpenQuickApply={() => setIsQuickApplyOpen(true)} />
+            <WhyChooseUs setActiveTab={setActiveTab} onOpenQuickApply={() => setIsQuickApplyOpen(true)} />
 
             {/* Testimonials Section */}
             <TestimonialsSection />

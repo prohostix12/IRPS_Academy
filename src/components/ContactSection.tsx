@@ -298,6 +298,22 @@ export const ContactSection: React.FC = () => {
               </div>
             </div>
 
+            <div className="bg-white rounded-3xl p-6 sm:p-8 shadow-xl border border-neutral-200 space-y-4">
+              <h3 className="text-xl font-bold font-serif text-[#001b48]">
+                Regional Office (Calicut)
+              </h3>
+
+              <div className="space-y-3 text-xs text-neutral-700">
+                <div className="flex items-start gap-3 p-3 bg-[#f4f7fa] rounded-xl border border-[#00296b]/10">
+                  <MapPin className="w-5 h-5 text-[#00296b] shrink-0 mt-0.5" />
+                  <div>
+                    <strong className="block text-neutral-900">Office Address</strong>
+                    <span>1st Floor, Pearl Bay Arcade, YMCA Cross Road, Calicut, Kerala, 673001</span>
+                  </div>
+                </div>
+              </div>
+            </div>
+
           </div>
 
         </div>

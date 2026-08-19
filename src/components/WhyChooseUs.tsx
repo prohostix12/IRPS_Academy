@@ -1,6 +1,7 @@
 "use client";
 
 import React from 'react';
+import { NavTab } from '../types';
 import { 
   GraduationCap, 
   Award, 
@@ -12,10 +13,11 @@ import {
 } from 'lucide-react';
 
 interface WhyChooseUsProps {
+  setActiveTab: (tab: NavTab) => void;
   onOpenQuickApply?: () => void;
 }
 
-export const WhyChooseUs: React.FC<WhyChooseUsProps> = ({ onOpenQuickApply }) => {
+export const WhyChooseUs: React.FC<WhyChooseUsProps> = ({ setActiveTab, onOpenQuickApply }) => {
   const pillars = [
     {
       title: "Accredited University Alliance",
@@ -77,21 +79,19 @@ export const WhyChooseUs: React.FC<WhyChooseUsProps> = ({ onOpenQuickApply }) =>
               </div>
               
               <h2 className="text-2xl sm:text-4xl font-black font-serif text-[#001b48] leading-tight tracking-tight">
-                India's Most Trusted <span className="text-[#e8c47a]">Mentorship Platform</span> for Doctoral Aspirants
+                India's Most Trusted <span className="text-[#e8c47a]">Mentorship Platform</span>
               </h2>
               
               <p className="text-sm text-neutral-600 leading-relaxed">
-                Transforming Research. Empowering Scholars. Building Global Academic Leaders. 
-                <br /><br />
-                IRPS – Inspiring Research. Shaping Future Leaders.
+                Explore world-renowned university campuses, discover accredited degree programs, calculate scholarship grants, and submit your official application through our unified admissions portal.
               </p>
               
               {/* CTA Button with logo yellow and dark-blue text for best contrast */}
               <button 
-                onClick={onOpenQuickApply}
+                onClick={() => setActiveTab('universities')}
                 className="inline-block px-7 py-3.5 bg-[#e8c47a] hover:bg-[#dcb86e] text-[#00296b] text-xs font-extrabold uppercase tracking-wider rounded-lg shadow-md transition-all duration-300 hover:shadow-lg transform active:scale-95 cursor-pointer"
               >
-                Quick Apply
+                Explore Campuses
               </button>
             </div>
 
